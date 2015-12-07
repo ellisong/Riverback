@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Riverback
 {
@@ -23,6 +24,14 @@ namespace Riverback
         public MainWindow()
         {
             InitializeComponent();
+            Color col = new Color(255, 143, 32, true);
+            Debug.WriteLine("Color: {0}, {1}, {2}, {3}", col.Red, col.Green, col.Blue, col.Type);
+            col.Type = false;
+            Debug.WriteLine("Color: {0}, {1}, {2}, {3}", col.Red, col.Green, col.Blue, col.Type);
+            col.Type = true;
+            Debug.WriteLine("Color: {0}, {1}, {2}, {3}", col.Red, col.Green, col.Blue, col.Type);
+            Debug.WriteLine(col.get15BitColor().ToString());
+            Debug.WriteLine(col.get24BitColor().ToString());
         }
     }
 }
