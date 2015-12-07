@@ -69,7 +69,16 @@ namespace Riverback
             this.Blue = blue;
         }
 
-        private void switchType()
+        // Copy constructor
+        public Color(Color col)
+        {
+            this.type = col.type;
+            this.red = col.red;
+            this.green = col.green;
+            this.blue = col.blue;
+        }
+
+        public void switchType()
         {
             if (type == true) {
                 ColorConvert15BitTo24Bit();
