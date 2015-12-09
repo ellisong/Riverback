@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riverback", "Riverback.csproj", "{8E6DB9B9-E13D-43FE-B8D8-24EC1DF5CAB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riverback_UnitTests", "..\Riverback_UnitTests\Riverback_UnitTests.csproj", "{70516CC2-EE03-4615-9A3D-3D7887A5E215}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riverback_IntegrationTests", "..\Riverback_IntegrationTests\Riverback_IntegrationTests.csproj", "{7EFD1775-2207-4C72-A293-F16AF7FB3240}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8E6DB9B9-E13D-43FE-B8D8-24EC1DF5CAB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E6DB9B9-E13D-43FE-B8D8-24EC1DF5CAB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E6DB9B9-E13D-43FE-B8D8-24EC1DF5CAB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70516CC2-EE03-4615-9A3D-3D7887A5E215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70516CC2-EE03-4615-9A3D-3D7887A5E215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70516CC2-EE03-4615-9A3D-3D7887A5E215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70516CC2-EE03-4615-9A3D-3D7887A5E215}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFD1775-2207-4C72-A293-F16AF7FB3240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFD1775-2207-4C72-A293-F16AF7FB3240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFD1775-2207-4C72-A293-F16AF7FB3240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFD1775-2207-4C72-A293-F16AF7FB3240}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
