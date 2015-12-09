@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Riverback
 {
-    class LevelHeader
+    public class LevelHeader
     {
         // CONSTANTS
         public const uint LEVEL_HEADER_ADDRESS = 0xF298;

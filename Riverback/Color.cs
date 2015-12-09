@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Riverback
 {
-    class Color
+    public class Color
     {
         private byte red;
         public byte Red

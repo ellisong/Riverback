@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Riverback
 {
-    class Palette
+    public class Palette
     {
         public List<Color> Colors { get; set; }
 

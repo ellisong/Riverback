@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Riverback
 {
-    class Level
+    public class Level
     {
         public const int LEVEL_TILE_AMOUNT = 4096;
         public const int LEVEL_TILE_INDEX_SIZE = 256;

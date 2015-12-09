@@ -78,6 +78,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TileEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Palette.cs" />
