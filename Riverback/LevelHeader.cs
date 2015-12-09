@@ -14,44 +14,45 @@ namespace Riverback
         // Level header amount might be possible to alter due to free space after the level header data
         public const uint LEVEL_HEADER_AMOUNT = 64;
 
-        public uint levelNumber;
+        public int levelNumber;
         public uint levelHeaderAddress;
         public uint levelPointer;
-        public uint graphicsBankIndex;
-        public uint fieldNumber;
-        public uint musicSelect;
-        public uint[] enemyType = new uint[6];
-        public uint waterHeight;
-        public uint waterType;
-        public uint levelTimer;
-        public uint[] doorExits = new uint[4];
+        public int graphicsBankIndex;
+        public int fieldNumber;
+        public int musicSelect;
+        public byte[] enemyType;
+        public int waterHeight;
+        public int waterType;
+        public int levelTimer;
+        public byte[] doorExits;
 
-        public LevelHeader(uint levelNumber = 0)
+        public LevelHeader(int levelNumber = 0)
         {
             this.levelNumber = levelNumber;
-            this.levelHeaderAddress = LevelHeader.LEVEL_HEADER_ADDRESS
-                                      + (this.levelNumber * LevelHeader.LEVEL_HEADER_SIZE);
+            this.levelHeaderAddress = LEVEL_HEADER_ADDRESS + ((uint)this.levelNumber * LEVEL_HEADER_SIZE);
+            enemyType = new byte[6];
+            doorExits = new byte[4];
         }
 
         public void update(byte[] romdata)
         {
-            levelPointer = DataFormatter.readSnesPointer(romdata, this.levelHeaderAddress);
-            graphicsBankIndex = romdata[this.levelHeaderAddress + 0x03];
-            this.fieldNumber = romdata[this.levelHeaderAddress + 0x04];
-            this.musicSelect = romdata[this.levelHeaderAddress + 0x05];
-            this.enemyType[0] = romdata[this.levelHeaderAddress + 0x06];
-            this.enemyType[1] = romdata[this.levelHeaderAddress + 0x07];
-            this.enemyType[2] = romdata[this.levelHeaderAddress + 0x08];
-            this.enemyType[3] = romdata[this.levelHeaderAddress + 0x09];
-            this.enemyType[4] = romdata[this.levelHeaderAddress + 0x0A];
-            this.enemyType[5] = romdata[this.levelHeaderAddress + 0x0B];
-            this.waterHeight = romdata[this.levelHeaderAddress + 0x1C];
-            this.waterType = romdata[this.levelHeaderAddress + 0x1D];
-            this.levelTimer = DataFormatter.switchReadBytesIntoUInt16(romdata, this.levelHeaderAddress + 0x1F);
-            this.doorExits[0] = romdata[this.levelHeaderAddress + 0x21];
-            this.doorExits[1] = romdata[this.levelHeaderAddress + 0x22];
-            this.doorExits[2] = romdata[this.levelHeaderAddress + 0x23];
-            this.doorExits[3] = romdata[this.levelHeaderAddress + 0x24];
+            levelPointer = DataFormatter.readSnesPointer(romdata, levelHeaderAddress);
+            graphicsBankIndex = romdata[levelHeaderAddress + 0x03];
+            fieldNumber = romdata[levelHeaderAddress + 0x04];
+            musicSelect = romdata[levelHeaderAddress + 0x05];
+            enemyType[0] = romdata[levelHeaderAddress + 0x06];
+            enemyType[1] = romdata[levelHeaderAddress + 0x07];
+            enemyType[2] = romdata[levelHeaderAddress + 0x08];
+            enemyType[3] = romdata[levelHeaderAddress + 0x09];
+            enemyType[4] = romdata[levelHeaderAddress + 0x0A];
+            enemyType[5] = romdata[levelHeaderAddress + 0x0B];
+            waterHeight = romdata[levelHeaderAddress + 0x1C];
+            waterType = romdata[levelHeaderAddress + 0x1D];
+            levelTimer = DataFormatter.switchReadBytesIntoUInt16(romdata, levelHeaderAddress + 0x1F);
+            doorExits[0] = romdata[levelHeaderAddress + 0x21];
+            doorExits[1] = romdata[levelHeaderAddress + 0x22];
+            doorExits[2] = romdata[levelHeaderAddress + 0x23];
+            doorExits[3] = romdata[levelHeaderAddress + 0x24];
         }
     }
 }
