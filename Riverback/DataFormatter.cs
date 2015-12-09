@@ -14,7 +14,7 @@ namespace Riverback
             int count = bitList.Count();
             if (count > 8)
                 count = 8;
-            for (int x = 0; x < count; x += 1) {
+            for (int x = 0; x < count; x++) {
                 if (bitList[x] == true)
                     result += (byte)(0x80 >> x);
             }
@@ -25,12 +25,12 @@ namespace Riverback
         {
             bool[] bitList = new bool[8];
             int andbyte = 0x80;
-            for (int x = 0; x < 8; x += 1) {
+            for (int x = 0; x < 8; x++) {
                 byte bit = (byte)(value & andbyte);
                 bool boolBit = false;
                 if (bit > 0)
                     boolBit = true;
-                andbyte = andbyte >> 1;
+                andbyte >>= 1;
                 bitList[x] = boolBit;
             }
             return bitList;

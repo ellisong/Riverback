@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.IO;
 
 namespace Riverback
 {
@@ -24,6 +25,13 @@ namespace Riverback
         public MainWindow()
         {
             InitializeComponent();
+            byte[] romdata = File.ReadAllBytes("D:/projects/Riverback/test.smc");
+            byte[] decompressedData = DataCompressor.decompress(romdata, 0x70000);
+            File.WriteAllBytes("D:/projects/Riverback/out.smc", decompressedData);
+            byte[] compressedData = DataCompressor.compress(decompressedData);
+            File.WriteAllBytes("D:/projects/Riverback/out2.smc", compressedData);
+            decompressedData = DataCompressor.decompress(compressedData, 0);
+            File.WriteAllBytes("D:/projects/Riverback/out3.smc", decompressedData);
         }
     }
 }
