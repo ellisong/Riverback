@@ -81,6 +81,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="DataCompressor.cs" />
     <Compile Include="DataFormatter.cs" />
+    <Compile Include="LevelHeader.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
