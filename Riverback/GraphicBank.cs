@@ -27,23 +27,23 @@ namespace Riverback
         public const int PALETTE_AMOUNT = 15;
         public const int PALETTE_COLOR_AMOUNT = 16;
         private Color[] COLORS_HARDCODED_1 =
-            {new Color(25, 33, 16, true), new Color(33, 41, 25, true),
-             new Color(41, 49, 33, true), new Color(49, 58, 41, true),
-             new Color(58, 66, 49, true), new Color(66, 74, 58, true),
-             new Color(74, 82, 66, true), new Color(82, 90, 74, true),
-             new Color(90, 99, 82, true), new Color(99, 107, 90, true),
-             new Color(107, 115, 99, true), new Color(115, 123, 107, true),
-             new Color(123, 132, 115, true), new Color(132, 140, 123, true),
-             new Color(140, 148, 132, true), new Color(148, 156, 140, true)};
+            {new Color(25, 33, 16, 0, true), new Color(33, 41, 25, 255, true),
+             new Color(41, 49, 33, 255, true), new Color(49, 58, 41, 255, true),
+             new Color(58, 66, 49, 255, true), new Color(66, 74, 58, 255, true),
+             new Color(74, 82, 66, 255, true), new Color(82, 90, 74, 255, true),
+             new Color(90, 99, 82, 255, true), new Color(99, 107, 90, 255, true),
+             new Color(107, 115, 99, 255, true), new Color(115, 123, 107, 255, true),
+             new Color(123, 132, 115, 255, true), new Color(132, 140, 123, 255, true),
+             new Color(140, 148, 132, 255, true), new Color(148, 156, 140, 255, true)};
         private Color[] COLORS_HARDCODED_2 =
-            {new Color(66, 99, 0, true), new Color(49, 49, 82, true),
-             new Color(239, 230, 255, true), new Color(214, 156, 255, true),
-             new Color(66, 99, 0, true), new Color(82, 49, 49, true),
-             new Color(255, 107, 140, true), new Color(255, 49, 107, true),
-             new Color(66, 99, 0, true), new Color(49, 74, 49, true),
-             new Color(230, 255, 132, true), new Color(189, 255, 0, true),
-             new Color(66, 99, 0, true), new Color(214, 82, 148, true),
-             new Color(255, 148, 206, true), new Color(247, 230, 255, true)};
+            {new Color(66, 99, 0, 0, true), new Color(49, 49, 82, 255, true),
+             new Color(239, 230, 255, 255, true), new Color(214, 156, 255, 255, true),
+             new Color(66, 99, 0, 255, true), new Color(82, 49, 49, 255, true),
+             new Color(255, 107, 140, 255, true), new Color(255, 49, 107, 255, true),
+             new Color(66, 99, 0, 255, true), new Color(49, 74, 49, 255, true),
+             new Color(230, 255, 132, 255, true), new Color(189, 255, 0, 255, true),
+             new Color(66, 99, 0, 255, true), new Color(214, 82, 148, 255, true),
+             new Color(255, 148, 206, 255, true), new Color(247, 230, 255, 255, true)};
 
         public bool bankHasPalettes;
         public Palette[] palettes;
@@ -138,8 +138,14 @@ namespace Riverback
                     byte G = (byte)(((data[pointer + 1] & 0x03) << 3) + ((data[pointer] & 0xE0) >> 5));
                     byte R = (byte)(data[pointer] & 0x1F);
                     pal.Colors[colorNum].Red = R;
-                    pal.Colors[colorNum].Red = G;
-                    pal.Colors[colorNum].Red = B;
+                    pal.Colors[colorNum].Green = G;
+                    pal.Colors[colorNum].Blue = B;
+                    if (colorNum != 0)
+                        pal.Colors[colorNum].Alpha = 255;
+                    else
+                        // Color 0 of a palette is assumed to be transparent for the game
+                        pal.Colors[colorNum].Alpha = 0;
+                    pal.Colors[colorNum].Alpha = 0;
                     pal.Colors[colorNum].Type = false;
                     pointer += 2;
                 }

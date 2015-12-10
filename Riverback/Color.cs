@@ -47,6 +47,9 @@ namespace Riverback
             }
         }
 
+        private byte alpha;
+        public byte Alpha { get; set; }
+
         // False = 15bit, True = 24bit
         private bool type;
         public bool Type
@@ -61,12 +64,13 @@ namespace Riverback
             }
         }
 
-        public Color(byte red = 0, byte green = 0, byte blue = 0, bool type = false)
+        public Color(byte red = 0, byte green = 0, byte blue = 0, byte alpha = 255, bool type = false)
         {
             this.type = type;
             this.Red = red;
             this.Green = green;
             this.Blue = blue;
+            this.Alpha = alpha;
         }
 
         // Copy constructor
@@ -76,6 +80,7 @@ namespace Riverback
             this.red = col.red;
             this.green = col.green;
             this.blue = col.blue;
+            this.alpha = col.alpha;
         }
 
         public void switchType()
@@ -92,7 +97,7 @@ namespace Riverback
             red = (byte)(red / 8);
             green = (byte)(green / 8);
             blue = (byte)(blue / 8);
-            return new Color(red, green, blue, false);
+            return new Color(red, green, blue, 255, false);
         }
 
         private void ColorConvert24BitTo15Bit()
@@ -111,7 +116,7 @@ namespace Riverback
             green += (byte)(green / 32);
             blue = (byte)(blue * 8);
             blue += (byte)(blue / 32);
-            return new Color(red, green, blue, true);
+            return new Color(red, green, blue, 255, true);
         }
 
         private void ColorConvert15BitTo24Bit()
