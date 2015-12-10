@@ -69,6 +69,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="DataCompressor.cs" />
     <Compile Include="DataFormatter.cs" />
+    <Compile Include="GraphicBank.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelHeader.cs" />
     <Compile Include="Program.cs" />
