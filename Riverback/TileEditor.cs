@@ -54,11 +54,12 @@ namespace Riverback
             Color[] colors = new Color[64];
             int pointer = 0;
             int tile;
-            while (pointer < 64) {
+            while (pointer < 32) {
                 tile = (tiledata[pointer] & 0xF0) >> 4;
-                colors[pointer++] = palette.Colors[tile];
+                colors[pointer*2] = palette.Colors[tile];
                 tile = (tiledata[pointer] & 0x0F);
-                colors[pointer++] = palette.Colors[tile];
+                colors[pointer*2+1] = palette.Colors[tile];
+                pointer += 1;
             }
             return colors;
         }

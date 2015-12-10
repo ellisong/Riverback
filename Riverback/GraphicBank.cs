@@ -67,8 +67,8 @@ namespace Riverback
                     hardcodedPalette1.append(COLORS_HARDCODED_1[x]);
                     hardcodedPalette2.append(COLORS_HARDCODED_2[x]);
                 }
-                palettes[16] = hardcodedPalette1;
-                palettes[17] = hardcodedPalette2;
+                palettes[15] = hardcodedPalette1;
+                palettes[16] = hardcodedPalette2;
             }
             tileAmount = 1024;
         }
@@ -121,14 +121,22 @@ namespace Riverback
             byte[] tiledata = getTileARGBarray(tileNumber, paletteNumber);
             Bitmap img = new Bitmap(GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT,
                                     PixelFormat.Format32bppArgb);
-            BitmapData imgData = img.LockBits(new Rectangle(0, 0, GraphicBank.TILE_WIDTH,
-                                                            GraphicBank.TILE_HEIGHT),
-                                              ImageLockMode.WriteOnly,
-                                              PixelFormat.Format32bppArgb);
-            IntPtr pointer = imgData.Scan0;
-            System.Runtime.InteropServices.Marshal.Copy(tiledata, 0, pointer,
-                                                        GraphicBank.TILE_WIDTH * GraphicBank.TILE_HEIGHT);
-            img.UnlockBits(imgData);
+            int pointer = 0;
+            for (int y = 0; y < img.Height; y++) {
+                for (int x = 0; x < img.Width; x++) {
+                    System.Drawing.Color col;
+                    col = System.Drawing.Color.FromArgb(tiledata[pointer], tiledata[pointer + 1], 
+                                                        tiledata[pointer + 2], tiledata[pointer + 3]);
+                    pointer += 4;
+                    img.SetPixel(x, y, col);
+                }
+            }
+            //BitmapData imgData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height),
+            //                                  ImageLockMode.WriteOnly, img.PixelFormat);
+            //IntPtr pointer = imgData.Scan0;
+            //System.Runtime.InteropServices.Marshal.Copy(tiledata, 0, pointer,
+            //                                            GraphicBank.TILE_WIDTH * GraphicBank.TILE_HEIGHT * 2);
+            //img.UnlockBits(imgData);
             return img;
         }
 
@@ -142,16 +150,11 @@ namespace Riverback
                     byte B = (byte)((data[pointer + 1] & 0x7C) >> 2);
                     byte G = (byte)(((data[pointer + 1] & 0x03) << 3) + ((data[pointer] & 0xE0) >> 5));
                     byte R = (byte)(data[pointer] & 0x1F);
-                    pal.Colors[colorNum].Red = R;
-                    pal.Colors[colorNum].Green = G;
-                    pal.Colors[colorNum].Blue = B;
-                    if (colorNum != 0)
-                        pal.Colors[colorNum].Alpha = 255;
-                    else
+                    Color col = new Color(R, G, B, 255, false);
+                    if (colorNum == 0)
                         // Color 0 of a palette is assumed to be transparent for the game
-                        pal.Colors[colorNum].Alpha = 0;
-                    pal.Colors[colorNum].Alpha = 0;
-                    pal.Colors[colorNum].Type = false;
+                        col.Alpha = 0;
+                    pal.Colors.Add(col);
                     pointer += 2;
                 }
                 pal.Type = true;

@@ -8,20 +8,9 @@ namespace Riverback
 {
     public class LevelEditor
     {
-        const uint GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
-        const int BANK_AMOUNT = 7;
-        const int DEFAULT_BANK_PALETTE = 15;
-        // shift and & constants
-        const int AND_TILE_VFLIP = 0x80;
-        const int AND_TILE_VFLIP_SHIFT = 7;
-        const int AND_TILE_HFLIP = 0x40;
-        const int AND_TILE_HFLIP_SHIFT = 6;
-        const int AND_TILE_PRIORITY = 0x20;
-        const int AND_TILE_PRIORITY_SHIFT = 5;
-        const int AND_TILE_PALETTE = 0x1C;
-        const int AND_TILE_PALETTE_SHIFT = 2;
-        const int AND_TILE_BANK = 0x03;
-        const int AND_TILE_BANK_SHIFT = 0;
+        public const uint GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
+        public const int BANK_AMOUNT = 7;
+        public const int DEFAULT_BANK_PALETTE = 15;
 
         private LevelHeader levelHeader;
         public LevelHeader LevelHeader { get { return levelHeader; } }
