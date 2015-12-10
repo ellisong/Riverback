@@ -71,6 +71,7 @@
     <Compile Include="DataFormatter.cs" />
     <Compile Include="GraphicBank.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LevelEditor.cs" />
     <Compile Include="LevelHeader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MainForm.cs">

@@ -10,8 +10,8 @@ namespace Riverback
 {
     public class PlanarTilesWithOffset
     {
-        List<byte> planarTiles;
-        int offset;
+        public List<byte> planarTiles;
+        public int offset;
 
         public PlanarTilesWithOffset(List<byte> planarTiles, int offset)
         {
@@ -50,7 +50,7 @@ namespace Riverback
         private byte[] data;
         public int tileAmount;
         private int tileOffset;
-        public int TileOffset { get; private set; }
+        public int TileOffset{ get { return tileOffset; } }
 
         public GraphicBank(byte[] data, bool bankHasPalettes = false)
         {
@@ -85,12 +85,17 @@ namespace Riverback
             return planarTile;
         }
 
-        public PlanarTilesWithOffset getPlanarTilesFromBankData(bool[] tileIndex, int offset = 0)
+        public void resetTileOffset()
+        {
+            tileOffset = 0;
+        }
+
+        public PlanarTilesWithOffset getPlanarTilesFromBankData(List<bool> tileIndex, int offset = 0)
         {
             List<byte> tiles = new List<byte>();
             int tileNumber = 0;
             for (int xx = 0; xx < tileAmount; xx++) {
-                if ((offset + xx) > tileIndex.Length)
+                if ((offset + xx) > tileIndex.Count)
                     break;
                 bool bit = tileIndex[offset + xx];
                 if (bit) {

@@ -12,12 +12,18 @@ namespace Riverback
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
 
-        LevelHeader levelHeader;
-        byte[] physmap;
-        byte[] tilemap;
-        int tileIndexAmount;
-        List<bool> tileIndex;
-        byte[] paletteIndex;
+        private LevelHeader levelHeader;
+        public LevelHeader LevelHeader { get { return levelHeader; } }
+        private byte[] physmap;
+        public byte[] Physmap { get { return physmap; } }
+        private byte[] tilemap;
+        public byte[] Tilemap { get { return tilemap; } }
+        private int tileIndexAmount;
+        public int TileIndexAmount { get { return tileIndexAmount; } }
+        private List<bool> tileIndex;
+        public List<bool> TileIndex { get { return tileIndex; } }
+        private byte[] paletteIndex;
+        public byte[] PaletteIndex { get { return paletteIndex; } }
 
         public Level(LevelHeader levelHeader)
         {

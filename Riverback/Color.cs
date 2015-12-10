@@ -47,7 +47,6 @@ namespace Riverback
             }
         }
 
-        private byte alpha;
         public byte Alpha { get; set; }
 
         // False = 15bit, True = 24bit
@@ -80,7 +79,7 @@ namespace Riverback
             this.red = col.red;
             this.green = col.green;
             this.blue = col.blue;
-            this.alpha = col.alpha;
+            this.Alpha = col.Alpha;
         }
 
         public void switchType()
