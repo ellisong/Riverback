@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Riverback
 {
@@ -101,12 +103,28 @@ namespace Riverback
             return new PlanarTilesWithOffset(tiles, tileNumber);
         }
 
-        public byte[] getTileRGBAarray(int tileNumber, byte paletteNumber)
+        public byte[] getTileARGBarray(int tileNumber, byte paletteNumber)
         {
             byte[] planarTileData = getPlanarTileFromBankData(tileNumber);
             byte[] linearTileData = TileEditor.convertPlanarTileToLinearTile(planarTileData);
             Color[] coloredTileData = TileEditor.colorLinearTileWithPalette(linearTileData, palettes[paletteNumber]);
-            return TileEditor.getRGBAarrayFromColoredLinearTile(coloredTileData);
+            return TileEditor.getARGBarrayFromColoredLinearTile(coloredTileData);
+        }
+
+        public Bitmap getTileImage(int tileNumber, byte paletteNumber)
+        {
+            byte[] tiledata = getTileARGBarray(tileNumber, paletteNumber);
+            Bitmap img = new Bitmap(GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT,
+                                    PixelFormat.Format32bppArgb);
+            BitmapData imgData = img.LockBits(new Rectangle(0, 0, GraphicBank.TILE_WIDTH,
+                                                            GraphicBank.TILE_HEIGHT),
+                                              ImageLockMode.WriteOnly,
+                                              PixelFormat.Format32bppArgb);
+            IntPtr pointer = imgData.Scan0;
+            System.Runtime.InteropServices.Marshal.Copy(tiledata, 0, pointer,
+                                                        GraphicBank.TILE_WIDTH * GraphicBank.TILE_HEIGHT);
+            img.UnlockBits(imgData);
+            return img;
         }
 
         private Palette[] getPalettesFromBankData(int extraPalettes = 2)

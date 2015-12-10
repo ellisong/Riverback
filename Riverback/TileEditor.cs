@@ -63,17 +63,17 @@ namespace Riverback
             return colors;
         }
 
-        public static byte[] getRGBAarrayFromColoredLinearTile(Color[] colordata)
+        public static byte[] getARGBarrayFromColoredLinearTile(Color[] colordata)
         {
-            byte[] rgbaArray = new byte[colordata.Length * 4];
+            byte[] argbArray = new byte[colordata.Length * 4];
             int pointer = 0;
             foreach (Color col in colordata) {
-                rgbaArray[pointer++] = col.Red;
-                rgbaArray[pointer++] = col.Green;
-                rgbaArray[pointer++] = col.Blue;
-                rgbaArray[pointer++] = 0xFF;
+                argbArray[pointer++] = 0xFF;
+                argbArray[pointer++] = col.Red;
+                argbArray[pointer++] = col.Green;
+                argbArray[pointer++] = col.Blue;
             }
-            return rgbaArray;
+            return argbArray;
         }
     }
 }
