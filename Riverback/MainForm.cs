@@ -22,6 +22,23 @@ namespace Riverback
             InitializeComponent();
         }
 
+        private void updatePictureBoxes()
+        {
+            if (romdata != null) {
+                levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
+                levelEditor.updateGraphicsBanks(romdata);
+                levelEditor.updateLevelBank();
+                if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                    Graphics g = pictureBox_tileset.CreateGraphics();
+                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g, 16, LevelEditor.DEFAULT_BANK_PALETTE);
+                    g.Dispose();
+                    g = pictureBox_level.CreateGraphics();
+                    TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
+                    g.Dispose();
+                }
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
 
@@ -38,20 +55,15 @@ namespace Riverback
                 if (openFileDialog.CheckFileExists) {
                     romdata = File.ReadAllBytes(openFileDialog.FileName);
                     if (romdata != null) {
-                        levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
-                        levelEditor.updateGraphicsBanks(romdata);
-                        levelEditor.updateLevelBank();
-                        if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                            Graphics g = pictureBox_tileset.CreateGraphics();
-                            TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g, 16, LevelEditor.DEFAULT_BANK_PALETTE);
-                            g.Dispose();
-                            g = pictureBox_level.CreateGraphics();
-                            TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
-                            g.Dispose();
-                        }
+                        updatePictureBoxes();
                     }
                 }
             }
+        }
+
+        private void numericUpDown_levelSelector_ValueChanged(object sender, EventArgs e)
+        {
+            updatePictureBoxes();
         }
     }
 }

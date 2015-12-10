@@ -12,7 +12,7 @@ namespace Riverback
         public const uint LEVEL_HEADER_ADDRESS = 0xF298;
         public const uint LEVEL_HEADER_SIZE = 37;
         // Level header amount might be possible to alter due to free space after the level header data
-        public const uint LEVEL_HEADER_AMOUNT = 64;
+        public const uint LEVEL_HEADER_AMOUNT = 48;
 
         public int levelNumber;
         public uint levelHeaderAddress;

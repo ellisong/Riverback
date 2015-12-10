@@ -10,8 +10,8 @@ namespace Riverback
 {
     public static class TileDrawer
     {
-        public const int LEVEL_TILEAMOUNT_WIDTH = 64;
-        public const int LEVEL_TILEAMOUNT_HEIGHT = 64;
+        public const int LEVEL_CANVAS_WIDTH = 512;
+        public const int LEVEL_CANVAS_HEIGHT = 512;
         // shift and & constants
         const int AND_TILE_VFLIP = 0x80;
         const int AND_TILE_VFLIP_SHIFT = 7;
@@ -43,8 +43,8 @@ namespace Riverback
         public static void drawLevelOnCanvas(Graphics pictureBoxGraphics, Level level, GraphicBank levelBank)
         {
             int levelPointer = 0;
-            for (int y = 0; y < LEVEL_TILEAMOUNT_HEIGHT; y += GraphicBank.TILE_HEIGHT) {
-                for (int x = 0; x < LEVEL_TILEAMOUNT_WIDTH; x += GraphicBank.TILE_WIDTH) {
+            for (int y = 0; y < LEVEL_CANVAS_HEIGHT; y += GraphicBank.TILE_HEIGHT) {
+                for (int x = 0; x < LEVEL_CANVAS_WIDTH; x += GraphicBank.TILE_WIDTH) {
                     byte tile = level.Tilemap[levelPointer];
                     byte prop = level.Tilemap[levelPointer + 1];
                     levelPointer += 2;

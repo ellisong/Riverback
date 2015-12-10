@@ -88,13 +88,14 @@
             // 
             this.numericUpDown_levelSelector.Location = new System.Drawing.Point(69, 6);
             this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
-            64,
+            48,
             0,
             0,
             0});
             this.numericUpDown_levelSelector.Name = "numericUpDown_levelSelector";
             this.numericUpDown_levelSelector.Size = new System.Drawing.Size(53, 20);
             this.numericUpDown_levelSelector.TabIndex = 1;
+            this.numericUpDown_levelSelector.ValueChanged += new System.EventHandler(this.numericUpDown_levelSelector_ValueChanged);
             // 
             // label3
             // 

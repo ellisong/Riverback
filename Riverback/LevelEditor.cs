@@ -59,7 +59,7 @@ namespace Riverback
             PlanarTilesWithOffset pt = banks[index].getPlanarTilesFromBankData(level.TileIndex, 0);
             tileOffset = banks[index].TileOffset;
             List<byte> levelBankData = pt.planarTiles;
-            PlanarTilesWithOffset pt2 = banks[index].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
+            PlanarTilesWithOffset pt2 = banks[index+1].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
             levelBankData.AddRange(pt2.planarTiles);
             levelBank = new GraphicBank(levelBankData.ToArray(), false);
             levelBank.tileAmount = level.TileIndexAmount;
