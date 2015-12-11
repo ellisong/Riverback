@@ -69,7 +69,7 @@ namespace Riverback
             byte[] argbArray = new byte[colordata.Length * 4];
             int pointer = 0;
             foreach (Color col in colordata) {
-                argbArray[pointer++] = 0xFF;
+                argbArray[pointer++] = col.Alpha;
                 argbArray[pointer++] = col.Red;
                 argbArray[pointer++] = col.Green;
                 argbArray[pointer++] = col.Blue;

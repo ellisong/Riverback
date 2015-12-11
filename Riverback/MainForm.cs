@@ -30,9 +30,11 @@ namespace Riverback
                 levelEditor.updateLevelBank();
                 if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
                     Graphics g = pictureBox_tileset.CreateGraphics();
+                    g.Clear(System.Drawing.Color.DarkGray);
                     TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g, 16, LevelEditor.DEFAULT_BANK_PALETTE);
                     g.Dispose();
                     g = pictureBox_level.CreateGraphics();
+                    g.Clear(System.Drawing.Color.DarkGray);
                     TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
                     g.Dispose();
                 }

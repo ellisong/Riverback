@@ -142,7 +142,7 @@ namespace Riverback
 
         private Palette[] getPalettesFromBankData(int extraPalettes = 2)
         {
-            Palette[] paletteList = new Palette[16 + extraPalettes];
+            Palette[] paletteList = new Palette[15 + extraPalettes];
             int pointer = 0;
             for (int palNum = 0; palNum < PALETTE_AMOUNT; palNum++) {
                 Palette pal = new Palette(false);
