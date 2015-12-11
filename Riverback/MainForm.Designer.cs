@@ -149,6 +149,7 @@
             this.numericUpDown_tilePalette.Name = "numericUpDown_tilePalette";
             this.numericUpDown_tilePalette.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_tilePalette.TabIndex = 0;
+            this.numericUpDown_tilePalette.ValueChanged += new System.EventHandler(this.numericUpDown_tilePalette_ValueChanged);
             // 
             // panel3
             // 
@@ -213,6 +214,7 @@
             this.pictureBox_tileset.Size = new System.Drawing.Size(128, 512);
             this.pictureBox_tileset.TabIndex = 0;
             this.pictureBox_tileset.TabStop = false;
+            this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
             // 
             // pictureBox_level
             // 

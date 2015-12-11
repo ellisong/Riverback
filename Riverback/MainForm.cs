@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,11 @@ namespace Riverback
 {
     public partial class MainForm : Form
     {
+        readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
+
         LevelEditor levelEditor;
         byte[] romdata;
+        int selectedTileNumber;
 
         public MainForm()
         {
@@ -22,22 +26,38 @@ namespace Riverback
             InitializeComponent();
         }
 
-        private void updatePictureBoxes()
+        private void updateTilesetPictureBox()
         {
-            if (romdata != null) {
-                levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
-                levelEditor.updateGraphicsBanks(romdata);
-                levelEditor.updateLevelBank();
-                if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                    Graphics g = pictureBox_tileset.CreateGraphics();
-                    g.Clear(System.Drawing.Color.DarkGray);
-                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g, 16, LevelEditor.DEFAULT_BANK_PALETTE);
-                    g.Dispose();
-                    g = pictureBox_level.CreateGraphics();
-                    g.Clear(System.Drawing.Color.DarkGray);
-                    TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
-                    g.Dispose();
-                }
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                Graphics g = pictureBox_tileset.CreateGraphics();
+                g.Clear(fillColor);
+                byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g,
+                                                TileDrawer.LEVEL_TILESET_WIDTH_TILEAMOUNT, paletteNum);
+                g.Dispose();
+            }
+        }
+
+        private void updateLevelPictureBox()
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                Graphics g = pictureBox_level.CreateGraphics();
+                g.Clear(fillColor);
+                TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
+                g.Dispose();
+            }
+        }
+
+        private void updateTilePictureBox()
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                Graphics g = pictureBox_Tile.CreateGraphics();
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.Clear(fillColor);
+                byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                TileDrawer.drawTileOnTileSelectorCanvas(levelEditor.LevelBank, g,
+                                                        selectedTileNumber, paletteNum);
+                g.Dispose();
             }
         }
 
@@ -57,7 +77,14 @@ namespace Riverback
                 if (openFileDialog.CheckFileExists) {
                     romdata = File.ReadAllBytes(openFileDialog.FileName);
                     if (romdata != null) {
-                        updatePictureBoxes();
+                        levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
+                        levelEditor.updateGraphicsBanks(romdata);
+                        levelEditor.updateLevelBank();
+                        updateTilesetPictureBox();
+                        selectedTileNumber = 0;
+                        label_TileValue.Text = String.Format("0x{0:X}", selectedTileNumber);
+                        updateTilePictureBox();
+                        updateLevelPictureBox();
                     }
                 }
             }
@@ -65,7 +92,36 @@ namespace Riverback
 
         private void numericUpDown_levelSelector_ValueChanged(object sender, EventArgs e)
         {
-            updatePictureBoxes();
+            if (romdata != null) {
+                levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
+                levelEditor.updateGraphicsBanks(romdata);
+                levelEditor.updateLevelBank();
+                updateTilesetPictureBox();
+                selectedTileNumber = 0;
+                label_TileValue.Text = String.Format("0x{0:X}", selectedTileNumber);
+                updateTilePictureBox();
+                updateLevelPictureBox();
+            }
+        }
+
+        private void numericUpDown_tilePalette_ValueChanged(object sender, EventArgs e)
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                updateTilesetPictureBox();
+                updateTilePictureBox();
+            }
+        }
+
+        private void pictureBox_tileset_MouseClick(object sender, MouseEventArgs e)
+        {
+            if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null) && (e.Button == MouseButtons.Left)) {
+                int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_TILESET_WIDTH);
+                if (tileNum < levelEditor.LevelBank.tileAmount) {
+                    selectedTileNumber = tileNum;
+                    label_TileValue.Text = String.Format("0x{0:X}", selectedTileNumber);
+                    updateTilePictureBox();
+                }
+            }
         }
     }
 }

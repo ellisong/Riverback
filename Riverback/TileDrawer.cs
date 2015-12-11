@@ -11,7 +11,11 @@ namespace Riverback
     public static class TileDrawer
     {
         public const int LEVEL_CANVAS_WIDTH = 512;
+        public const int LEVEL_CANVAS_WIDTH_TILEAMOUNT = LEVEL_CANVAS_WIDTH / GraphicBank.TILE_WIDTH;
         public const int LEVEL_CANVAS_HEIGHT = 512;
+        public const int LEVEL_TILESET_WIDTH = 128;
+        public const int LEVEL_TILESET_WIDTH_TILEAMOUNT = LEVEL_TILESET_WIDTH / GraphicBank.TILE_WIDTH;
+        public const int LEVEL_TILESET_HEIGHT = 512;
         // shift and & constants
         const int AND_TILE_VFLIP = 0x80;
         const int AND_TILE_VFLIP_SHIFT = 7;
@@ -24,12 +28,24 @@ namespace Riverback
         const int AND_TILE_BANK = 0x03;
         const int AND_TILE_BANK_SHIFT = 0;
 
-        public static void drawTileOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics, 
-                                           int tileAmountWidth, int tileNumber, byte paletteNumber)
+        public static void drawTileOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
+                                           int tileAmountWidth, int tileNumber, byte paletteNumber, float scale = 1.0f)
         {
             Bitmap tileImg = bank.getTileImage(tileNumber, paletteNumber);
-            pictureBoxGraphics.DrawImage(tileImg, (GraphicBank.TILE_WIDTH * (tileNumber % tileAmountWidth)),
-                                                  (GraphicBank.TILE_HEIGHT * (tileNumber / tileAmountWidth)));
+            int x = GraphicBank.TILE_WIDTH * (tileNumber % tileAmountWidth);
+            int y = GraphicBank.TILE_HEIGHT * (tileNumber / tileAmountWidth);
+            pictureBoxGraphics.DrawImage(tileImg, x, y);
+        }
+
+        public static void drawTileOnTileSelectorCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
+                                                        int tileNumber, byte paletteNumber)
+        {
+            Bitmap tileImg = bank.getTileImage(tileNumber, paletteNumber);
+            RectangleF sourceRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
+            float scale = 8.0f;
+            RectangleF destinationRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH * scale, 
+                                                              GraphicBank.TILE_HEIGHT * scale);
+            pictureBoxGraphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
         public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
@@ -64,6 +80,11 @@ namespace Riverback
                     pictureBoxGraphics.DrawImage(tileImg, x, y, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
                 }
             }
+        }
+
+        public static int getTileNumberFromMouseCoordinates(int x, int y, int graphicWidth)
+        {
+            return (y / GraphicBank.TILE_HEIGHT * (graphicWidth / GraphicBank.TILE_WIDTH)) + (x / GraphicBank.TILE_WIDTH);
         }
     }
 }
