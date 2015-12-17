@@ -75,7 +75,7 @@ namespace Riverback
         private void pictureBox_tileset_MouseClick(object sender, MouseEventArgs e)
         {
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null) && (e.Button == MouseButtons.Left)) {
-                int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_TILESET_WIDTH);
+                int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
                     selectedTileNumber = tileNum;
                     pictureBox_tile.Refresh();
@@ -90,7 +90,7 @@ namespace Riverback
                 e.Graphics.Clear(fillColor);
                 byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
                 TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, e.Graphics,
-                                                TileDrawer.LEVEL_TILESET_WIDTH_TILEAMOUNT, paletteNum);
+                                                TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum);
             }
         }
 

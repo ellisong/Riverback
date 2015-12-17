@@ -16,8 +16,8 @@ namespace Riverback
         public LevelHeader LevelHeader { get { return levelHeader; } }
         private byte[] physmap;
         public byte[] Physmap { get { return physmap; } }
-        private byte[] tilemap;
-        public byte[] Tilemap { get { return tilemap; } }
+        private TilemapTile[] tilemap;
+        public TilemapTile[] Tilemap { get { return tilemap; } }
         private int tileIndexAmount;
         public int TileIndexAmount { get { return tileIndexAmount; } }
         private List<bool> tileIndex;
@@ -29,7 +29,7 @@ namespace Riverback
         {
             this.levelHeader = levelHeader;
             physmap = new byte[LEVEL_TILE_AMOUNT];
-            tilemap = new byte[LEVEL_TILE_AMOUNT * 2];
+            tilemap = new TilemapTile[LEVEL_TILE_AMOUNT];
             tileIndex = new List<bool>();
             paletteIndex = new byte[LEVEL_PALETTE_INDEX_AMOUNT];
         }
@@ -50,7 +50,7 @@ namespace Riverback
 
         public void setTilemap(byte[] levelData)
         {
-            Array.ConstrainedCopy(levelData, LEVEL_TILE_AMOUNT, tilemap, 0, LEVEL_TILE_AMOUNT*2);
+            tilemap = TilemapTile.getAllLevelTilesFromLevelData(levelData);
         }
 
         public void setTileIndexAmount(byte[] levelData)
