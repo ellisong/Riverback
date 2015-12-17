@@ -29,7 +29,7 @@ namespace Riverback
         const int AND_TILE_BANK_SHIFT = 0;
 
         public static void drawTileOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
-                                           int tileAmountWidth, int tileNumber, byte paletteNumber, float scale = 1.0f)
+                                           int tileAmountWidth, int tileNumber, byte paletteNumber)
         {
             Bitmap tileImg = bank.getTileImage(tileNumber, paletteNumber);
             int x = GraphicBank.TILE_WIDTH * (tileNumber % tileAmountWidth);

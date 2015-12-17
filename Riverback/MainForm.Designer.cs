@@ -38,7 +38,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label_TileValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox_Tile = new System.Windows.Forms.PictureBox();
+            this.pictureBox_tile = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
@@ -53,7 +53,7 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
@@ -149,13 +149,18 @@
             this.numericUpDown_tilePalette.Name = "numericUpDown_tilePalette";
             this.numericUpDown_tilePalette.Size = new System.Drawing.Size(64, 20);
             this.numericUpDown_tilePalette.TabIndex = 0;
+            this.numericUpDown_tilePalette.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             this.numericUpDown_tilePalette.ValueChanged += new System.EventHandler(this.numericUpDown_tilePalette_ValueChanged);
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label_TileValue);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.pictureBox_Tile);
+            this.panel3.Controls.Add(this.pictureBox_tile);
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
@@ -167,9 +172,10 @@
             this.label_TileValue.AutoSize = true;
             this.label_TileValue.Location = new System.Drawing.Point(8, 32);
             this.label_TileValue.Name = "label_TileValue";
-            this.label_TileValue.Size = new System.Drawing.Size(36, 13);
+            this.label_TileValue.Size = new System.Drawing.Size(30, 13);
             this.label_TileValue.TabIndex = 2;
-            this.label_TileValue.Text = "0x3F1";
+            this.label_TileValue.Text = "0x00";
+            this.label_TileValue.Paint += new System.Windows.Forms.PaintEventHandler(this.label_TileValue_Paint);
             // 
             // label2
             // 
@@ -181,16 +187,17 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Tile:";
             // 
-            // pictureBox_Tile
+            // pictureBox_tile
             // 
-            this.pictureBox_Tile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox_Tile.ErrorImage = null;
-            this.pictureBox_Tile.InitialImage = null;
-            this.pictureBox_Tile.Location = new System.Drawing.Point(53, 3);
-            this.pictureBox_Tile.Name = "pictureBox_Tile";
-            this.pictureBox_Tile.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox_Tile.TabIndex = 0;
-            this.pictureBox_Tile.TabStop = false;
+            this.pictureBox_tile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox_tile.ErrorImage = null;
+            this.pictureBox_tile.InitialImage = null;
+            this.pictureBox_tile.Location = new System.Drawing.Point(53, 3);
+            this.pictureBox_tile.Name = "pictureBox_tile";
+            this.pictureBox_tile.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox_tile.TabIndex = 0;
+            this.pictureBox_tile.TabStop = false;
+            this.pictureBox_tile.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_tile_Paint);
             // 
             // flowLayoutPanel1
             // 
@@ -201,7 +208,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(653, 519);
             this.flowLayoutPanel1.TabIndex = 0;
-            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // pictureBox_tileset
             // 
@@ -214,6 +220,7 @@
             this.pictureBox_tileset.Size = new System.Drawing.Size(128, 512);
             this.pictureBox_tileset.TabIndex = 0;
             this.pictureBox_tileset.TabStop = false;
+            this.pictureBox_tileset.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_tileset_Paint);
             this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
             // 
             // pictureBox_level
@@ -227,6 +234,7 @@
             this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
             this.pictureBox_level.TabIndex = 1;
             this.pictureBox_level.TabStop = false;
+            this.pictureBox_level.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_level_Paint);
             // 
             // MainMenu
             // 
@@ -281,7 +289,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Tile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
@@ -298,7 +306,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.PictureBox pictureBox_Tile;
+        private System.Windows.Forms.PictureBox pictureBox_tile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDown_tilePalette;
         private System.Windows.Forms.Label label2;
