@@ -28,6 +28,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBox_vflip = new System.Windows.Forms.CheckBox();
+            this.checkBox_hflip = new System.Windows.Forms.CheckBox();
+            this.checkBox_priority = new System.Windows.Forms.CheckBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.numericUpDown_levelSelector = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,6 +51,7 @@
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).BeginInit();
             this.panel2.SuspendLayout();
@@ -64,6 +69,7 @@
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
@@ -73,6 +79,49 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(692, 669);
             this.panel1.TabIndex = 1;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.checkBox_vflip);
+            this.flowLayoutPanel2.Controls.Add(this.checkBox_hflip);
+            this.flowLayoutPanel2.Controls.Add(this.checkBox_priority);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(149, 31);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(119, 101);
+            this.flowLayoutPanel2.TabIndex = 2;
+            // 
+            // checkBox_vflip
+            // 
+            this.checkBox_vflip.AutoSize = true;
+            this.checkBox_vflip.Location = new System.Drawing.Point(3, 3);
+            this.checkBox_vflip.Name = "checkBox_vflip";
+            this.checkBox_vflip.Size = new System.Drawing.Size(80, 17);
+            this.checkBox_vflip.TabIndex = 0;
+            this.checkBox_vflip.Text = "Vertical Flip";
+            this.checkBox_vflip.UseVisualStyleBackColor = true;
+            this.checkBox_vflip.CheckedChanged += new System.EventHandler(this.checkBox_vflip_CheckedChanged);
+            // 
+            // checkBox_hflip
+            // 
+            this.checkBox_hflip.AutoSize = true;
+            this.checkBox_hflip.Location = new System.Drawing.Point(3, 26);
+            this.checkBox_hflip.Name = "checkBox_hflip";
+            this.checkBox_hflip.Size = new System.Drawing.Size(92, 17);
+            this.checkBox_hflip.TabIndex = 1;
+            this.checkBox_hflip.Text = "Horizontal Flip";
+            this.checkBox_hflip.UseVisualStyleBackColor = true;
+            this.checkBox_hflip.CheckedChanged += new System.EventHandler(this.checkBox_hflip_CheckedChanged);
+            // 
+            // checkBox_priority
+            // 
+            this.checkBox_priority.AutoSize = true;
+            this.checkBox_priority.Location = new System.Drawing.Point(3, 49);
+            this.checkBox_priority.Name = "checkBox_priority";
+            this.checkBox_priority.Size = new System.Drawing.Size(112, 17);
+            this.checkBox_priority.TabIndex = 2;
+            this.checkBox_priority.Text = "Draw over objects";
+            this.checkBox_priority.UseVisualStyleBackColor = true;
             // 
             // panel5
             // 
@@ -86,7 +135,7 @@
             // 
             // numericUpDown_levelSelector
             // 
-            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(69, 6);
+            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(459, 74);
             this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
             48,
             0,
@@ -101,7 +150,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 3);
+            this.label3.Location = new System.Drawing.Point(393, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(60, 24);
             this.label3.TabIndex = 0;
@@ -197,7 +246,6 @@
             this.pictureBox_tile.Size = new System.Drawing.Size(64, 64);
             this.pictureBox_tile.TabIndex = 0;
             this.pictureBox_tile.TabStop = false;
-            this.pictureBox_tile.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_tile_Paint);
             // 
             // flowLayoutPanel1
             // 
@@ -220,7 +268,6 @@
             this.pictureBox_tileset.Size = new System.Drawing.Size(128, 512);
             this.pictureBox_tileset.TabIndex = 0;
             this.pictureBox_tileset.TabStop = false;
-            this.pictureBox_tileset.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_tileset_Paint);
             this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
             // 
             // pictureBox_level
@@ -234,7 +281,7 @@
             this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
             this.pictureBox_level.TabIndex = 1;
             this.pictureBox_level.TabStop = false;
-            this.pictureBox_level.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_level_Paint);
+            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
             // 
             // MainMenu
             // 
@@ -280,6 +327,8 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).EndInit();
@@ -321,5 +370,9 @@
         private System.Windows.Forms.ToolStripMenuItem MainMenu_File;
         private System.Windows.Forms.ToolStripMenuItem MainMenu_File_Open;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.CheckBox checkBox_vflip;
+        private System.Windows.Forms.CheckBox checkBox_hflip;
+        private System.Windows.Forms.CheckBox checkBox_priority;
     }
 }

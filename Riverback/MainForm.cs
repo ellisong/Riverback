@@ -15,20 +15,29 @@ namespace Riverback
     public partial class MainForm : Form
     {
         private readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
+        private readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
 
         private LevelEditor levelEditor;
         private byte[] romdata;
-        private int selectedTileNumber;
+        private int selectedTileValue;
+        private Bitmap bitmapTileset;
+        private Bitmap bitmapTile;
+        private Bitmap bitmapLevel;
 
         public MainForm()
         {
-            levelEditor = new LevelEditor();
             InitializeComponent();
+            levelEditor = new LevelEditor();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
+            pictureBox_tileset.Image = bitmapTileset;
+            bitmapTile = new Bitmap(pictureBox_tile.Width, pictureBox_tile.Height);
+            pictureBox_tile.Image = bitmapTile;
+            bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
+            pictureBox_level.Image = bitmapLevel;
         }
 
         private void MainMenu_FileOpen_Click(object sender, EventArgs e)
@@ -40,10 +49,10 @@ namespace Riverback
                         levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
                         levelEditor.updateGraphicsBanks(romdata);
                         levelEditor.updateLevelBank();
-                        selectedTileNumber = 1;
-                        pictureBox_tileset.Refresh();
-                        pictureBox_tile.Refresh();
-                        pictureBox_level.Refresh();
+                        selectedTileValue = 1;
+                        updateImage_Tileset();
+                        updateImage_Tile();
+                        updateImage_Level();
                     }
                 }
             }
@@ -55,10 +64,10 @@ namespace Riverback
                 levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
                 levelEditor.updateGraphicsBanks(romdata);
                 levelEditor.updateLevelBank();
-                selectedTileNumber = 1;
-                pictureBox_tileset.Refresh();
-                pictureBox_level.Refresh();
-                pictureBox_tile.Refresh();
+                selectedTileValue = 1;
+                updateImage_Tileset();
+                updateImage_Tile();
+                updateImage_Level();
                 label_TileValue.Refresh();
             }
         }
@@ -66,8 +75,8 @@ namespace Riverback
         private void numericUpDown_tilePalette_ValueChanged(object sender, EventArgs e)
         {
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                pictureBox_tileset.Refresh();
-                pictureBox_tile.Refresh();
+                updateImage_Tileset();
+                updateImage_Tile();
                 label_TileValue.Refresh();
             }
         }
@@ -77,45 +86,115 @@ namespace Riverback
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null) && (e.Button == MouseButtons.Left)) {
                 int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
-                    selectedTileNumber = tileNum;
-                    pictureBox_tile.Refresh();
+                    selectedTileValue = tileNum;
+                    updateImage_Tile();
                     label_TileValue.Refresh();
                 }
             }
         }
 
-        private void pictureBox_tileset_Paint(object sender, PaintEventArgs e)
-        {
-            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                e.Graphics.Clear(fillColor);
-                byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, e.Graphics,
-                                                TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum);
-            }
-        }
-
-        private void pictureBox_level_Paint(object sender, PaintEventArgs e)
-        {
-            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                e.Graphics.Clear(fillColor);
-                TileDrawer.drawLevelOnCanvas(e.Graphics, levelEditor.Level, levelEditor.LevelBank);
-            }
-        }
-
-        private void pictureBox_tile_Paint(object sender, PaintEventArgs e)
-        {
-            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                e.Graphics.Clear(fillColor);
-                byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                TileDrawer.drawTileOnTileSelectorCanvas(levelEditor.LevelBank, e.Graphics,
-                                                        selectedTileNumber, paletteNum);
-            }
-        }
-
         private void label_TileValue_Paint(object sender, PaintEventArgs e)
         {
-            label_TileValue.Text = String.Format("0x{0:X}", selectedTileNumber);
+            label_TileValue.Text = String.Format("0x{0:X}", selectedTileValue);
+        }
+
+        private void pictureBox_level_MouseClick(object sender, MouseEventArgs e)
+        {
+            if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null)) {
+                if (e.Button == MouseButtons.Right) {
+                    int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                    levelEditor.setTileInTilemap(tileNum, selectedTileValue, checkBox_vflip.Checked, 
+                                                 checkBox_hflip.Checked, checkBox_priority.Checked, paletteNum);
+                    using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+                        int x = GraphicBank.TILE_WIDTH * (tileNum % TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        int y = GraphicBank.TILE_HEIGHT * (tileNum / TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        if (selectedTileValue != 0) {
+                            Bitmap tileImg = levelEditor.LevelBank.getTileImage(selectedTileValue, paletteNum);
+                            if ((checkBox_hflip.Checked) && (checkBox_vflip.Checked))
+                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+                            else if (checkBox_hflip.Checked)
+                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                            else if (checkBox_vflip.Checked)
+                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                            TileDrawer.drawTileOnCanvas(tileImg, g, x, y);
+                        } else {
+                            TileDrawer.clearTileOnCanvas(g, fillBrush, x, y);
+                        }
+                        g.Dispose();
+                        invalidateTile(pictureBox_level, tileNum);
+                    }
+                } else if (e.Button == MouseButtons.Left) {
+                    int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    TilemapTile tile = levelEditor.Level.Tilemap[tileNum];
+                    System.Console.WriteLine(tileNum);
+                }
+            }
+        }
+
+        private void updateImage_Tileset()
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                using (Graphics g = Graphics.FromImage(bitmapTileset)) {
+                    g.Clear(fillColor);
+                    byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g,
+                                                    TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum);
+                    g.Dispose();
+                    pictureBox_tileset.Invalidate();
+                }
+            }
+        }
+
+        private void updateImage_Tile()
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                using (Graphics g = Graphics.FromImage(bitmapTile)) {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.Clear(fillColor);
+                    byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                    Bitmap tileImg = levelEditor.LevelBank.getTileImage(selectedTileValue, paletteNum);
+                    if ((checkBox_hflip.Checked) && (checkBox_vflip.Checked))
+                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+                    else if (checkBox_hflip.Checked)
+                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    else if (checkBox_vflip.Checked)
+                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                    TileDrawer.drawTileOnCanvas(tileImg, g, 0, 0, 8.0f);
+                    g.Dispose();
+                    pictureBox_tile.Invalidate();
+                }
+            }
+        }
+
+        private void updateImage_Level()
+        {
+            if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
+                using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+                    g.Clear(fillColor);
+                    TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
+                    g.Dispose();
+                    pictureBox_level.Invalidate();
+                }
+            }
+        }
+
+        private void invalidateTile(Control control, int tileNum)
+        {
+            int x = GraphicBank.TILE_WIDTH * (tileNum % TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+            int y = GraphicBank.TILE_HEIGHT * (tileNum / TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+            Rectangle rc = new Rectangle(x, y, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
+            control.Invalidate(rc);
+        }
+
+        private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
+        {
+            updateImage_Tile();
+        }
+
+        private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
+        {
+            updateImage_Tile();
         }
     }
 }

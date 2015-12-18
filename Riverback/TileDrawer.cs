@@ -25,35 +25,47 @@ namespace Riverback
         const int AND_TILE_BANK = 0x03;
         const int AND_TILE_BANK_SHIFT = 0;
 
-        public static void drawTileOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
-                                           int tileAmountWidth, int tileNumber, byte paletteNumber)
+        public static void drawTileOnCanvas(Bitmap tileImg, Graphics graphics, 
+                                            float x, float y, float scale = 1.0f)
         {
-            Bitmap tileImg = bank.getTileImage(tileNumber, paletteNumber);
-            int x = GraphicBank.TILE_WIDTH * (tileNumber % tileAmountWidth);
-            int y = GraphicBank.TILE_HEIGHT * (tileNumber / tileAmountWidth);
-            pictureBoxGraphics.DrawImage(tileImg, x, y);
-        }
-
-        public static void drawTileOnTileSelectorCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
-                                                        int tileNumber, byte paletteNumber)
-        {
-            Bitmap tileImg = bank.getTileImage(tileNumber, paletteNumber);
             RectangleF sourceRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
-            float scale = 8.0f;
-            RectangleF destinationRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH * scale, 
+            RectangleF destinationRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale,
                                                               GraphicBank.TILE_HEIGHT * scale);
-            pictureBoxGraphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
+            graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics pictureBoxGraphics,
+        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, 
+                                            int bankTileNumber, byte paletteNumber, float scale = 1.0f)
+        {
+            Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
+            drawTileOnCanvas(tileImg, graphics, x, y, scale);
+        }
+
+        private static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, int tileAmountWidth, 
+                                            int bankTileNumber, byte paletteNumber, float scale = 1.0f)
+        {
+            Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
+            float x = GraphicBank.TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
+            float y = GraphicBank.TILE_HEIGHT * (bankTileNumber / tileAmountWidth) * scale;
+            drawTileOnCanvas(tileImg, graphics, x, y, scale);
+        }
+
+        public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics graphics,
                                                int tileAmountWidth, byte paletteNumber)
         {
             for (int tileNumber = 0; tileNumber < bank.tileAmount; tileNumber++) {
-                drawTileOnCanvas(bank, pictureBoxGraphics, tileAmountWidth, tileNumber, paletteNumber);
+                drawTileOnCanvas(bank, graphics, tileAmountWidth, tileNumber, paletteNumber);
             }
         }
 
-        public static void drawLevelOnCanvas(Graphics pictureBoxGraphics, Level level, GraphicBank levelBank)
+        public static void clearTileOnCanvas(Graphics graphics, Brush fillBrush, float x, float y, float scale = 1.0f)
+        {
+            RectangleF clearRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale,
+                                                  GraphicBank.TILE_HEIGHT * scale);
+            graphics.FillRectangle(fillBrush, clearRect);
+        }
+
+        public static void drawLevelOnCanvas(Graphics graphics, Level level, GraphicBank levelBank)
         {
             int tileNum = 0;
             for (int y = 0; y < LEVEL_CANVAS_TILEAMOUNT_HEIGHT; y++) {
@@ -61,7 +73,7 @@ namespace Riverback
                     TilemapTile tile = level.Tilemap[y * LEVEL_CANVAS_TILEAMOUNT_WIDTH + x];
                     byte tileValue = tile.Tile;
                     tileNum += 1;
-                    if (tileValue != 0) {
+                    if ((tileValue != 0) || (tile.Bank != 0)) {
                         bool vflip = tile.VFlip;
                         bool hflip = tile.HFlip;
                         bool priority = tile.Priority;
@@ -73,7 +85,7 @@ namespace Riverback
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
                         else if (tile.VFlip)
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                        pictureBoxGraphics.DrawImage(tileImg, x * GraphicBank.TILE_WIDTH, y * GraphicBank.TILE_HEIGHT, 
+                        graphics.DrawImage(tileImg, x * GraphicBank.TILE_WIDTH, y * GraphicBank.TILE_HEIGHT, 
                                                      GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
                     }
                 }
