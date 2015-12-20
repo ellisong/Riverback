@@ -12,51 +12,40 @@ namespace Riverback
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
 
-        private LevelHeader levelHeader;
-        public LevelHeader LevelHeader { get { return levelHeader; } }
-        private byte[] physmap;
-        public byte[] Physmap { get { return physmap; } }
-        private TilemapTile[] tilemap;
-        public TilemapTile[] Tilemap { get { return tilemap; } }
-        private int tileIndexAmount;
-        public int TileIndexAmount { get { return tileIndexAmount; } }
-        private List<bool> tileIndex;
-        public List<bool> TileIndex { get { return tileIndex; } }
-        private byte[] paletteIndex;
-        public byte[] PaletteIndex { get { return paletteIndex; } }
+        public int levelDataByteSize { get; set; }
+        public LevelHeader LevelHeader { get; private set; }
+        public byte[] Physmap { get; private set; }
+        public TilemapTile[] Tilemap { get; private set; }
+        public int TileIndexAmount { get { return TileIndex.Where(x => x == true).Count(); } }
+        public List<bool> TileIndex { get; private set; }
+        public byte[] PaletteIndex { get; private set; }
 
         public Level(LevelHeader levelHeader)
         {
-            this.levelHeader = levelHeader;
-            physmap = new byte[LEVEL_TILE_AMOUNT];
-            tilemap = new TilemapTile[LEVEL_TILE_AMOUNT];
-            tileIndex = new List<bool>();
-            paletteIndex = new byte[LEVEL_PALETTE_INDEX_AMOUNT];
+            this.LevelHeader = levelHeader;
+            Physmap = new byte[LEVEL_TILE_AMOUNT];
+            Tilemap = new TilemapTile[LEVEL_TILE_AMOUNT];
+            TileIndex = new List<bool>();
+            PaletteIndex = new byte[LEVEL_PALETTE_INDEX_AMOUNT];
         }
 
         public void update(byte[] levelData)
         {
+            levelDataByteSize = levelData.Length;
             setPhysmap(levelData);
             setTilemap(levelData);
-            setTileIndexAmount(levelData);
             setTileIndex(levelData);
             setPaletteIndex(levelData);
         }
 
         public void setPhysmap(byte[] levelData)
         {
-            Array.ConstrainedCopy(levelData, 0, physmap, 0, LEVEL_TILE_AMOUNT);
+            Array.ConstrainedCopy(levelData, 0, Physmap, 0, LEVEL_TILE_AMOUNT);
         }
 
         public void setTilemap(byte[] levelData)
         {
-            tilemap = TilemapTile.getAllLevelTilesFromLevelData(levelData);
-        }
-
-        public void setTileIndexAmount(byte[] levelData)
-        {
-            int offset = LEVEL_TILE_AMOUNT * 3;
-            tileIndexAmount = levelData[offset + 1] * 0x100 + levelData[offset];
+            Tilemap = TilemapTile.getAllLevelTilesFromLevelData(levelData);
         }
 
         public void setTileIndex(byte[] levelData)
@@ -65,14 +54,49 @@ namespace Riverback
             List<byte> tileIndexBytes = new List<byte>();
             for (int index = 0; index < LEVEL_TILE_INDEX_SIZE; index++)
                 tileIndexBytes.Add(levelData[offset + index]);
-            tileIndex = DataFormatter.byteListIntoBitList(tileIndexBytes, false);
+            TileIndex = DataFormatter.byteListIntoBitList(tileIndexBytes, false);
         }
 
         public void setPaletteIndex(byte[] levelData)
         {
-            Array.ConstrainedCopy(levelData, LEVEL_TILE_AMOUNT * 3 + 2 + LEVEL_TILE_INDEX_SIZE, paletteIndex, 2, LEVEL_PALETTE_INDEX_AMOUNT - 2);
-            paletteIndex[0] = 16;
-            paletteIndex[1] = 17;
+            Array.ConstrainedCopy(levelData, LEVEL_TILE_AMOUNT * 3 + 2 + LEVEL_TILE_INDEX_SIZE, PaletteIndex, 2, LEVEL_PALETTE_INDEX_AMOUNT - 2);
+            PaletteIndex[0] = 16;
+            PaletteIndex[1] = 17;
+        }
+
+        public byte[] serialize()
+        {
+            List<byte> compressedData = new List<byte>();
+            compressedData.AddRange(Physmap);
+            foreach (TilemapTile tile in Tilemap) {
+                compressedData.Add(tile.Tile);
+                compressedData.Add(tile.Property);
+            }
+
+            byte[] tileAmountBytes = new byte[2];
+            int tileAmount = TileIndex.Where(x => x == true).Count();
+            tileAmountBytes[0] = (byte)(tileAmount & 0x00FF);
+            tileAmountBytes[1] = (byte)(tileAmount >> 8);
+            compressedData.AddRange(tileAmountBytes);
+
+            int tileIndexNumber = 0;
+            List<bool> bitList = new List<bool>();
+            while (tileIndexNumber < TileIndex.Count()) {
+                bitList.Clear();
+                for (int x = 0; x < 8; x++) {
+                    if (tileIndexNumber >= TileIndex.Count())
+                        break;
+                    bitList.Add(TileIndex[tileIndexNumber]);
+                    tileIndexNumber += 1;
+                }
+                bitList.Reverse();
+                compressedData.Add(DataFormatter.bitsIntoByte(bitList));
+            }
+
+            for (int x = 2; x < 8; x++)
+                compressedData.Add(PaletteIndex[x]);
+
+            return compressedData.ToArray();
         }
     }
 }

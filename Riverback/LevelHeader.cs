@@ -14,29 +14,32 @@ namespace Riverback
         // Level header amount might be possible to alter due to free space after the level header data
         public const uint LEVEL_HEADER_AMOUNT = 48;
 
-        public int levelNumber;
+        public byte levelNumber;
         public uint levelHeaderAddress;
         public uint levelPointer;
-        public int graphicsBankIndex;
-        public int fieldNumber;
-        public int musicSelect;
+        public byte graphicsBankIndex;
+        public byte fieldNumber;
+        public byte musicSelect;
         public byte[] enemyType;
-        public int waterHeight;
-        public int waterType;
+        public byte[] unknownData;
+        public byte waterHeight;
+        public byte waterType;
+        public byte unknownData2;
         public int levelTimer;
         public byte[] doorExits;
 
-        public LevelHeader(int levelNumber = 0)
+        public LevelHeader(byte levelNumber = 0)
         {
             this.levelNumber = levelNumber;
             this.levelHeaderAddress = LEVEL_HEADER_ADDRESS + ((uint)this.levelNumber * LEVEL_HEADER_SIZE);
             enemyType = new byte[6];
             doorExits = new byte[4];
+            unknownData = new byte[16];
         }
 
         public void update(byte[] romdata)
         {
-            levelPointer = DataFormatter.readSnesPointer(romdata, levelHeaderAddress);
+            levelPointer = DataFormatter.readSnesPointerToRomPointer(romdata, levelHeaderAddress);
             graphicsBankIndex = romdata[levelHeaderAddress + 0x03];
             fieldNumber = romdata[levelHeaderAddress + 0x04];
             musicSelect = romdata[levelHeaderAddress + 0x05];
@@ -46,13 +49,48 @@ namespace Riverback
             enemyType[3] = romdata[levelHeaderAddress + 0x09];
             enemyType[4] = romdata[levelHeaderAddress + 0x0A];
             enemyType[5] = romdata[levelHeaderAddress + 0x0B];
+            unknownData[0] = romdata[levelHeaderAddress + 0x0C];
+            unknownData[1] = romdata[levelHeaderAddress + 0x0D];
+            unknownData[2] = romdata[levelHeaderAddress + 0x0E];
+            unknownData[3] = romdata[levelHeaderAddress + 0x0F];
+            unknownData[4] = romdata[levelHeaderAddress + 0x10];
+            unknownData[5] = romdata[levelHeaderAddress + 0x11];
+            unknownData[6] = romdata[levelHeaderAddress + 0x12];
+            unknownData[7] = romdata[levelHeaderAddress + 0x13];
+            unknownData[8] = romdata[levelHeaderAddress + 0x14];
+            unknownData[9] = romdata[levelHeaderAddress + 0x15];
+            unknownData[10] = romdata[levelHeaderAddress + 0x16];
+            unknownData[11] = romdata[levelHeaderAddress + 0x17];
+            unknownData[12] = romdata[levelHeaderAddress + 0x18];
+            unknownData[13] = romdata[levelHeaderAddress + 0x19];
+            unknownData[14] = romdata[levelHeaderAddress + 0x1A];
+            unknownData[15] = romdata[levelHeaderAddress + 0x1B];
             waterHeight = romdata[levelHeaderAddress + 0x1C];
             waterType = romdata[levelHeaderAddress + 0x1D];
+            unknownData2 = romdata[levelHeaderAddress + 0x1E];
             levelTimer = DataFormatter.switchReadBytesIntoUInt16(romdata, levelHeaderAddress + 0x1F);
             doorExits[0] = romdata[levelHeaderAddress + 0x21];
             doorExits[1] = romdata[levelHeaderAddress + 0x22];
             doorExits[2] = romdata[levelHeaderAddress + 0x23];
             doorExits[3] = romdata[levelHeaderAddress + 0x24];
+        }
+
+        public byte[] serialize()
+        {
+            List<byte> compressedData = new List<byte>();
+            compressedData.AddRange(DataFormatter.convertRomPointerToSnesPointer(levelPointer));
+            compressedData.Add(graphicsBankIndex);
+            compressedData.Add(fieldNumber);
+            compressedData.Add(musicSelect);
+            compressedData.AddRange(enemyType);
+            compressedData.AddRange(unknownData);
+            compressedData.Add(waterHeight);
+            compressedData.Add(waterType);
+            compressedData.Add(unknownData2);
+            compressedData.Add((byte)(levelTimer & 0x00FF));
+            compressedData.Add((byte)((levelTimer & 0xFF00) >> 8));
+            compressedData.AddRange(doorExits);
+            return compressedData.ToArray();
         }
     }
 }

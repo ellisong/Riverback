@@ -46,7 +46,7 @@ namespace Riverback
                 if (openFileDialog.CheckFileExists) {
                     romdata = File.ReadAllBytes(openFileDialog.FileName);
                     if (romdata != null) {
-                        levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
+                        levelEditor.openLevel(romdata, (byte)numericUpDown_levelSelector.Value);
                         levelEditor.updateGraphicsBanks(romdata);
                         levelEditor.updateLevelBank();
                         selectedTileValue = 1;
@@ -61,7 +61,7 @@ namespace Riverback
         private void numericUpDown_levelSelector_ValueChanged(object sender, EventArgs e)
         {
             if (romdata != null) {
-                levelEditor.openLevel(romdata, (int)numericUpDown_levelSelector.Value);
+                levelEditor.openLevel(romdata, (byte)numericUpDown_levelSelector.Value);
                 levelEditor.updateGraphicsBanks(romdata);
                 levelEditor.updateLevelBank();
                 selectedTileValue = 1;
@@ -195,6 +195,17 @@ namespace Riverback
         private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
         {
             updateImage_Tile();
+        }
+
+        private void MainMenu_SaveLevel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainMenu_Exit_Click(object sender, EventArgs e)
+        {
+            // TODO: save prompt on level change
+            Application.Exit();
         }
     }
 }

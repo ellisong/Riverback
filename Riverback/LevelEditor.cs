@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Riverback
         private int tileOffset;
         public int TileOffset { get { return tileOffset; } }
 
-        public void openLevel(byte[] romdata, int levelNumber)
+        public void openLevel(byte[] romdata, byte levelNumber)
         {
             levelHeader = new LevelHeader(levelNumber);
             levelHeader.update(romdata);
@@ -37,8 +38,8 @@ namespace Riverback
             List<uint> bankAddresses = new List<uint>();
             for (int bankNum = 0; bankNum < BANK_AMOUNT; bankNum++) {
                 uint bankPointer = GRAPHICS_BANK_HEADER_ADDRESS + ((uint)bankNum * 8);
-                bankAddresses.Add(DataFormatter.readSnesPointer(romdata, bankPointer));
-                bankAddresses.Add(DataFormatter.readSnesPointer(romdata, bankPointer + 3));
+                bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer));
+                bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer + 3));
             }
             for (int bankNum = 0; bankNum < BANK_AMOUNT * 2; bankNum++) {
                 byte[] bankData = DataCompressor.decompress(romdata, bankAddresses[bankNum]);

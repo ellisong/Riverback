@@ -58,13 +58,13 @@ namespace Riverback_UnitTests
         }
 
         [TestMethod()]
-        public void createSnesPointer_ValidParameters_Calculated()
+        public void convertSnesPointerToRomPointer_ValidParameters_Calculated()
         {
             uint expected = 0x92C74;
             byte bank = 0x92;
             ushort pointer = 0xAC74;
 
-            uint actual = DataFormatter.createSnesPointer(bank, pointer);
+            uint actual = DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
 
             Assert.AreEqual(expected, actual);
         }

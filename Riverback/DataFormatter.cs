@@ -8,10 +8,23 @@ namespace Riverback
 {
     public static class DataFormatter
     {
-        public static byte bitsIntoByte(bool[] bitList)
+        public static byte bitsIntoByte(List<bool> bitList)
         {
             byte result = 0;
             int count = bitList.Count();
+            if (count > 8)
+                count = 8;
+            for (int x = 0; x < count; x++) {
+                if (bitList[x] == true)
+                    result += (byte)(0x80 >> x);
+            }
+            return result;
+        }
+
+        public static byte bitsIntoByte(bool[] bitList)
+        {
+            byte result = 0;
+            int count = bitList.Length;
             if (count > 8)
                 count = 8;
             for (int x = 0; x < count; x++) {
@@ -55,7 +68,7 @@ namespace Riverback
             return value;
         }
 
-        public static uint createSnesPointer(byte bank, ushort pointer)
+        public static uint convertSnesPointerToRomPointer(byte bank, ushort pointer)
         {
             if (bank < 0x80)
                 throw new ArgumentOutOfRangeException("bank must be greater or equal to 0x80");
@@ -64,11 +77,20 @@ namespace Riverback
             return ((uint)bank - 0x80) * 0x8000 + ((uint)pointer - 0x8000);
         }
 
-        public static uint readSnesPointer(byte[] data, uint offset)
+        public static uint readSnesPointerToRomPointer(byte[] data, uint offset)
         {
             byte bank = data[offset + 2];
             ushort pointer = DataFormatter.switchReadBytesIntoUInt16(data, offset);
-            return DataFormatter.createSnesPointer(bank, pointer);
+            return DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
+        }
+
+        public static byte[] convertRomPointerToSnesPointer(uint pointer)
+        {
+            byte[] snesPointer = new byte[3];
+            snesPointer[2] = (byte)(pointer / 0x8000 + 0x80);
+            snesPointer[1] = (byte)((pointer & 0x00FF00) >> 8);
+            snesPointer[0] = (byte)(pointer & 0x0000FF);
+            return snesPointer;
         }
     }
 }

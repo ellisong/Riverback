@@ -50,6 +50,8 @@
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -259,13 +261,12 @@
             // 
             // pictureBox_tileset
             // 
-            this.pictureBox_tileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBox_tileset.ErrorImage = null;
             this.pictureBox_tileset.InitialImage = null;
             this.pictureBox_tileset.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_tileset.Name = "pictureBox_tileset";
-            this.pictureBox_tileset.Size = new System.Drawing.Size(128, 512);
+            this.pictureBox_tileset.Size = new System.Drawing.Size(128, 256);
             this.pictureBox_tileset.TabIndex = 0;
             this.pictureBox_tileset.TabStop = false;
             this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
@@ -297,7 +298,9 @@
             // MainMenu_File
             // 
             this.MainMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MainMenu_File_Open});
+            this.MainMenu_File_Open,
+            this.saveLevelToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.MainMenu_File.Name = "MainMenu_File";
             this.MainMenu_File.Size = new System.Drawing.Size(37, 20);
             this.MainMenu_File.Text = "File";
@@ -305,13 +308,27 @@
             // MainMenu_File_Open
             // 
             this.MainMenu_File_Open.Name = "MainMenu_File_Open";
-            this.MainMenu_File_Open.Size = new System.Drawing.Size(133, 22);
+            this.MainMenu_File_Open.Size = new System.Drawing.Size(152, 22);
             this.MainMenu_File_Open.Text = "Open ROM";
             this.MainMenu_File_Open.Click += new System.EventHandler(this.MainMenu_FileOpen_Click);
             // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
+            // 
+            // saveLevelToolStripMenuItem
+            // 
+            this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveLevelToolStripMenuItem.Text = "Save Level";
+            this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
             // MainForm
             // 
@@ -374,5 +391,7 @@
         private System.Windows.Forms.CheckBox checkBox_vflip;
         private System.Windows.Forms.CheckBox checkBox_hflip;
         private System.Windows.Forms.CheckBox checkBox_priority;
+        private System.Windows.Forms.ToolStripMenuItem saveLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
