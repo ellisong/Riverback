@@ -32,10 +32,8 @@
             this.checkBox_vflip = new System.Windows.Forms.CheckBox();
             this.checkBox_hflip = new System.Windows.Forms.CheckBox();
             this.checkBox_priority = new System.Windows.Forms.CheckBox();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.numericUpDown_levelSelector = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown_tilePalette = new System.Windows.Forms.NumericUpDown();
@@ -43,54 +41,53 @@
             this.label_TileValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox_tile = new System.Windows.Forms.PictureBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
-            this.pictureBox_level = new System.Windows.Forms.PictureBox();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox_level = new System.Windows.Forms.PictureBox();
+            this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
             this.MainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
+            this.panel6.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.Controls.Add(this.flowLayoutPanel2);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.flowLayoutPanel1);
+            this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.MainMenu);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(692, 669);
+            this.panel1.Size = new System.Drawing.Size(669, 552);
             this.panel1.TabIndex = 1;
             // 
             // flowLayoutPanel2
             // 
+            this.flowLayoutPanel2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.flowLayoutPanel2.Controls.Add(this.checkBox_vflip);
             this.flowLayoutPanel2.Controls.Add(this.checkBox_hflip);
             this.flowLayoutPanel2.Controls.Add(this.checkBox_priority);
+            this.flowLayoutPanel2.Controls.Add(this.panel4);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(149, 31);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(4, 77);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(119, 101);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(128, 144);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // checkBox_vflip
@@ -125,19 +122,9 @@
             this.checkBox_priority.Text = "Draw over objects";
             this.checkBox_priority.UseVisualStyleBackColor = true;
             // 
-            // panel5
-            // 
-            this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.panel5.Controls.Add(this.numericUpDown_levelSelector);
-            this.panel5.Controls.Add(this.label3);
-            this.panel5.Location = new System.Drawing.Point(149, 31);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(516, 101);
-            this.panel5.TabIndex = 2;
-            // 
             // numericUpDown_levelSelector
             // 
-            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(459, 74);
+            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(46, 2);
             this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
             48,
             0,
@@ -151,41 +138,30 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(393, 70);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label3.Location = new System.Drawing.Point(3, 4);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 24);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Level:";
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.panel2.Controls.Add(this.panel4);
-            this.panel2.Controls.Add(this.panel3);
-            this.panel2.Location = new System.Drawing.Point(12, 31);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(131, 101);
-            this.panel2.TabIndex = 1;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.label1);
             this.panel4.Controls.Add(this.numericUpDown_tilePalette);
-            this.panel4.Location = new System.Drawing.Point(4, 76);
+            this.panel4.Location = new System.Drawing.Point(0, 69);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(124, 22);
+            this.panel4.Size = new System.Drawing.Size(128, 22);
             this.panel4.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.label1.Location = new System.Drawing.Point(3, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 15);
+            this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Palette:";
             // 
@@ -212,10 +188,10 @@
             this.panel3.Controls.Add(this.label_TileValue);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.pictureBox_tile);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Location = new System.Drawing.Point(4, 3);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(125, 71);
+            this.panel3.Size = new System.Drawing.Size(128, 71);
             this.panel3.TabIndex = 0;
             // 
             // label_TileValue
@@ -249,41 +225,6 @@
             this.pictureBox_tile.TabIndex = 0;
             this.pictureBox_tile.TabStop = false;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_tileset);
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_level);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 138);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(653, 519);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // pictureBox_tileset
-            // 
-            this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_tileset.ErrorImage = null;
-            this.pictureBox_tileset.InitialImage = null;
-            this.pictureBox_tileset.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox_tileset.Name = "pictureBox_tileset";
-            this.pictureBox_tileset.Size = new System.Drawing.Size(128, 256);
-            this.pictureBox_tileset.TabIndex = 0;
-            this.pictureBox_tileset.TabStop = false;
-            this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
-            // 
-            // pictureBox_level
-            // 
-            this.pictureBox_level.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox_level.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_level.ErrorImage = null;
-            this.pictureBox_level.InitialImage = null;
-            this.pictureBox_level.Location = new System.Drawing.Point(137, 3);
-            this.pictureBox_level.Name = "pictureBox_level";
-            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
-            this.pictureBox_level.TabIndex = 1;
-            this.pictureBox_level.TabStop = false;
-            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
-            // 
             // MainMenu
             // 
             this.MainMenu.BackColor = System.Drawing.SystemColors.Control;
@@ -291,7 +232,7 @@
             this.MainMenu_File});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(692, 24);
+            this.MainMenu.Size = new System.Drawing.Size(669, 24);
             this.MainMenu.TabIndex = 3;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -330,13 +271,62 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
+            // pictureBox_level
+            // 
+            this.pictureBox_level.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_level.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_level.ErrorImage = null;
+            this.pictureBox_level.InitialImage = null;
+            this.pictureBox_level.Location = new System.Drawing.Point(138, 3);
+            this.pictureBox_level.Name = "pictureBox_level";
+            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox_level.TabIndex = 1;
+            this.pictureBox_level.TabStop = false;
+            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
+            // 
+            // pictureBox_tileset
+            // 
+            this.pictureBox_tileset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_tileset.ErrorImage = null;
+            this.pictureBox_tileset.InitialImage = null;
+            this.pictureBox_tileset.Location = new System.Drawing.Point(4, 259);
+            this.pictureBox_tileset.Name = "pictureBox_tileset";
+            this.pictureBox_tileset.Size = new System.Drawing.Size(128, 256);
+            this.pictureBox_tileset.TabIndex = 0;
+            this.pictureBox_tileset.TabStop = false;
+            this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
+            // 
+            // panel6
+            // 
+            this.panel6.AutoSize = true;
+            this.panel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel6.Controls.Add(this.panel3);
+            this.panel6.Controls.Add(this.pictureBox_tileset);
+            this.panel6.Controls.Add(this.flowLayoutPanel2);
+            this.panel6.Controls.Add(this.pictureBox_level);
+            this.panel6.Controls.Add(this.panel2);
+            this.panel6.Location = new System.Drawing.Point(4, 27);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(653, 521);
+            this.panel6.TabIndex = 4;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.numericUpDown_levelSelector);
+            this.panel2.Location = new System.Drawing.Point(4, 227);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(128, 26);
+            this.panel2.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(692, 669);
+            this.ClientSize = new System.Drawing.Size(669, 552);
             this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
@@ -346,21 +336,20 @@
             this.panel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
+            this.panel6.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -369,7 +358,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.PictureBox pictureBox_tile;
@@ -377,12 +365,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_tilePalette;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label_TileValue;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.NumericUpDown numericUpDown_levelSelector;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox_tileset;
-        private System.Windows.Forms.PictureBox pictureBox_level;
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem MainMenu_File;
         private System.Windows.Forms.ToolStripMenuItem MainMenu_File_Open;
@@ -393,5 +377,9 @@
         private System.Windows.Forms.CheckBox checkBox_priority;
         private System.Windows.Forms.ToolStripMenuItem saveLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.PictureBox pictureBox_tileset;
+        private System.Windows.Forms.PictureBox pictureBox_level;
+        private System.Windows.Forms.Panel panel2;
     }
 }

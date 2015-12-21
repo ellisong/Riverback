@@ -110,14 +110,8 @@ namespace Riverback
                         int x = GraphicBank.TILE_WIDTH * (tileNum % TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                         int y = GraphicBank.TILE_HEIGHT * (tileNum / TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                         if (selectedTileValue != 0) {
-                            Bitmap tileImg = levelEditor.LevelBank.getTileImage(selectedTileValue, paletteNum);
-                            if ((checkBox_hflip.Checked) && (checkBox_vflip.Checked))
-                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-                            else if (checkBox_hflip.Checked)
-                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                            else if (checkBox_vflip.Checked)
-                                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                            TileDrawer.drawTileOnCanvas(tileImg, g, x, y);
+                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, x, y, selectedTileValue, 
+                                                        paletteNum, checkBox_hflip.Checked, checkBox_vflip.Checked);
                         } else {
                             TileDrawer.clearTileOnCanvas(g, fillBrush, x, y);
                         }
@@ -151,16 +145,11 @@ namespace Riverback
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
                 using (Graphics g = Graphics.FromImage(bitmapTile)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
                     byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                    Bitmap tileImg = levelEditor.LevelBank.getTileImage(selectedTileValue, paletteNum);
-                    if ((checkBox_hflip.Checked) && (checkBox_vflip.Checked))
-                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-                    else if (checkBox_hflip.Checked)
-                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                    else if (checkBox_vflip.Checked)
-                        tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                    TileDrawer.drawTileOnCanvas(tileImg, g, 0, 0, 8.0f);
+                    TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, 0, 0, selectedTileValue,
+                                                paletteNum, checkBox_hflip.Checked, checkBox_vflip.Checked, 8.0f);
                     g.Dispose();
                     pictureBox_tile.Invalidate();
                 }

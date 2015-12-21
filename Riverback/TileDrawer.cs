@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace Riverback
 {
@@ -32,6 +33,19 @@ namespace Riverback
             RectangleF destinationRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale,
                                                               GraphicBank.TILE_HEIGHT * scale);
             graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
+        }
+
+        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber, 
+                                            byte paletteNumber, bool hflip, bool vflip, float scale = 1.0f)
+        {
+            Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
+            if ((hflip) && (vflip))
+                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+            else if (hflip)
+                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            else if (vflip)
+                tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            drawTileOnCanvas(tileImg, graphics, x, y, scale);
         }
 
         public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, 
