@@ -1,2 +1,2 @@
 # Riverback
-A ROM editor for Umihara Kawase (SNES)
+An editor for Umihara Kawase (SNES)
