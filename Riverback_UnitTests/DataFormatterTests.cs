@@ -46,13 +46,13 @@ namespace Riverback_UnitTests
         }
 
         [TestMethod()]
-        public void switchReadBytesIntoUInt16_ValidParameters_BytesAreSwitched()
+        public void switchReadBytesIntoint16_ValidParameters_BytesAreSwitched()
         {
-            UInt16 expected = 0x4962;
+            ushort expected = 0x4962;
             byte[] input = { 0xFF, 0x62, 0x49, 0x00 };
-            uint offset = 1;
+            int offset = 1;
 
-            UInt16 actual = DataFormatter.switchReadBytesIntoUInt16(input, offset);
+            ushort actual = DataFormatter.switchReadBytesIntoint16(input, offset);
 
             Assert.AreEqual(expected, actual);
         }
@@ -60,11 +60,11 @@ namespace Riverback_UnitTests
         [TestMethod()]
         public void convertSnesPointerToRomPointer_ValidParameters_Calculated()
         {
-            uint expected = 0x92C74;
+            int expected = 0x92C74;
             byte bank = 0x92;
             ushort pointer = 0xAC74;
 
-            uint actual = DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
+            int actual = DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
 
             Assert.AreEqual(expected, actual);
         }

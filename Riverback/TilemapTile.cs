@@ -79,7 +79,7 @@ namespace Riverback
             get { return (byte)((this.Property & AND_TILE_PALETTE) >> AND_TILE_PALETTE_SHIFT); }
             set
             {
-                if ((value < GraphicBank.PALETTE_AMOUNT+2) && (value >= 0))
+                if ((value < 8) && (value >= 0))
                     this.Property = (byte)(Property | (value << AND_TILE_PALETTE_SHIFT));
                 else
                     throw new ArgumentOutOfRangeException("TilesetTile.Palette", value, "The argument for TilesetTile.Palette is out of range");

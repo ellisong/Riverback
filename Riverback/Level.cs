@@ -12,7 +12,7 @@ namespace Riverback
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
 
-        public int levelDataByteSize { get; set; }
+        public int CompressedDataSize { get; set; }
         public LevelHeader LevelHeader { get; private set; }
         public byte[] Physmap { get; private set; }
         public TilemapTile[] Tilemap { get; private set; }
@@ -31,7 +31,6 @@ namespace Riverback
 
         public void update(byte[] levelData)
         {
-            levelDataByteSize = levelData.Length;
             setPhysmap(levelData);
             setTilemap(levelData);
             setTileIndex(levelData);
@@ -96,7 +95,7 @@ namespace Riverback
             for (int x = 2; x < 8; x++)
                 compressedData.Add(PaletteIndex[x]);
 
-            return compressedData.ToArray();
+            return DataCompressor.compress(compressedData.ToArray());
         }
     }
 }

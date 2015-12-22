@@ -61,36 +61,46 @@ namespace Riverback
             return bitList;
         }
 
-        public static ushort switchReadBytesIntoUInt16(byte[] data, uint offset)
+        public static ushort switchReadBytesIntoint16(byte[] data, int offset)
         {
             ushort value = (ushort)(data[offset + 1] * 0x100);
             value += data[offset];
             return value;
         }
 
-        public static uint convertSnesPointerToRomPointer(byte bank, ushort pointer)
+        public static int convertSnesPointerToRomPointer(byte bank, ushort pointer)
         {
             if (bank < 0x80)
                 throw new ArgumentOutOfRangeException("bank must be greater or equal to 0x80");
             if (pointer < 0x8000)
                 throw new ArgumentOutOfRangeException("pointer must be greater or equal to 0x8000");
-            return ((uint)bank - 0x80) * 0x8000 + ((uint)pointer - 0x8000);
+            return ((int)bank - 0x80) * 0x8000 + ((int)pointer - 0x8000);
         }
 
-        public static uint readSnesPointerToRomPointer(byte[] data, uint offset)
+        public static int readSnesPointerToRomPointer(byte[] data, int offset)
         {
             byte bank = data[offset + 2];
-            ushort pointer = DataFormatter.switchReadBytesIntoUInt16(data, offset);
+            ushort pointer = DataFormatter.switchReadBytesIntoint16(data, offset);
             return DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
         }
 
-        public static byte[] convertRomPointerToSnesPointer(uint pointer)
+        public static byte[] convertRomPointerToSnesPointer(int pointer)
         {
             byte[] snesPointer = new byte[3];
             snesPointer[2] = (byte)(pointer / 0x8000 + 0x80);
+            if (snesPointer[2] % 2 == 0)
+                pointer += 0x8000;
             snesPointer[1] = (byte)((pointer & 0x00FF00) >> 8);
             snesPointer[0] = (byte)(pointer & 0x0000FF);
             return snesPointer;
+        }
+
+        public static byte[] convertRomPointerToUInt16Pointer(ushort pointer)
+        {
+            byte[] uint16Pointer = new byte[2];
+            uint16Pointer[1] = (byte)((pointer & 0x00FF00) >> 8);
+            uint16Pointer[0] = (byte)(pointer & 0x0000FF);
+            return uint16Pointer;
         }
     }
 }

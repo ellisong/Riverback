@@ -9,7 +9,7 @@ namespace Riverback
 {
     public class LevelEditor
     {
-        public const uint GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
+        public const int GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
         public const int BANK_AMOUNT = 7;
         public const int DEFAULT_BANK_PALETTE = 15;
 
@@ -27,26 +27,30 @@ namespace Riverback
         {
             levelHeader = new LevelHeader(levelNumber);
             levelHeader.update(romdata);
-            byte[] levelData = DataCompressor.decompress(romdata, levelHeader.levelPointer);
+            int compressedSize;
+            byte[] levelData = DataCompressor.decompress(romdata, levelHeader.levelPointer, out compressedSize);
             level = new Level(levelHeader);
+            level.CompressedDataSize = compressedSize;
             level.update(levelData);
         }
 
         public void updateGraphicsBanks(byte[] romdata)
         {
             banks = new List<GraphicBank>();
-            List<uint> bankAddresses = new List<uint>();
+            List<int> bankAddresses = new List<int>();
             for (int bankNum = 0; bankNum < BANK_AMOUNT; bankNum++) {
-                uint bankPointer = GRAPHICS_BANK_HEADER_ADDRESS + ((uint)bankNum * 8);
+                int bankPointer = GRAPHICS_BANK_HEADER_ADDRESS + bankNum * 8;
                 bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer));
                 bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer + 3));
             }
             for (int bankNum = 0; bankNum < BANK_AMOUNT * 2; bankNum++) {
-                byte[] bankData = DataCompressor.decompress(romdata, bankAddresses[bankNum]);
+                int compressedSize;
+                byte[] bankData = DataCompressor.decompress(romdata, bankAddresses[bankNum], out compressedSize);
                 bool hasPalettes = true;
                 if ((bankNum % 2) == 1)
                     hasPalettes = false;
                 GraphicBank bank = new GraphicBank(bankData, hasPalettes);
+                bank.CompressedDataSize = compressedSize;
                 if (hasPalettes == false)
                     bank.palettes = banks[bankNum - 1].palettes;
                 banks.Add(bank);

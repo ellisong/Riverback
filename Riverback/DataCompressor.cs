@@ -54,7 +54,7 @@ namespace Riverback
                 for (int pos = 0; pos < 16; pos++) {
                     if ((pointer + pos) < data.Length) {
                         front.Add(data[pointer + pos]);
-                        List<uint> indexList = DataCompressor.getIndicesForSublistInList(behind, front);
+                        List<int> indexList = DataCompressor.getIndicesForSublistInList(behind, front);
                         indexList.Sort();
                         indexList.Reverse();
                         if (indexList.Count > 0)
@@ -153,9 +153,9 @@ namespace Riverback
             return compressedData.ToArray();
         }
 
-        public static byte[] decompress(byte[] data, uint offset)
+        public static byte[] decompress(byte[] data, int offset, out int compressedSize)
         {
-            uint pointer = offset;
+            int pointer = offset;
             List<byte> writtenData = new List<byte>(0x1000);
             for (int x = 0; x < 16; x++)
                 writtenData.Add(0);
@@ -200,6 +200,7 @@ namespace Riverback
                 }
             }
             writtenData.RemoveRange(0, 16);
+            compressedSize = pointer - offset + 2;
             return writtenData.ToArray<byte>();
         }
 
@@ -238,9 +239,9 @@ namespace Riverback
             return true;
         }
 
-        private static List<uint> getIndicesForSublistInList(List<byte> list, List<byte> sublist)
+        private static List<int> getIndicesForSublistInList(List<byte> list, List<byte> sublist)
         {
-            List<uint> indexList = new List<uint>();
+            List<int> indexList = new List<int>();
             if ((list.Count <= 0) || (sublist.Count <= 0))
                 return indexList;
             for (int xx = list.Count - sublist.Count; xx >= 0; xx--) {
@@ -253,7 +254,7 @@ namespace Riverback
                     }
                 }
                 if (count == sublist.Count)
-                    indexList.Add((uint)xx);
+                    indexList.Add((int)xx);
             }
             return indexList;
         }
