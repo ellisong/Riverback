@@ -33,10 +33,11 @@ namespace Riverback
             }
             set
             {
+                this.Property = (byte)(Property & (0xFF - AND_TILE_VFLIP));
                 if (value)
-                    this.Property = (byte)(Property | (1 << AND_TILE_VFLIP_SHIFT));
+                    this.Property = (byte)(Property + (1 << AND_TILE_VFLIP_SHIFT));
                 else
-                    this.Property = (byte)(Property | (0 << AND_TILE_VFLIP_SHIFT));
+                    this.Property = (byte)(Property + (0 << AND_TILE_VFLIP_SHIFT));
             }
         }
 
@@ -50,10 +51,11 @@ namespace Riverback
             }
             set
             {
+                this.Property = (byte)(Property & (0xFF - AND_TILE_HFLIP));
                 if (value)
-                    this.Property = (byte)(Property | (1 << AND_TILE_HFLIP_SHIFT));
+                    this.Property = (byte)(Property + (1 << AND_TILE_HFLIP_SHIFT));
                 else
-                    this.Property = (byte)(Property | (0 << AND_TILE_HFLIP_SHIFT));
+                    this.Property = (byte)(Property + (0 << AND_TILE_HFLIP_SHIFT));
             }
         }
         
@@ -67,10 +69,11 @@ namespace Riverback
             }
             set
             {
+                this.Property = (byte)(Property & (0xFF - AND_TILE_PRIORITY));
                 if (value)
-                    this.Property = (byte)(Property | (1 << AND_TILE_PRIORITY_SHIFT));
+                    this.Property = (byte)(Property + (1 << AND_TILE_PRIORITY_SHIFT));
                 else
-                    this.Property = (byte)(Property | (0 << AND_TILE_PRIORITY_SHIFT));
+                    this.Property = (byte)(Property + (0 << AND_TILE_PRIORITY_SHIFT));
             }
         }
         
@@ -79,8 +82,10 @@ namespace Riverback
             get { return (byte)((this.Property & AND_TILE_PALETTE) >> AND_TILE_PALETTE_SHIFT); }
             set
             {
-                if ((value < 8) && (value >= 0))
-                    this.Property = (byte)(Property | (value << AND_TILE_PALETTE_SHIFT));
+                if ((value < 8) && (value >= 0)) {
+                    this.Property = (byte)(Property & (0xFF - AND_TILE_PALETTE));
+                    this.Property = (byte)(Property + (value << AND_TILE_PALETTE_SHIFT));
+                }
                 else
                     throw new ArgumentOutOfRangeException("TilesetTile.Palette", value, "The argument for TilesetTile.Palette is out of range");
             }
@@ -92,8 +97,10 @@ namespace Riverback
             set
             {
                 // Can hold two bits, but banks 2 and 3 are never used in-game for the tilemaps
-                if ((value < 2) && (value >= 0))
-                    this.Property = (byte)(Property | (value << AND_TILE_BANK_SHIFT));
+                if ((value < 2) && (value >= 0)) {
+                    this.Property = (byte)(Property & (0xFF - AND_TILE_BANK));
+                    this.Property = (byte)(Property + (value << AND_TILE_BANK_SHIFT));
+                }
                 else
                     throw new ArgumentOutOfRangeException("TilesetTile.Bank", value, "The argument for TilesetTile.Bank is out of range");
             }
