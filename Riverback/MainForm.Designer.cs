@@ -126,7 +126,7 @@
             // 
             this.numericUpDown_levelSelector.Location = new System.Drawing.Point(46, 2);
             this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
-            48,
+            63,
             0,
             0,
             0});

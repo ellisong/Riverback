@@ -9,10 +9,10 @@ namespace Riverback
     public class LevelHeader
     {
         // CONSTANTS
-        public const uint LEVEL_HEADER_ADDRESS = 0xF298;
+        public const uint LEVEL_HEADER_POINTER_ADDRESS = 0xF218;
+        public const uint LEVEL_HEADER_POINTER_SIZE = 2;
+        public const uint LEVEL_HEADER_POINTER_AMOUNT = 64;
         public const uint LEVEL_HEADER_SIZE = 37;
-        // Level header amount might be possible to alter due to free space after the level header data
-        public const uint LEVEL_HEADER_AMOUNT = 48;
 
         public byte levelNumber;
         public uint levelHeaderAddress;
@@ -31,7 +31,6 @@ namespace Riverback
         public LevelHeader(byte levelNumber = 0)
         {
             this.levelNumber = levelNumber;
-            this.levelHeaderAddress = LEVEL_HEADER_ADDRESS + ((uint)this.levelNumber * LEVEL_HEADER_SIZE);
             enemyType = new byte[6];
             doorExits = new byte[4];
             unknownData = new byte[16];
@@ -39,6 +38,8 @@ namespace Riverback
 
         public void update(byte[] romdata)
         {
+            uint offset = LEVEL_HEADER_POINTER_ADDRESS + (uint)this.levelNumber * LEVEL_HEADER_POINTER_SIZE;
+            levelHeaderAddress = DataFormatter.switchReadBytesIntoUInt16(romdata, offset);
             levelPointer = DataFormatter.readSnesPointerToRomPointer(romdata, levelHeaderAddress);
             graphicsBankIndex = romdata[levelHeaderAddress + 0x03];
             fieldNumber = romdata[levelHeaderAddress + 0x04];
