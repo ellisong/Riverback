@@ -65,10 +65,10 @@ namespace Riverback
         }
 
         public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics graphics,
-                                               int tileAmountWidth, byte paletteNumber)
+                                               int tileAmountWidth, byte paletteNumber, float scale = 1.0f)
         {
             for (int tileNumber = 0; tileNumber < bank.tileAmount; tileNumber++) {
-                drawTileOnCanvas(bank, graphics, tileAmountWidth, tileNumber, paletteNumber);
+                drawTileOnCanvas(bank, graphics, tileAmountWidth, tileNumber, paletteNumber, scale);
             }
         }
 
@@ -106,9 +106,9 @@ namespace Riverback
             }
         }
 
-        public static int getTileNumberFromMouseCoordinates(int x, int y, int tileAmountWidth)
+        public static int getTileNumberFromMouseCoords(int x, int y, int tileAmountWidth, int scale = 1)
         {
-            return (y / GraphicBank.TILE_HEIGHT * tileAmountWidth) + (x / GraphicBank.TILE_WIDTH);
+            return (y / (GraphicBank.TILE_HEIGHT * scale) * tileAmountWidth) + (x / (GraphicBank.TILE_WIDTH * scale));
         }
     }
 }

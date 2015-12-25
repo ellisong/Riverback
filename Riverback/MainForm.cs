@@ -16,6 +16,9 @@ namespace Riverback
     {
         private readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
         private readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
+        public const float TILE_SELECTOR_SCALE = 4.0f;
+        public const int TILEMAP_SCALE_INT = 2;
+        public const float TILEMAP_SCALE = 2.0f;
 
         private LevelEditor levelEditor;
         private byte[] romdata;
@@ -87,7 +90,6 @@ namespace Riverback
                 updateImage_Tileset();
                 updateImage_Tile();
                 updateImage_Level();
-                label_TileValue.Refresh();
             }
         }
 
@@ -96,32 +98,26 @@ namespace Riverback
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
                 updateImage_Tileset();
                 updateImage_Tile();
-                label_TileValue.Refresh();
             }
         }
 
         private void pictureBox_tileset_MouseClick(object sender, MouseEventArgs e)
         {
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null) && (e.Button == MouseButtons.Left)) {
-                int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH);
+                int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, 
+                                                                      TILEMAP_SCALE_INT);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
                     selectedTileValue = tileNum;
                     updateImage_Tile();
-                    label_TileValue.Refresh();
                 }
             }
-        }
-
-        private void label_TileValue_Paint(object sender, PaintEventArgs e)
-        {
-            label_TileValue.Text = String.Format("0x{0:X}", selectedTileValue);
         }
 
         private void pictureBox_level_MouseClick(object sender, MouseEventArgs e)
         {
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null)) {
                 if (e.Button == MouseButtons.Right) {
-                    int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                     
                     levelEditor.setTileInTilemap(tileNum, selectedTileValue, checkBox_vflip.Checked, 
                                                  checkBox_hflip.Checked, checkBox_priority.Checked,
@@ -139,7 +135,7 @@ namespace Riverback
                         invalidateTile(pictureBox_level, tileNum);
                     }
                 } else if (e.Button == MouseButtons.Left) {
-                    int tileNum = TileDrawer.getTileNumberFromMouseCoordinates(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                     TilemapTile tile = levelEditor.Level.Tilemap[tileNum];
                     System.Console.WriteLine("#: " + tileNum + "    tile: " + tile.Tile);
                     System.Console.WriteLine("bank: " + tile.Bank + "    palette: " + tile.Palette);
@@ -155,7 +151,7 @@ namespace Riverback
                     g.Clear(fillColor);
                     byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
                     TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g,
-                                                    TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum);
+                                                    TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum, TILEMAP_SCALE);
                     pictureBox_tileset.Invalidate();
                 }
             }
@@ -170,7 +166,8 @@ namespace Riverback
                     g.Clear(fillColor);
                     byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
                     TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, 0, 0, selectedTileValue,
-                                                paletteNum, checkBox_hflip.Checked, checkBox_vflip.Checked, 8.0f);
+                                                paletteNum, checkBox_hflip.Checked, 
+                                                checkBox_vflip.Checked, TILE_SELECTOR_SCALE);
                     pictureBox_tile.Invalidate();
                 }
             }

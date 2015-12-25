@@ -90,9 +90,6 @@ namespace Riverback
                 writeLevelHeader(level.LevelHeader);
                 Array.ConstrainedCopy(data, 0, romdata, originalLevelPointer, data.Length);
             } else {
-                System.Console.WriteLine(originalLevelPointer);
-                System.Console.WriteLine(data.Length);
-                System.Console.WriteLine(originalLevelSize);
                 if (romdata.Length > ROM_ORIGINAL_SIZE) {
                     // Checks for empty space inside the rom to write the level to
                     int levelPointer = WRITE_LEVEL_ADDRESS;
