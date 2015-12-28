@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
+    <Compile Include="CoordinateConverter.cs" />
     <Compile Include="DataCompressor.cs" />
     <Compile Include="DataFormatter.cs" />
     <Compile Include="GraphicBank.cs" />

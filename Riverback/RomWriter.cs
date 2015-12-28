@@ -86,16 +86,13 @@ namespace Riverback
             }
 
             if (data.Length <= originalLevelSize) {
-                // Writes the level at it's original location in the vanilla game if size allows
                 writeLevelHeader(level.LevelHeader);
                 Array.ConstrainedCopy(data, 0, romdata, originalLevelPointer, data.Length);
             } else {
                 if (romdata.Length > ROM_ORIGINAL_SIZE) {
-                    // Checks for empty space inside the rom to write the level to
                     int levelPointer = WRITE_LEVEL_ADDRESS;
                     while (levelPointer < EXPAND_ROM_SIZE) {
                         if (checkEmptySpace(levelPointer, data.Length)) {
-                            // Fill previously used area as empty for reuse
                             fillEmptySpace(level.LevelHeader.levelPointer, level.CompressedDataSize);
                             level.LevelHeader.levelPointer = levelPointer;
                             writeLevelHeader(level.LevelHeader);

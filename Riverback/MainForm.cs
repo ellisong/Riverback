@@ -104,8 +104,8 @@ namespace Riverback
         private void pictureBox_tileset_MouseClick(object sender, MouseEventArgs e)
         {
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null) && (e.Button == MouseButtons.Left)) {
-                int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, 
-                                                                      TILEMAP_SCALE_INT);
+                Point mouseCoords = new Point(e.X, e.Y);
+                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, TILEMAP_SCALE_INT);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
                     selectedTileValue = tileNum;
                     updateImage_Tile();
@@ -116,26 +116,23 @@ namespace Riverback
         private void pictureBox_level_MouseClick(object sender, MouseEventArgs e)
         {
             if ((levelEditor.LevelBank != null) && (levelEditor.LevelBank != null)) {
+                Point mouseCoords = new Point(e.X, e.Y);
+                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                 if (e.Button == MouseButtons.Right) {
-                    int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                    
-                    levelEditor.setTileInTilemap(tileNum, selectedTileValue, checkBox_vflip.Checked, 
-                                                 checkBox_hflip.Checked, checkBox_priority.Checked,
-                                                 (byte)numericUpDown_tilePalette.Value);
+                    levelEditor.setTileInTilemap(tileNum, selectedTileValue, checkBox_vflip.Checked, checkBox_hflip.Checked, 
+                                                 checkBox_priority.Checked, (byte)numericUpDown_tilePalette.Value);
                     using (Graphics g = Graphics.FromImage(bitmapLevel)) {
-                        int x = GraphicBank.TILE_WIDTH * (tileNum % TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                        int y = GraphicBank.TILE_HEIGHT * (tileNum / TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        Point alignedCoords = CoordinateConverter.getMouseCoordsFromTileNumber(tileNum, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                         if (selectedTileValue != 0) {
                             byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, x, y, selectedTileValue, 
+                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y, selectedTileValue, 
                                                         paletteNum, checkBox_hflip.Checked, checkBox_vflip.Checked);
                         } else {
-                            TileDrawer.clearTileOnCanvas(g, fillBrush, x, y);
+                            TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
                         }
                         invalidateTile(pictureBox_level, tileNum);
                     }
                 } else if (e.Button == MouseButtons.Left) {
-                    int tileNum = TileDrawer.getTileNumberFromMouseCoords(e.X, e.Y, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                     TilemapTile tile = levelEditor.Level.Tilemap[tileNum];
                     System.Console.WriteLine("#: " + tileNum + "    tile: " + tile.Tile);
                     System.Console.WriteLine("bank: " + tile.Bank + "    palette: " + tile.Palette);
@@ -150,8 +147,7 @@ namespace Riverback
                 using (Graphics g = Graphics.FromImage(bitmapTileset)) {
                     g.Clear(fillColor);
                     byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g,
-                                                    TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum, TILEMAP_SCALE);
+                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, g, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, paletteNum, TILEMAP_SCALE);
                     pictureBox_tileset.Invalidate();
                 }
             }
@@ -165,9 +161,8 @@ namespace Riverback
                     g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
                     byte paletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                    TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, 0, 0, selectedTileValue,
-                                                paletteNum, checkBox_hflip.Checked, 
-                                                checkBox_vflip.Checked, TILE_SELECTOR_SCALE);
+                    TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, 0, 0, selectedTileValue, paletteNum, 
+                                                checkBox_hflip.Checked, checkBox_vflip.Checked, TILE_SELECTOR_SCALE);
                     pictureBox_tile.Invalidate();
                 }
             }
@@ -184,11 +179,10 @@ namespace Riverback
             }
         }
 
-        private void invalidateTile(Control control, int tileNum)
+        private void invalidateTile(Control control, int tileNum, int scale = 1)
         {
-            int x = GraphicBank.TILE_WIDTH * (tileNum % TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-            int y = GraphicBank.TILE_HEIGHT * (tileNum / TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-            Rectangle rc = new Rectangle(x, y, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
+            Point tileCoords = CoordinateConverter.getMouseCoordsFromTileNumber(tileNum, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH, scale);
+            Rectangle rc = new Rectangle(tileCoords.X, tileCoords.Y, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
             control.Invalidate(rc);
         }
 

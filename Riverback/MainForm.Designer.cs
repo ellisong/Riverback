@@ -274,7 +274,7 @@
             this.panel5.Controls.Add(this.flowLayoutPanel2);
             this.panel5.Controls.Add(this.pictureBox_tile);
             this.panel5.Controls.Add(this.label2);
-            this.panel5.Location = new System.Drawing.Point(7, 31);
+            this.panel5.Location = new System.Drawing.Point(4, 31);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(176, 92);
             this.panel5.TabIndex = 5;
