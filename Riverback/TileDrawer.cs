@@ -19,12 +19,7 @@ namespace Riverback
         const int AND_TILE_BANK = 0x03;
         const int AND_TILE_BANK_SHIFT = 0;
 
-        public static void drawTileOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale = 1.0f)
-        {
-            RectangleF sourceRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
-            RectangleF destinationRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale, GraphicBank.TILE_HEIGHT * scale);
-            graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
-        }
+        
 
         public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber, 
                                             byte paletteNumber, bool hflip, bool vflip, float scale = 1.0f)
@@ -36,27 +31,23 @@ namespace Riverback
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
             else if (vflip)
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            drawTileOnCanvas(tileImg, graphics, x, y, scale);
+            drawTileImageOnCanvas(tileImg, graphics, x, y, scale);
         }
 
-        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber, byte paletteNumber, float scale = 1.0f)
+        private static void drawTileImageOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale = 1.0f)
         {
-            Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
-            drawTileOnCanvas(tileImg, graphics, x, y, scale);
-        }
-
-        private static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, int tileAmountWidth, int bankTileNumber, byte paletteNumber, float scale = 1.0f)
-        {
-            Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
-            float x = GraphicBank.TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
-            float y = GraphicBank.TILE_HEIGHT * (bankTileNumber / tileAmountWidth) * scale;
-            drawTileOnCanvas(tileImg, graphics, x, y, scale);
+            RectangleF sourceRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
+            RectangleF destinationRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale, GraphicBank.TILE_HEIGHT * scale);
+            graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
         public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics graphics, int tileAmountWidth, byte paletteNumber, float scale = 1.0f)
         {
-            for (int tileNumber = 0; tileNumber < bank.tileAmount; tileNumber++) {
-                drawTileOnCanvas(bank, graphics, tileAmountWidth, tileNumber, paletteNumber, scale);
+            for (int bankTileNumber = 0; bankTileNumber < bank.tileAmount; bankTileNumber++) {
+                Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
+                float x = GraphicBank.TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
+                float y = GraphicBank.TILE_HEIGHT * (bankTileNumber / tileAmountWidth) * scale;
+                drawTileImageOnCanvas(tileImg, graphics, x, y, scale);
             }
         }
 

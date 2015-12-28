@@ -71,8 +71,7 @@ namespace Riverback
             levelBank.palettes = banks[index].palettes;
         }
 
-        public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, 
-                                     bool priority, byte palette)
+        public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
             if (tileNum < Level.LEVEL_TILE_AMOUNT) {
                 TilemapTile tile = this.Level.Tilemap[tileNum];

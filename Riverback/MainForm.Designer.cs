@@ -31,8 +31,13 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox_tile = new System.Windows.Forms.PictureBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
+            this.pictureBox_level = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericUpDown_levelSelector = new System.Windows.Forms.NumericUpDown();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBox_vflip = new System.Windows.Forms.CheckBox();
             this.checkBox_hflip = new System.Windows.Forms.CheckBox();
@@ -40,9 +45,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown_tilePalette = new System.Windows.Forms.NumericUpDown();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown_levelSelector = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox_tile = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,22 +54,18 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.pictureBox_level = new System.Windows.Forms.PictureBox();
-            this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).BeginInit();
+            this.panel5.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
             this.MainMenu.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -82,26 +82,83 @@
             this.panel1.Size = new System.Drawing.Size(790, 651);
             this.panel1.TabIndex = 1;
             // 
-            // label2
+            // flowLayoutPanel1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 4);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 24);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Tile:";
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.pictureBox_tileset);
+            this.flowLayoutPanel1.Controls.Add(this.pictureBox_level);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 125);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(780, 519);
+            this.flowLayoutPanel1.TabIndex = 6;
             // 
-            // pictureBox_tile
+            // pictureBox_tileset
             // 
-            this.pictureBox_tile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox_tile.ErrorImage = null;
-            this.pictureBox_tile.InitialImage = null;
-            this.pictureBox_tile.Location = new System.Drawing.Point(8, 31);
-            this.pictureBox_tile.Name = "pictureBox_tile";
-            this.pictureBox_tile.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox_tile.TabIndex = 0;
-            this.pictureBox_tile.TabStop = false;
+            this.pictureBox_tileset.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_tileset.ErrorImage = null;
+            this.pictureBox_tileset.InitialImage = null;
+            this.pictureBox_tileset.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_tileset.Name = "pictureBox_tileset";
+            this.pictureBox_tileset.Size = new System.Drawing.Size(256, 512);
+            this.pictureBox_tileset.TabIndex = 0;
+            this.pictureBox_tileset.TabStop = false;
+            this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
+            // 
+            // pictureBox_level
+            // 
+            this.pictureBox_level.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_level.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_level.ErrorImage = null;
+            this.pictureBox_level.InitialImage = null;
+            this.pictureBox_level.Location = new System.Drawing.Point(265, 3);
+            this.pictureBox_level.Name = "pictureBox_level";
+            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox_level.TabIndex = 1;
+            this.pictureBox_level.TabStop = false;
+            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.numericUpDown_levelSelector);
+            this.panel2.Location = new System.Drawing.Point(656, 97);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(128, 26);
+            this.panel2.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label3.Location = new System.Drawing.Point(3, 4);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Level:";
+            // 
+            // numericUpDown_levelSelector
+            // 
+            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(46, 2);
+            this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            0});
+            this.numericUpDown_levelSelector.Name = "numericUpDown_levelSelector";
+            this.numericUpDown_levelSelector.Size = new System.Drawing.Size(53, 20);
+            this.numericUpDown_levelSelector.TabIndex = 1;
+            this.numericUpDown_levelSelector.ValueChanged += new System.EventHandler(this.numericUpDown_levelSelector_ValueChanged);
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.flowLayoutPanel2);
+            this.panel5.Controls.Add(this.pictureBox_tile);
+            this.panel5.Controls.Add(this.label2);
+            this.panel5.Location = new System.Drawing.Point(4, 31);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(176, 92);
+            this.panel5.TabIndex = 5;
             // 
             // flowLayoutPanel2
             // 
@@ -147,6 +204,7 @@
             this.checkBox_priority.TabIndex = 2;
             this.checkBox_priority.Text = "Draw over objects";
             this.checkBox_priority.UseVisualStyleBackColor = true;
+            this.checkBox_priority.CheckedChanged += new System.EventHandler(this.checkBox_priority_CheckedChanged);
             // 
             // panel4
             // 
@@ -186,37 +244,26 @@
             0});
             this.numericUpDown_tilePalette.ValueChanged += new System.EventHandler(this.numericUpDown_tilePalette_ValueChanged);
             // 
-            // panel2
+            // pictureBox_tile
             // 
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.numericUpDown_levelSelector);
-            this.panel2.Location = new System.Drawing.Point(656, 97);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(128, 26);
-            this.panel2.TabIndex = 3;
+            this.pictureBox_tile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox_tile.ErrorImage = null;
+            this.pictureBox_tile.InitialImage = null;
+            this.pictureBox_tile.Location = new System.Drawing.Point(8, 31);
+            this.pictureBox_tile.Name = "pictureBox_tile";
+            this.pictureBox_tile.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox_tile.TabIndex = 0;
+            this.pictureBox_tile.TabStop = false;
             // 
-            // label3
+            // label2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.label3.Location = new System.Drawing.Point(3, 4);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Level:";
-            // 
-            // numericUpDown_levelSelector
-            // 
-            this.numericUpDown_levelSelector.Location = new System.Drawing.Point(46, 2);
-            this.numericUpDown_levelSelector.Maximum = new decimal(new int[] {
-            63,
-            0,
-            0,
-            0});
-            this.numericUpDown_levelSelector.Name = "numericUpDown_levelSelector";
-            this.numericUpDown_levelSelector.Size = new System.Drawing.Size(53, 20);
-            this.numericUpDown_levelSelector.TabIndex = 1;
-            this.numericUpDown_levelSelector.ValueChanged += new System.EventHandler(this.numericUpDown_levelSelector_ValueChanged);
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 24);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Tile:";
             // 
             // MainMenu
             // 
@@ -269,52 +316,6 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.flowLayoutPanel2);
-            this.panel5.Controls.Add(this.pictureBox_tile);
-            this.panel5.Controls.Add(this.label2);
-            this.panel5.Location = new System.Drawing.Point(4, 31);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(176, 92);
-            this.panel5.TabIndex = 5;
-            // 
-            // pictureBox_level
-            // 
-            this.pictureBox_level.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox_level.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_level.ErrorImage = null;
-            this.pictureBox_level.InitialImage = null;
-            this.pictureBox_level.Location = new System.Drawing.Point(265, 3);
-            this.pictureBox_level.Name = "pictureBox_level";
-            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
-            this.pictureBox_level.TabIndex = 1;
-            this.pictureBox_level.TabStop = false;
-            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
-            // 
-            // pictureBox_tileset
-            // 
-            this.pictureBox_tileset.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_tileset.ErrorImage = null;
-            this.pictureBox_tileset.InitialImage = null;
-            this.pictureBox_tileset.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox_tileset.Name = "pictureBox_tileset";
-            this.pictureBox_tileset.Size = new System.Drawing.Size(256, 512);
-            this.pictureBox_tileset.TabIndex = 0;
-            this.pictureBox_tileset.TabStop = false;
-            this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_tileset);
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_level);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 125);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(780, 519);
-            this.flowLayoutPanel1.TabIndex = 6;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -329,22 +330,22 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_levelSelector)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
