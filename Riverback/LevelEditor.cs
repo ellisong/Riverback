@@ -71,21 +71,11 @@ namespace Riverback
             levelBank.palettes = banks[index].palettes;
         }
 
-        public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
+        public void setTileInTilemap(int tileNum, TilemapTile tile)
         {
             if (tileNum < Level.LEVEL_TILE_AMOUNT) {
-                TilemapTile tile = this.Level.Tilemap[tileNum];
-                if (tileValue < this.TileOffset) {
-                    tile.Bank = 0;
-                    tile.Tile = (byte)tileValue;
-                } else {
-                    tile.Bank = 1;
-                    tile.Tile = (byte)(tileValue - this.LevelBank.TileOffset);
-                }
-                tile.VFlip = vflip;
-                tile.HFlip = hflip;
-                tile.Priority = priority;
-                tile.Palette = palette;
+                this.Level.Tilemap[tileNum].Tile = tile.Tile;
+                this.Level.Tilemap[tileNum].Property = tile.Property;
             }
         }
     }

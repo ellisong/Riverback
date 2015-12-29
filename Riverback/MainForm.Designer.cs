@@ -54,6 +54,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.button_deselect = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
@@ -72,6 +73,7 @@
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.button_deselect);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.panel5);
@@ -116,7 +118,9 @@
             this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
             this.pictureBox_level.TabIndex = 1;
             this.pictureBox_level.TabStop = false;
-            this.pictureBox_level.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseClick);
+            this.pictureBox_level.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseDown);
+            this.pictureBox_level.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseMove);
+            this.pictureBox_level.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseUp);
             // 
             // panel2
             // 
@@ -316,6 +320,16 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
+            // button_deselect
+            // 
+            this.button_deselect.Location = new System.Drawing.Point(183, 102);
+            this.button_deselect.Name = "button_deselect";
+            this.button_deselect.Size = new System.Drawing.Size(61, 21);
+            this.button_deselect.TabIndex = 7;
+            this.button_deselect.Text = "Deselect";
+            this.button_deselect.UseVisualStyleBackColor = true;
+            this.button_deselect.Click += new System.EventHandler(this.button_deselect_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,5 +391,6 @@
         private System.Windows.Forms.PictureBox pictureBox_tileset;
         private System.Windows.Forms.PictureBox pictureBox_level;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button button_deselect;
     }
 }

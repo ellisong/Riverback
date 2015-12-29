@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="TileDrawer.cs" />
     <Compile Include="TileEditor.cs" />
+    <Compile Include="TileSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Palette.cs" />

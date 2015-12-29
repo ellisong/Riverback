@@ -106,6 +106,17 @@ namespace Riverback
             }
         }
 
+        public TilemapTile()
+        {
+
+        }
+
+        public TilemapTile(TilemapTile tile)
+        {
+            this.Tile = tile.Tile;
+            this.Property = tile.Property;
+        }
+
         public void setTileAndBankValue(int tileOffset, int value)
         {
             if (value < tileOffset) {

@@ -21,8 +21,8 @@ namespace Riverback
 
         
 
-        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber, 
-                                            byte paletteNumber, bool hflip, bool vflip, float scale = 1.0f)
+        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber,
+                                            byte paletteNumber, bool vflip, bool hflip, float scale = 1.0f)
         {
             Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
             if ((hflip) && (vflip))
