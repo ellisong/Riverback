@@ -66,7 +66,7 @@ namespace Riverback
                     byte tileValue = tile.Tile;
                     tileNum += 1;
                     if ((tileValue != 0) || (tile.Bank != 0)) {
-                        Image tileImg = levelBank.getTileImage(tileValue + (tile.Bank * 256), 
+                        Image tileImg = levelBank.getTileImage((tile.Bank * 256) + tileValue, 
                                                                (byte)(level.PaletteIndex[tile.Palette] - 1));
                         if ((tile.HFlip) && (tile.VFlip))
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);

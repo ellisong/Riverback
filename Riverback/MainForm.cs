@@ -119,13 +119,16 @@ namespace Riverback
                     currentTilesetTile = tileNum;
                     updateImage_Tile();
                 }
+                //Debug
+                System.Console.WriteLine("currentTilesetTile: " + tileNum);
             }
         }
 
         private TilemapTile getCurrentTilesetTileAsTilemapTile()
         {
             TilemapTile tile = new TilemapTile();
-            tile.setTileAndBankValue(levelEditor.TileOffset, currentTilesetTile);
+            tile.Bank = (byte)(currentTilesetTile / 256);
+            tile.Tile = (byte)(currentTilesetTile % 256);
             tile.VFlip = checkBox_vflip.Checked;
             tile.HFlip = checkBox_hflip.Checked;
             tile.Priority = checkBox_priority.Checked;
@@ -150,13 +153,16 @@ namespace Riverback
                 foreach (var item in tileList) {
                     placementCoords.X = tileCoords.X + item.tileCoords.X;
                     placementCoords.Y = tileCoords.Y + item.tileCoords.Y;
-                    int tileNum = CoordinateConverter.getTileNumberFromTileCoords(placementCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                    if ((item.tile.Tile != 0) || (item.tile.Bank != 0)) {
-                        levelEditor.setTileInTilemap(tileNum, item.tile);
-                    } else {
-                        if (tilemapTileSelector.Selected == false) {
-                            TilemapTile tile = new TilemapTile();
-                            levelEditor.setTileInTilemap(tileNum, tile);
+                    if ((placementCoords.X < TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH) && (placementCoords.Y < TileDrawer.LEVEL_CANVAS_TILEAMOUNT_HEIGHT)) {
+                        int tileNum = CoordinateConverter.getTileNumberFromTileCoords(placementCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        int tileValue = item.tile.Tile + (item.tile.Bank * 256);
+                        if (tileValue > 0) {
+                            levelEditor.setTileInTilemap(tileNum, tileValue, item.tile.VFlip, item.tile.HFlip, item.tile.Priority, item.tile.Palette);
+                        } else {
+                            if (tilemapTileSelector.Selected == false) {
+                                TilemapTile tile = new TilemapTile();
+                                levelEditor.setTileInTilemap(tileNum, tileValue, item.tile.VFlip, item.tile.HFlip, item.tile.Priority, item.tile.Palette);
+                            }
                         }
                     }
                 }
@@ -191,7 +197,7 @@ namespace Riverback
                                 bankTileNum = (item.tile.Bank * 256) + item.tile.Tile;
                             else
                                 bankTileNum = currentTilesetTile;
-                                
+
                             TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y, 
                                                         bankTileNum, bankPaletteNumber, item.tile.VFlip, item.tile.HFlip);
                         } else {
@@ -276,6 +282,12 @@ namespace Riverback
         {
             if (e.Button == MouseButtons.Left) {
                 tilemapTileSelector.selectStart(new Point(e.X, e.Y));
+                //Debug
+                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                TilemapTile tile = levelEditor.Level.Tilemap[tileNum];
+                System.Console.WriteLine("#: " + tileNum + "    tile: " + tile.Tile);
+                System.Console.WriteLine("bank: " + tile.Bank + "    palette: " + tile.Palette);
+                System.Console.WriteLine("hflip: " + tile.HFlip + "    vflip: " + tile.VFlip + "    priority: " + tile.Priority);
             } else if (e.Button == MouseButtons.Right) {
                 Point mouseCoords = new Point(e.X, e.Y);
                 updateTilesInLevelEditor(mouseCoords);

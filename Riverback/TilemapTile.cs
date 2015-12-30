@@ -117,17 +117,6 @@ namespace Riverback
             this.Property = tile.Property;
         }
 
-        public void setTileAndBankValue(int tileOffset, int value)
-        {
-            if (value < tileOffset) {
-                this.Bank = 0;
-                this.Tile = (byte)value;
-            } else {
-                this.Bank = 1;
-                this.Tile = (byte)(value - tileOffset);
-            }
-        }
-
         public void setTileFromLevelData(byte[] leveldata, int tileNumber)
         {
             this.Tile = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2)];
