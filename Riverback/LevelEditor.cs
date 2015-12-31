@@ -84,9 +84,6 @@ namespace Riverback
                 //}
                 tile.Bank = (byte)(tileValue / 256);
                 tile.Tile = (byte)(tileValue % 256);
-                Console.WriteLine("setTile\tvalue: " + tileValue);
-                Console.WriteLine("setTile\ttile: " + tile.Tile);
-                Console.WriteLine("setTile\tbank: " + tile.Bank);
                 tile.VFlip = vflip;
                 tile.HFlip = hflip;
                 tile.Priority = priority;

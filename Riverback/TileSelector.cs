@@ -38,7 +38,6 @@ namespace Riverback
 
         public void selectStart(Point mouseCoords, int tileScale = 1)
         {
-            System.Console.WriteLine("selectStart");
             if (isSelecting == false) {
                 tileCoordsStart = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, tileScale);
                 tileCoords.X = UNUSED_COORD_NUMBER + 1;
@@ -47,13 +46,11 @@ namespace Riverback
                 tileCoords.Height = UNUSED_COORD_NUMBER;
                 isSelecting = true;
                 selected = false;
-                System.Console.WriteLine("--- selectStart");
             }
         }
 
         public void selectEnd(Point mouseCoords, int tileScale = 1)
         {
-            System.Console.WriteLine("selectEnd");
             if (isSelecting == true) {
                 Point tileCoordsEnd = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, tileScale);
                 Point topLeft = new Point(Math.Min(tileCoordsStart.X, tileCoordsEnd.X), Math.Min(tileCoordsStart.Y, tileCoordsEnd.Y));
@@ -64,7 +61,6 @@ namespace Riverback
                 tileCoords.Height = bottomRight.Y - topLeft.Y;
                 isSelecting = false;
                 selected = true;
-                System.Console.WriteLine("--- selectEnd");
             }
         }
 
@@ -72,12 +68,10 @@ namespace Riverback
         {
             isSelecting = false;
             selected = false;
-            System.Console.WriteLine("clearSelection");
         }
 
         public List<TileSelection<T>> getTilesFromSelection(T[] tilemap, int tileAmountWidth)
         {
-            System.Console.WriteLine("getTilesFromSelection");
             var selectedTiles = new List<TileSelection<T>>();
             Point tempCoord = new Point();
             for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {
@@ -88,7 +82,6 @@ namespace Riverback
                     selectedTiles.Add(new TileSelection<T>(new Point(x - tileCoords.X, y - tileCoords.Y), tilemap[tileNumber]));
                 }
             }
-            System.Console.WriteLine(selectedTiles.Count);
             return selectedTiles;
         }
     }

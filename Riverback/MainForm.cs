@@ -119,8 +119,6 @@ namespace Riverback
                     currentTilesetTile = tileNum;
                     updateImage_Tile();
                 }
-                //Debug
-                System.Console.WriteLine("currentTilesetTile: " + tileNum);
             }
         }
 
@@ -136,18 +134,23 @@ namespace Riverback
             return tile;
         }
 
+        private List<TileSelection<TilemapTile>> getSelectedTiles()
+        {
+            List<TileSelection<TilemapTile>> tileList;
+            if (tilemapTileSelector.Selected) {
+                tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+            } else {
+                tileList = new List<TileSelection<TilemapTile>>();
+                TilemapTile item = getCurrentTilesetTileAsTilemapTile();
+                tileList.Add(new TileSelection<TilemapTile>(new Point(0, 0), item));
+            }
+            return tileList;
+        }
+
         private void updateTilesInLevelEditor(Point mouseCoords)
         {
             if (levelEditor.Level != null) {
-                List<TileSelection<TilemapTile>> tileList;
-                if (tilemapTileSelector.Selected) {
-                    tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                } else {
-                    tileList = new List<TileSelection<TilemapTile>>();
-                    TilemapTile item = getCurrentTilesetTileAsTilemapTile();
-                    tileList.Add(new TileSelection<TilemapTile>(new Point(0, 0), item));
-                }
-
+                var tileList = getSelectedTiles();
                 Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 Point placementCoords = new Point();
                 foreach (var item in tileList) {
@@ -172,16 +175,7 @@ namespace Riverback
         private void drawTilesInLevelEditor(Point mouseCoords)
         {
             if (levelEditor.LevelBank != null) {
-                List<TileSelection<TilemapTile>> tileList;
-
-                if (tilemapTileSelector.Selected) {
-                    tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                } else {
-                    tileList = new List<TileSelection<TilemapTile>>();
-                    TilemapTile item = getCurrentTilesetTileAsTilemapTile();
-                    tileList.Add(new TileSelection<TilemapTile>(new Point(0, 0), item));
-                }
-
+                var tileList = getSelectedTiles();
                 Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 Point invalidateBottomRightPoint = new Point();
                 using (Graphics g = Graphics.FromImage(bitmapLevel)) {
@@ -197,7 +191,6 @@ namespace Riverback
                                 bankTileNum = (item.tile.Bank * 256) + item.tile.Tile;
                             else
                                 bankTileNum = currentTilesetTile;
-
                             TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y, 
                                                         bankTileNum, bankPaletteNumber, item.tile.VFlip, item.tile.HFlip);
                         } else {
@@ -282,12 +275,6 @@ namespace Riverback
         {
             if (e.Button == MouseButtons.Left) {
                 tilemapTileSelector.selectStart(new Point(e.X, e.Y));
-                //Debug
-                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                TilemapTile tile = levelEditor.Level.Tilemap[tileNum];
-                System.Console.WriteLine("#: " + tileNum + "    tile: " + tile.Tile);
-                System.Console.WriteLine("bank: " + tile.Bank + "    palette: " + tile.Palette);
-                System.Console.WriteLine("hflip: " + tile.HFlip + "    vflip: " + tile.VFlip + "    priority: " + tile.Priority);
             } else if (e.Button == MouseButtons.Right) {
                 Point mouseCoords = new Point(e.X, e.Y);
                 updateTilesInLevelEditor(mouseCoords);
