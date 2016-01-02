@@ -60,6 +60,8 @@ namespace Riverback
                     byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
                     romdata = RomWriter.expandRom(openedData);
                     if (romdata != null) {
+                        tilemapTileSelector.clearSelection();
+                        lastLevelTileSelected = -1;
                         openLevel();
                         isLevelLoaded = true;
                     }
@@ -94,6 +96,8 @@ namespace Riverback
             if (romdata != null) {
                 if (isLevelLoaded) {
                     isLevelLoaded = false;
+                    tilemapTileSelector.clearSelection();
+                    lastLevelTileSelected = -1;
                     openLevel();
                     isLevelLoaded = true;
                 }
