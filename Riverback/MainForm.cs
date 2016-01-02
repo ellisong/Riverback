@@ -14,8 +14,10 @@ namespace Riverback
 {
     public partial class MainForm : Form
     {
-        private readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
-        private readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
+        private static readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
+        private static readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
+        private static readonly System.Drawing.Color highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
+        private static readonly System.Drawing.Brush highlightBrush = new System.Drawing.SolidBrush(highlightColor);
         public const float TILE_SELECTOR_SCALE = 4.0f;
         public const int TILEMAP_SCALE_INT = 2;
         public const float TILEMAP_SCALE = 2.0f;
@@ -60,8 +62,7 @@ namespace Riverback
                     byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
                     romdata = RomWriter.expandRom(openedData);
                     if (romdata != null) {
-                        tilemapTileSelector.clearSelection();
-                        lastLevelTileSelected = -1;
+                        deselectTiles();
                         openLevel();
                         isLevelLoaded = true;
                     }
@@ -96,8 +97,7 @@ namespace Riverback
             if (romdata != null) {
                 if (isLevelLoaded) {
                     isLevelLoaded = false;
-                    tilemapTileSelector.clearSelection();
-                    lastLevelTileSelected = -1;
+                    deselectTiles();
                     openLevel();
                     isLevelLoaded = true;
                 }
@@ -119,6 +119,9 @@ namespace Riverback
                 Point mouseCoords = new Point(e.X, e.Y);
                 int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, TILEMAP_SCALE_INT);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                    }
                     currentTilesetTile = tileNum;
                     updateImage_Tile();
                 }
@@ -187,7 +190,7 @@ namespace Riverback
             }
         }
 
-        private void drawTilesInLevelEditor(Point mouseCoords)
+        private void drawTilesInLevelEditor(Point mouseCoords, bool clearEmptyTiles = false)
         {
             if (levelEditor.LevelBank != null) {
                 var tileList = getSelectedTiles();
@@ -206,12 +209,12 @@ namespace Riverback
                                 bankTileNum = (item.tile.Bank * 256) + item.tile.Tile;
                             else
                                 bankTileNum = currentTilesetTile;
+                            TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
                             TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y, 
                                                         bankTileNum, bankPaletteNumber, item.tile.VFlip, item.tile.HFlip);
                         } else {
-                            if (tilemapTileSelector.Selected == false) {
+                            if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
                                 TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
-                            }
                         }
                         if (invalidateBottomRightPoint.X < alignedCoords.X)
                             invalidateBottomRightPoint.X = alignedCoords.X;
@@ -225,6 +228,28 @@ namespace Riverback
                     pictureBox_level.Invalidate(new Rectangle(tileCoords.X, tileCoords.Y, width, height));
                 }
             }
+        }
+
+        private void highlightSelectedTilesInLevelEditor()
+        {
+            if (tilemapTileSelector.Selected) {
+                using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+                    Rectangle rect = CoordinateConverter.getMouseCoordsFromRectangleTileCoords(tilemapTileSelector.TileCoords);
+                    drawTilesInLevelEditor(new Point(rect.X, rect.Y), true);
+                    g.FillRectangle(highlightBrush, rect);
+                }
+            }
+        }
+
+        private void deselectTiles()
+        {
+            if (tilemapTileSelector.Selected) {
+                Point mouseCoords = CoordinateConverter.getMouseCoordsFromTileCoords(new Point(tilemapTileSelector.TileCoords.X,
+                                                                                                       tilemapTileSelector.TileCoords.Y));
+                drawTilesInLevelEditor(mouseCoords, true);
+            }
+            tilemapTileSelector.clearSelection();
+            lastLevelTileSelected = -1;
         }
 
         private void updateImage_Tileset()
@@ -265,12 +290,6 @@ namespace Riverback
             }
         }
 
-        private void invalidateTile(Control control, Point tileCoords, int scale = 1)
-        {
-            Rectangle rc = new Rectangle(tileCoords.X, tileCoords.Y, GraphicBank.TILE_WIDTH * scale, GraphicBank.TILE_HEIGHT * scale);
-            control.Invalidate(rc);
-        }
-
         private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
         {
             if (isLevelLoaded)
@@ -292,6 +311,9 @@ namespace Riverback
         {
             if (isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                    }
                     tilemapTileSelector.selectStart(new Point(e.X, e.Y));
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
@@ -299,13 +321,15 @@ namespace Riverback
                     updateTilesInLevelEditor(mouseCoords);
                     isLevelLoaded = true;
                     drawTilesInLevelEditor(mouseCoords);
+                    highlightSelectedTilesInLevelEditor();
                     if (tilemapTileSelector.Selected == false) {
                         int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
                         lastLevelTileSelected = tileNum;
                     }
                 } else if (e.Button == MouseButtons.Middle) {
-                    tilemapTileSelector.clearSelection();
-                    lastLevelTileSelected = -1;
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                    }
                 }
             }
         }
@@ -335,6 +359,7 @@ namespace Riverback
             if (isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
                     tilemapTileSelector.selectEnd(new Point(e.X, e.Y));
+                    highlightSelectedTilesInLevelEditor();
                 }
             }
         }
@@ -342,8 +367,9 @@ namespace Riverback
         private void button_deselect_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
-                tilemapTileSelector.clearSelection();
-                lastLevelTileSelected = -1;
+                if (tilemapTileSelector.Selected) {
+                    deselectTiles();
+                }
             }
         }
     }

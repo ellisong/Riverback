@@ -44,5 +44,15 @@ namespace Riverback
             tileCoords.Y = tileNumber / tileAmountWidth;
             return tileCoords;
         }
+
+        public static Rectangle getMouseCoordsFromRectangleTileCoords(Rectangle rect, int scale = 1)
+        {
+            Rectangle mouseCoords = new Rectangle();
+            mouseCoords.X = rect.X * GraphicBank.TILE_WIDTH * scale;
+            mouseCoords.Y = rect.Y * GraphicBank.TILE_HEIGHT * scale;
+            mouseCoords.Width = (rect.Width + 1) * GraphicBank.TILE_WIDTH * scale;
+            mouseCoords.Height = (rect.Height + 1) * GraphicBank.TILE_HEIGHT * scale;
+            return mouseCoords;
+        }
     }
 }
