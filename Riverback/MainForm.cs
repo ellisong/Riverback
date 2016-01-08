@@ -18,9 +18,9 @@ namespace Riverback
         private static readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
         private static readonly System.Drawing.Color highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
         private static readonly System.Drawing.Brush highlightBrush = new System.Drawing.SolidBrush(highlightColor);
-        public const float TILE_SELECTOR_SCALE = 4.0f;
-        public const int TILEMAP_SCALE_INT = 2;
-        public const float TILEMAP_SCALE = 2.0f;
+        private const float TILE_SELECTOR_SCALE = 4.0f;
+        private const int TILEMAP_SCALE_INT = 2;
+        private const float TILEMAP_SCALE = 2.0f;
 
         private LevelEditor levelEditor;
         private bool isLevelLoaded;
@@ -72,14 +72,43 @@ namespace Riverback
 
         private void MainMenu_SaveLevel_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-                string fileName;
-                if ((fileName = saveFileDialog.FileName) != "") {
-                    if (isLevelLoaded) {
+            if (isLevelLoaded) {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                    string fileName;
+                    if ((fileName = saveFileDialog.FileName) != "") {
                         isLevelLoaded = false;
                         RomWriter writer = new RomWriter(romdata);
                         writer.writeLevel(levelEditor.Level);
                         File.WriteAllBytes(fileName, romdata);
+                        isLevelLoaded = true;
+                    }
+                }
+            }
+        }
+
+        private void savePhysmapdebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                    string fileName;
+                    if ((fileName = saveFileDialog.FileName) != "") {
+                        isLevelLoaded = false;
+                        File.WriteAllBytes(fileName, levelEditor.Level.Physmap);
+                        isLevelLoaded = true;
+                    }
+                }
+            }
+        }
+
+        private void writePhysmapdebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                    if (openFileDialog.CheckFileExists) {
+                        isLevelLoaded = false;
+                        byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
+                        Array.ConstrainedCopy(openedData, 0, levelEditor.Level.Physmap, 0, Level.LEVEL_TILE_AMOUNT);
+                        deselectTiles();
                         isLevelLoaded = true;
                     }
                 }
@@ -124,6 +153,92 @@ namespace Riverback
                     }
                     currentTilesetTile = tileNum;
                     updateImage_Tile();
+                }
+            }
+        }
+
+        private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isLevelLoaded)
+                updateImage_Tile();
+        }
+
+        private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isLevelLoaded)
+                updateImage_Tile();
+        }
+
+        private void checkBox_priority_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox_level_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (e.Button == MouseButtons.Left) {
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                    }
+                    tilemapTileSelector.selectStart(new Point(e.X, e.Y));
+                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    string str = String.Format("0x{0:X}", levelEditor.Level.Physmap[tileNum]);
+                    label_prop.Text = str;
+                } else if (e.Button == MouseButtons.Right) {
+                    Point mouseCoords = new Point(e.X, e.Y);
+                    isLevelLoaded = false;
+                    updateTilesInLevelEditor(mouseCoords);
+                    isLevelLoaded = true;
+                    drawTilesInLevelEditor(mouseCoords);
+                    highlightSelectedTilesInLevelEditor();
+                    if (tilemapTileSelector.Selected == false) {
+                        int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        lastLevelTileSelected = tileNum;
+                    }
+                } else if (e.Button == MouseButtons.Middle) {
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                    }
+                }
+            }
+        }
+
+        private void pictureBox_level_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (e.Button == MouseButtons.Left) {
+                    Point mouseCoords = new Point(e.X, e.Y);
+                    // Do rectangle drawing here
+                } else if (e.Button == MouseButtons.Right) {
+                    Point mouseCoords = new Point(e.X, e.Y);
+                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    if ((tileNum != lastLevelTileSelected) && (tilemapTileSelector.Selected == false)) {
+                        isLevelLoaded = false;
+                        updateTilesInLevelEditor(mouseCoords);
+                        isLevelLoaded = true;
+                        drawTilesInLevelEditor(mouseCoords);
+                        lastLevelTileSelected = tileNum;
+                    }
+                }
+            }
+        }
+
+        private void pictureBox_level_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (e.Button == MouseButtons.Left) {
+                    tilemapTileSelector.selectEnd(new Point(e.X, e.Y));
+                    highlightSelectedTilesInLevelEditor();
+                }
+            }
+        }
+
+        private void button_deselect_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                if (tilemapTileSelector.Selected) {
+                    deselectTiles();
                 }
             }
         }
@@ -210,7 +325,7 @@ namespace Riverback
                             else
                                 bankTileNum = currentTilesetTile;
                             TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
-                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y, 
+                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y,
                                                         bankTileNum, bankPaletteNumber, item.tile.VFlip, item.tile.HFlip);
                         } else {
                             if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
@@ -286,89 +401,6 @@ namespace Riverback
                     g.Clear(fillColor);
                     TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank);
                     pictureBox_level.Invalidate();
-                }
-            }
-        }
-
-        private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
-        {
-            if (isLevelLoaded)
-                updateImage_Tile();
-        }
-
-        private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
-        {
-            if (isLevelLoaded)
-                updateImage_Tile();
-        }
-
-        private void checkBox_priority_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox_level_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (isLevelLoaded) {
-                if (e.Button == MouseButtons.Left) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
-                    }
-                    tilemapTileSelector.selectStart(new Point(e.X, e.Y));
-                } else if (e.Button == MouseButtons.Right) {
-                    Point mouseCoords = new Point(e.X, e.Y);
-                    isLevelLoaded = false;
-                    updateTilesInLevelEditor(mouseCoords);
-                    isLevelLoaded = true;
-                    drawTilesInLevelEditor(mouseCoords);
-                    highlightSelectedTilesInLevelEditor();
-                    if (tilemapTileSelector.Selected == false) {
-                        int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                        lastLevelTileSelected = tileNum;
-                    }
-                } else if (e.Button == MouseButtons.Middle) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
-                    }
-                }
-            }
-        }
-
-        private void pictureBox_level_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isLevelLoaded) {
-                if (e.Button == MouseButtons.Left) {
-                    Point mouseCoords = new Point(e.X, e.Y);
-                    // Do rectangle drawing here
-                } else if (e.Button == MouseButtons.Right) {
-                    Point mouseCoords = new Point(e.X, e.Y);
-                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                    if ((tileNum != lastLevelTileSelected) && (tilemapTileSelector.Selected == false)) {
-                        isLevelLoaded = false;
-                        updateTilesInLevelEditor(mouseCoords);
-                        isLevelLoaded = true;
-                        drawTilesInLevelEditor(mouseCoords);
-                        lastLevelTileSelected = tileNum;
-                    }
-                }
-            }
-        }
-
-        private void pictureBox_level_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (isLevelLoaded) {
-                if (e.Button == MouseButtons.Left) {
-                    tilemapTileSelector.selectEnd(new Point(e.X, e.Y));
-                    highlightSelectedTilesInLevelEditor();
-                }
-            }
-        }
-
-        private void button_deselect_Click(object sender, EventArgs e)
-        {
-            if (isLevelLoaded) {
-                if (tilemapTileSelector.Selected) {
-                    deselectTiles();
                 }
             }
         }

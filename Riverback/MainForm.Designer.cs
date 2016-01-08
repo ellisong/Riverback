@@ -31,6 +31,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_prop = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button_deselect = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
@@ -54,7 +57,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.button_deselect = new System.Windows.Forms.Button();
+            this.savePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
@@ -73,6 +77,8 @@
             // 
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.label_prop);
+            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.button_deselect);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
             this.panel1.Controls.Add(this.panel2);
@@ -83,6 +89,36 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(790, 651);
             this.panel1.TabIndex = 1;
+            // 
+            // label_prop
+            // 
+            this.label_prop.AutoSize = true;
+            this.label_prop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
+            this.label_prop.Location = new System.Drawing.Point(317, 36);
+            this.label_prop.Name = "label_prop";
+            this.label_prop.Size = new System.Drawing.Size(39, 29);
+            this.label_prop.TabIndex = 9;
+            this.label_prop.Text = "0x";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
+            this.label4.Location = new System.Drawing.Point(187, 34);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 29);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Phys prop:";
+            // 
+            // button_deselect
+            // 
+            this.button_deselect.Location = new System.Drawing.Point(183, 102);
+            this.button_deselect.Name = "button_deselect";
+            this.button_deselect.Size = new System.Drawing.Size(61, 21);
+            this.button_deselect.TabIndex = 7;
+            this.button_deselect.Text = "Deselect";
+            this.button_deselect.UseVisualStyleBackColor = true;
+            this.button_deselect.Click += new System.EventHandler(this.button_deselect_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -285,6 +321,8 @@
             this.MainMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu_File_Open,
             this.saveLevelToolStripMenuItem,
+            this.savePhysmapdebuggingToolStripMenuItem,
+            this.writePhysmapdebuggingToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.MainMenu_File.Name = "MainMenu_File";
             this.MainMenu_File.Size = new System.Drawing.Size(37, 20);
@@ -293,21 +331,21 @@
             // MainMenu_File_Open
             // 
             this.MainMenu_File_Open.Name = "MainMenu_File_Open";
-            this.MainMenu_File_Open.Size = new System.Drawing.Size(133, 22);
+            this.MainMenu_File_Open.Size = new System.Drawing.Size(219, 22);
             this.MainMenu_File_Open.Text = "Open ROM";
             this.MainMenu_File_Open.Click += new System.EventHandler(this.MainMenu_FileOpen_Click);
             // 
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.saveLevelToolStripMenuItem.Text = "Save Level";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
@@ -320,15 +358,19 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // button_deselect
+            // savePhysmapdebuggingToolStripMenuItem
             // 
-            this.button_deselect.Location = new System.Drawing.Point(183, 102);
-            this.button_deselect.Name = "button_deselect";
-            this.button_deselect.Size = new System.Drawing.Size(61, 21);
-            this.button_deselect.TabIndex = 7;
-            this.button_deselect.Text = "Deselect";
-            this.button_deselect.UseVisualStyleBackColor = true;
-            this.button_deselect.Click += new System.EventHandler(this.button_deselect_Click);
+            this.savePhysmapdebuggingToolStripMenuItem.Name = "savePhysmapdebuggingToolStripMenuItem";
+            this.savePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.savePhysmapdebuggingToolStripMenuItem.Text = "Save Physmap (debugging)";
+            this.savePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.savePhysmapdebuggingToolStripMenuItem_Click);
+            // 
+            // writePhysmapdebuggingToolStripMenuItem
+            // 
+            this.writePhysmapdebuggingToolStripMenuItem.Name = "writePhysmapdebuggingToolStripMenuItem";
+            this.writePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.writePhysmapdebuggingToolStripMenuItem.Text = "Write physmap (debugging)";
+            this.writePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.writePhysmapdebuggingToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -392,5 +434,9 @@
         private System.Windows.Forms.PictureBox pictureBox_level;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button button_deselect;
+        private System.Windows.Forms.Label label_prop;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem savePhysmapdebuggingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem writePhysmapdebuggingToolStripMenuItem;
     }
 }

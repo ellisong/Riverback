@@ -130,6 +130,21 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\physmap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\physmap_bytes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gridtile16.png" />
+    <Resource Include="Resources\gridtile512x256.png" />
+    <Resource Include="Resources\gridtile8.png" />
+    <Resource Include="Resources\physmap_bytes2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\physmap2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
