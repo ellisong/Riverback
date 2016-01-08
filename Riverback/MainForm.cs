@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace Riverback
 {
@@ -182,9 +183,6 @@ namespace Riverback
                         deselectTiles();
                     }
                     tilemapTileSelector.selectStart(new Point(e.X, e.Y));
-                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
-                    string str = String.Format("0x{0:X}", levelEditor.Level.Physmap[tileNum]);
-                    label_prop.Text = str;
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
                     isLevelLoaded = false;
@@ -365,6 +363,13 @@ namespace Riverback
             }
             tilemapTileSelector.clearSelection();
             lastLevelTileSelected = -1;
+        }
+
+        private Bitmap getImageFromResources(string filename)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream imgStream = assembly.GetManifestResourceStream("Riverback." + filename);
+            return new Bitmap(imgStream);
         }
 
         private void updateImage_Tileset()

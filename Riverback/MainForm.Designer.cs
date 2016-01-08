@@ -30,9 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label_prop = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.mainPanel = new System.Windows.Forms.Panel();
             this.button_deselect = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
@@ -54,12 +52,25 @@
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.savePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.writePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1.SuspendLayout();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
+            this.pictureBox_scratchboard = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox_physmap_show = new System.Windows.Forms.CheckBox();
+            this.checkBox_field_show = new System.Windows.Forms.CheckBox();
+            this.checkBox_bytes = new System.Windows.Forms.CheckBox();
+            this.checkBox_grid_show = new System.Windows.Forms.CheckBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.radioButton_field_edit = new System.Windows.Forms.RadioButton();
+            this.radioButton_physmap_edit = new System.Windows.Forms.RadioButton();
+            this.mainPanel.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
@@ -71,52 +82,40 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
             this.MainMenu.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // mainPanel
             // 
-            this.panel1.AutoSize = true;
-            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.Controls.Add(this.label_prop);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.button_deselect);
-            this.panel1.Controls.Add(this.flowLayoutPanel1);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.MainMenu);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(790, 651);
-            this.panel1.TabIndex = 1;
-            // 
-            // label_prop
-            // 
-            this.label_prop.AutoSize = true;
-            this.label_prop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
-            this.label_prop.Location = new System.Drawing.Point(317, 36);
-            this.label_prop.Name = "label_prop";
-            this.label_prop.Size = new System.Drawing.Size(39, 29);
-            this.label_prop.TabIndex = 9;
-            this.label_prop.Text = "0x";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
-            this.label4.Location = new System.Drawing.Point(187, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 29);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Phys prop:";
+            this.mainPanel.AutoSize = true;
+            this.mainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mainPanel.Controls.Add(this.groupBox2);
+            this.mainPanel.Controls.Add(this.groupBox1);
+            this.mainPanel.Controls.Add(this.flowLayoutPanel3);
+            this.mainPanel.Controls.Add(this.button_deselect);
+            this.mainPanel.Controls.Add(this.flowLayoutPanel1);
+            this.mainPanel.Controls.Add(this.panel2);
+            this.mainPanel.Controls.Add(this.panel5);
+            this.mainPanel.Controls.Add(this.MainMenu);
+            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPanel.Location = new System.Drawing.Point(0, 0);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(790, 953);
+            this.mainPanel.TabIndex = 1;
             // 
             // button_deselect
             // 
-            this.button_deselect.Location = new System.Drawing.Point(183, 102);
+            this.button_deselect.Location = new System.Drawing.Point(327, 48);
             this.button_deselect.Name = "button_deselect";
-            this.button_deselect.Size = new System.Drawing.Size(61, 21);
+            this.button_deselect.Size = new System.Drawing.Size(98, 21);
             this.button_deselect.TabIndex = 7;
-            this.button_deselect.Text = "Deselect";
+            this.button_deselect.Text = "Deselect Tiles";
             this.button_deselect.UseVisualStyleBackColor = true;
             this.button_deselect.Click += new System.EventHandler(this.button_deselect_Click);
             // 
@@ -331,21 +330,35 @@
             // MainMenu_File_Open
             // 
             this.MainMenu_File_Open.Name = "MainMenu_File_Open";
-            this.MainMenu_File_Open.Size = new System.Drawing.Size(219, 22);
+            this.MainMenu_File_Open.Size = new System.Drawing.Size(223, 22);
             this.MainMenu_File_Open.Text = "Open ROM";
             this.MainMenu_File_Open.Click += new System.EventHandler(this.MainMenu_FileOpen_Click);
             // 
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.saveLevelToolStripMenuItem.Text = "Save Level";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
+            // 
+            // savePhysmapdebuggingToolStripMenuItem
+            // 
+            this.savePhysmapdebuggingToolStripMenuItem.Name = "savePhysmapdebuggingToolStripMenuItem";
+            this.savePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.savePhysmapdebuggingToolStripMenuItem.Text = "Save Physmap (debugging)";
+            this.savePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.savePhysmapdebuggingToolStripMenuItem_Click);
+            // 
+            // writePhysmapdebuggingToolStripMenuItem
+            // 
+            this.writePhysmapdebuggingToolStripMenuItem.Name = "writePhysmapdebuggingToolStripMenuItem";
+            this.writePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.writePhysmapdebuggingToolStripMenuItem.Text = "Write physmap (debugging)";
+            this.writePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.writePhysmapdebuggingToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
@@ -358,19 +371,153 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // savePhysmapdebuggingToolStripMenuItem
+            // flowLayoutPanel3
             // 
-            this.savePhysmapdebuggingToolStripMenuItem.Name = "savePhysmapdebuggingToolStripMenuItem";
-            this.savePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.savePhysmapdebuggingToolStripMenuItem.Text = "Save Physmap (debugging)";
-            this.savePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.savePhysmapdebuggingToolStripMenuItem_Click);
+            this.flowLayoutPanel3.AutoSize = true;
+            this.flowLayoutPanel3.Controls.Add(this.pictureBox_phystiles);
+            this.flowLayoutPanel3.Controls.Add(this.pictureBox_scratchboard);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(4, 643);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(780, 262);
+            this.flowLayoutPanel3.TabIndex = 10;
             // 
-            // writePhysmapdebuggingToolStripMenuItem
+            // pictureBox_phystiles
             // 
-            this.writePhysmapdebuggingToolStripMenuItem.Name = "writePhysmapdebuggingToolStripMenuItem";
-            this.writePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.writePhysmapdebuggingToolStripMenuItem.Text = "Write physmap (debugging)";
-            this.writePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.writePhysmapdebuggingToolStripMenuItem_Click);
+            this.pictureBox_phystiles.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox_phystiles.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_phystiles.ErrorImage = null;
+            this.pictureBox_phystiles.InitialImage = null;
+            this.pictureBox_phystiles.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_phystiles.Name = "pictureBox_phystiles";
+            this.pictureBox_phystiles.Size = new System.Drawing.Size(256, 256);
+            this.pictureBox_phystiles.TabIndex = 0;
+            this.pictureBox_phystiles.TabStop = false;
+            // 
+            // pictureBox_scratchboard
+            // 
+            this.pictureBox_scratchboard.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_scratchboard.ErrorImage = null;
+            this.pictureBox_scratchboard.InitialImage = null;
+            this.pictureBox_scratchboard.Location = new System.Drawing.Point(265, 3);
+            this.pictureBox_scratchboard.Name = "pictureBox_scratchboard";
+            this.pictureBox_scratchboard.Size = new System.Drawing.Size(512, 256);
+            this.pictureBox_scratchboard.TabIndex = 1;
+            this.pictureBox_scratchboard.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.flowLayoutPanel4);
+            this.groupBox1.Location = new System.Drawing.Point(184, 80);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(244, 42);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Show";
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.AutoSize = true;
+            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_field_show);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_physmap_show);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_bytes);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_grid_show);
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(238, 23);
+            this.flowLayoutPanel4.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.flowLayoutPanel5);
+            this.groupBox2.Location = new System.Drawing.Point(184, 31);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(137, 43);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Edit";
+            // 
+            // checkBox_physmap_show
+            // 
+            this.checkBox_physmap_show.AutoSize = true;
+            this.checkBox_physmap_show.Checked = true;
+            this.checkBox_physmap_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_physmap_show.Location = new System.Drawing.Point(57, 3);
+            this.checkBox_physmap_show.Name = "checkBox_physmap_show";
+            this.checkBox_physmap_show.Size = new System.Drawing.Size(69, 17);
+            this.checkBox_physmap_show.TabIndex = 0;
+            this.checkBox_physmap_show.Text = "Physmap";
+            this.checkBox_physmap_show.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_field_show
+            // 
+            this.checkBox_field_show.AutoSize = true;
+            this.checkBox_field_show.Checked = true;
+            this.checkBox_field_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_field_show.Location = new System.Drawing.Point(3, 3);
+            this.checkBox_field_show.Name = "checkBox_field_show";
+            this.checkBox_field_show.Size = new System.Drawing.Size(48, 17);
+            this.checkBox_field_show.TabIndex = 1;
+            this.checkBox_field_show.Text = "Field";
+            this.checkBox_field_show.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_bytes
+            // 
+            this.checkBox_bytes.AutoSize = true;
+            this.checkBox_bytes.Location = new System.Drawing.Point(132, 3);
+            this.checkBox_bytes.Name = "checkBox_bytes";
+            this.checkBox_bytes.Size = new System.Drawing.Size(52, 17);
+            this.checkBox_bytes.TabIndex = 2;
+            this.checkBox_bytes.Text = "Bytes";
+            this.checkBox_bytes.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_grid_show
+            // 
+            this.checkBox_grid_show.AutoSize = true;
+            this.checkBox_grid_show.Checked = true;
+            this.checkBox_grid_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_grid_show.Location = new System.Drawing.Point(190, 3);
+            this.checkBox_grid_show.Name = "checkBox_grid_show";
+            this.checkBox_grid_show.Size = new System.Drawing.Size(45, 17);
+            this.checkBox_grid_show.TabIndex = 3;
+            this.checkBox_grid_show.Text = "Grid";
+            this.checkBox_grid_show.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.AutoSize = true;
+            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel5.Controls.Add(this.radioButton_field_edit);
+            this.flowLayoutPanel5.Controls.Add(this.radioButton_physmap_edit);
+            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(131, 24);
+            this.flowLayoutPanel5.TabIndex = 0;
+            // 
+            // radioButton_field_edit
+            // 
+            this.radioButton_field_edit.AutoSize = true;
+            this.radioButton_field_edit.Checked = true;
+            this.radioButton_field_edit.Location = new System.Drawing.Point(3, 3);
+            this.radioButton_field_edit.Name = "radioButton_field_edit";
+            this.radioButton_field_edit.Size = new System.Drawing.Size(47, 17);
+            this.radioButton_field_edit.TabIndex = 0;
+            this.radioButton_field_edit.TabStop = true;
+            this.radioButton_field_edit.Text = "Field";
+            this.radioButton_field_edit.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_physmap_edit
+            // 
+            this.radioButton_physmap_edit.AutoSize = true;
+            this.radioButton_physmap_edit.Location = new System.Drawing.Point(56, 3);
+            this.radioButton_physmap_edit.Name = "radioButton_physmap_edit";
+            this.radioButton_physmap_edit.Size = new System.Drawing.Size(68, 17);
+            this.radioButton_physmap_edit.TabIndex = 1;
+            this.radioButton_physmap_edit.TabStop = true;
+            this.radioButton_physmap_edit.Text = "Physmap";
+            this.radioButton_physmap_edit.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -378,14 +525,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(790, 651);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(790, 953);
+            this.Controls.Add(this.mainPanel);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
             this.Text = "Riverback";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
@@ -402,6 +549,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -409,7 +567,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.PictureBox pictureBox_tile;
         private System.Windows.Forms.Label label1;
@@ -434,9 +592,20 @@
         private System.Windows.Forms.PictureBox pictureBox_level;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button button_deselect;
-        private System.Windows.Forms.Label label_prop;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem savePhysmapdebuggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writePhysmapdebuggingToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.PictureBox pictureBox_phystiles;
+        private System.Windows.Forms.PictureBox pictureBox_scratchboard;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.CheckBox checkBox_field_show;
+        private System.Windows.Forms.CheckBox checkBox_physmap_show;
+        private System.Windows.Forms.CheckBox checkBox_bytes;
+        private System.Windows.Forms.CheckBox checkBox_grid_show;
+        private System.Windows.Forms.RadioButton radioButton_field_edit;
+        private System.Windows.Forms.RadioButton radioButton_physmap_edit;
     }
 }
