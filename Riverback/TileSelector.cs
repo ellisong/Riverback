@@ -39,7 +39,7 @@ namespace Riverback
         public void selectStart(Point mouseCoords, int tileScale = 1)
         {
             if (isSelecting == false) {
-                tileCoordsStart = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, tileScale);
+                tileCoordsStart = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
                 tileCoords.X = UNUSED_COORD_NUMBER + 1;
                 tileCoords.Y = UNUSED_COORD_NUMBER + 1;
                 tileCoords.Width = UNUSED_COORD_NUMBER;
@@ -52,9 +52,11 @@ namespace Riverback
         public void selectEnd(Point mouseCoords, int tileScale = 1)
         {
             if (isSelecting == true) {
-                Point tileCoordsEnd = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, tileScale);
-                Point topLeft = new Point(Math.Min(tileCoordsStart.X, tileCoordsEnd.X), Math.Min(tileCoordsStart.Y, tileCoordsEnd.Y));
-                Point bottomRight = new Point(Math.Max(tileCoordsStart.X, tileCoordsEnd.X), Math.Max(tileCoordsStart.Y, tileCoordsEnd.Y));
+                Point tileCoordsEnd = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
+                Point topLeft = new Point(Math.Min(tileCoordsStart.X, tileCoordsEnd.X), 
+                                          Math.Min(tileCoordsStart.Y, tileCoordsEnd.Y));
+                Point bottomRight = new Point(Math.Max(tileCoordsStart.X, tileCoordsEnd.X), 
+                                              Math.Max(tileCoordsStart.Y, tileCoordsEnd.Y));
                 tileCoords.X = topLeft.X;
                 tileCoords.Y = topLeft.Y;
                 tileCoords.Width = bottomRight.X - topLeft.X;
@@ -79,7 +81,8 @@ namespace Riverback
                     tempCoord.X = x;
                     tempCoord.Y = y;
                     int tileNumber = CoordinateConverter.getTileNumberFromTileCoords(tempCoord, tileAmountWidth);
-                    selectedTiles.Add(new TileSelection<T>(new Point(x - tileCoords.X, y - tileCoords.Y), tilemap[tileNumber]));
+                    selectedTiles.Add(new TileSelection<T>(new Point(x - tileCoords.X, y - tileCoords.Y), 
+                                                                     tilemap[tileNumber]));
                 }
             }
             return selectedTiles;

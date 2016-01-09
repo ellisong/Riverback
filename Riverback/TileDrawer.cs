@@ -4,8 +4,8 @@ namespace Riverback
 {
     public static class TileDrawer
     {
-        public const int LEVEL_CANVAS_TILEAMOUNT_WIDTH = 64;
-        public const int LEVEL_CANVAS_TILEAMOUNT_HEIGHT = 64;
+        public const int TILE_WIDTH = 8;
+        public const int LEVEL_TILEAMOUNT_WIDTH = 64;
         public const int LEVEL_TILESET_TILEAMOUNT_WIDTH = 16;
         // shift and & constants
         const int AND_TILE_VFLIP = 0x80;
@@ -21,8 +21,15 @@ namespace Riverback
 
         
 
-        public static void drawTileOnCanvas(GraphicBank bank, Graphics graphics, float x, float y, int bankTileNumber,
-                                            byte paletteNumber, bool vflip, bool hflip, float scale = 1.0f)
+        public static void drawTileOnCanvas(GraphicBank bank, 
+                                            Graphics graphics, 
+                                            float x, 
+                                            float y, 
+                                            int bankTileNumber,
+                                            byte paletteNumber, 
+                                            bool vflip, 
+                                            bool hflip, 
+                                            float scale = 1.0f)
         {
             Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
             if ((hflip) && (vflip))
@@ -34,39 +41,47 @@ namespace Riverback
             drawTileImageOnCanvas(tileImg, graphics, x, y, scale);
         }
 
-        private static void drawTileImageOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale = 1.0f)
+        private static void drawTileImageOnCanvas(Bitmap tileImg, 
+                                                  Graphics graphics, 
+                                                  float x, 
+                                                  float y, 
+                                                  float scale = 1.0f)
         {
-            RectangleF sourceRect = new RectangleF(0, 0, GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
-            RectangleF destinationRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale, GraphicBank.TILE_HEIGHT * scale);
+            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH, TILE_WIDTH);
+            RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
             graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawAllTilesOnCanvas(GraphicBank bank, Graphics graphics, int tileAmountWidth, byte paletteNumber, float scale = 1.0f)
+        public static void drawAllTilesOnCanvas(GraphicBank bank, 
+                                                Graphics graphics, 
+                                                int tileAmountWidth, 
+                                                byte paletteNumber, 
+                                                float scale = 1.0f)
         {
             for (int bankTileNumber = 0; bankTileNumber < bank.tileAmount; bankTileNumber++) {
                 Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber);
-                float x = GraphicBank.TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
-                float y = GraphicBank.TILE_HEIGHT * (bankTileNumber / tileAmountWidth) * scale;
+                float x = TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
+                float y = TILE_WIDTH * (bankTileNumber / tileAmountWidth) * scale;
                 drawTileImageOnCanvas(tileImg, graphics, x, y, scale);
             }
         }
 
         public static void clearTileOnCanvas(Graphics graphics, Brush fillBrush, float x, float y, float scale = 1.0f)
         {
-            RectangleF clearRect = new RectangleF(x, y, GraphicBank.TILE_WIDTH * scale, GraphicBank.TILE_HEIGHT * scale);
+            RectangleF clearRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
             graphics.FillRectangle(fillBrush, clearRect);
         }
 
         public static void drawLevelOnCanvas(Graphics graphics, Level level, GraphicBank levelBank)
         {
             int tileNum = 0;
-            for (int y = 0; y < LEVEL_CANVAS_TILEAMOUNT_HEIGHT; y++) {
-                for (int x = 0; x < LEVEL_CANVAS_TILEAMOUNT_WIDTH; x++) {
-                    TilemapTile tile = level.Tilemap[y * LEVEL_CANVAS_TILEAMOUNT_WIDTH + x];
+            for (int y = 0; y < LEVEL_TILEAMOUNT_WIDTH; y++) {
+                for (int x = 0; x < LEVEL_TILEAMOUNT_WIDTH; x++) {
+                    TilemapTile tile = level.Tilemap[y * LEVEL_TILEAMOUNT_WIDTH + x];
                     byte tileValue = tile.Tile;
                     tileNum += 1;
                     if ((tileValue != 0) || (tile.Bank != 0)) {
-                        Image tileImg = levelBank.getTileImage((tile.Bank * 256) + tileValue, 
+                        Image tileImg = levelBank.getTileImage(tile.Bank * 256 + tileValue, 
                                                                (byte)(level.PaletteIndex[tile.Palette] - 1));
                         if ((tile.HFlip) && (tile.VFlip))
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
@@ -74,8 +89,7 @@ namespace Riverback
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
                         else if (tile.VFlip)
                             tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                        graphics.DrawImage(tileImg, x * GraphicBank.TILE_WIDTH, y * GraphicBank.TILE_HEIGHT, 
-                                                     GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT);
+                        graphics.DrawImage(tileImg, x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
                     }
                 }
             }

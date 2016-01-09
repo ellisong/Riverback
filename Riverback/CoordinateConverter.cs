@@ -4,23 +4,23 @@ namespace Riverback
 {
     public static class CoordinateConverter
     {
-        public static int getTileNumberFromMouseCoords(Point mouseCoords, int tileAmountWidth, int scale = 1)
+        public static int getTileNumberFromMouseCoords(Point mouseCoords, int tileAmountWidth, int tileWidth)
         {
-            Point tileCoords = getTileCoordsFromMouseCoords(mouseCoords, scale);
+            Point tileCoords = getTileCoordsFromMouseCoords(mouseCoords, tileWidth);
             return getTileNumberFromTileCoords(tileCoords, tileAmountWidth);
         }
 
-        public static Point getMouseCoordsFromTileNumber(int tileNumber, int tileAmountWidth, int scale = 1)
+        public static Point getMouseCoordsFromTileNumber(int tileNumber, int tileAmountWidth, int tileWidth)
         {
             Point tileCoords = getTileCoordsFromTileNumber(tileNumber, tileAmountWidth);
-            return getMouseCoordsFromTileCoords(tileCoords, scale);
+            return getMouseCoordsFromTileCoords(tileCoords, tileWidth);
         }
 
-        public static Point getTileCoordsFromMouseCoords(Point mouseCoords, int scale = 1)
+        public static Point getTileCoordsFromMouseCoords(Point mouseCoords, int tileWidth)
         {
             Point tileCoords = new Point();
-            tileCoords.X = mouseCoords.X / (GraphicBank.TILE_WIDTH * scale);
-            tileCoords.Y = mouseCoords.Y / (GraphicBank.TILE_HEIGHT * scale);
+            tileCoords.X = mouseCoords.X / tileWidth;
+            tileCoords.Y = mouseCoords.Y / tileWidth;
             return tileCoords;
         }
 
@@ -29,11 +29,11 @@ namespace Riverback
             return (tileCoords.Y * tileAmountWidth + tileCoords.X);
         }
 
-        public static Point getMouseCoordsFromTileCoords(Point tileCoords, int scale = 1)
+        public static Point getMouseCoordsFromTileCoords(Point tileCoords, int tileWidth)
         {
             Point mouseCoords = new Point();
-            mouseCoords.X = tileCoords.X * (GraphicBank.TILE_WIDTH * scale);
-            mouseCoords.Y = tileCoords.Y * (GraphicBank.TILE_HEIGHT * scale);
+            mouseCoords.X = tileCoords.X * tileWidth;
+            mouseCoords.Y = tileCoords.Y * tileWidth;
             return mouseCoords;
         }
 
@@ -45,13 +45,13 @@ namespace Riverback
             return tileCoords;
         }
 
-        public static Rectangle getMouseCoordsFromRectangleTileCoords(Rectangle rect, int scale = 1)
+        public static Rectangle getMouseCoordsFromRectangleTileCoords(Rectangle rect, int tileWidth)
         {
             Rectangle mouseCoords = new Rectangle();
-            mouseCoords.X = rect.X * GraphicBank.TILE_WIDTH * scale;
-            mouseCoords.Y = rect.Y * GraphicBank.TILE_HEIGHT * scale;
-            mouseCoords.Width = (rect.Width + 1) * GraphicBank.TILE_WIDTH * scale;
-            mouseCoords.Height = (rect.Height + 1) * GraphicBank.TILE_HEIGHT * scale;
+            mouseCoords.X = rect.X * tileWidth;
+            mouseCoords.Y = rect.Y * tileWidth;
+            mouseCoords.Width = (rect.Width + 1) * tileWidth;
+            mouseCoords.Height = (rect.Height + 1) * tileWidth;
             return mouseCoords;
         }
     }

@@ -59,7 +59,10 @@ namespace Riverback
         private void writeLevelHeaderPointer(LevelHeader levelHeader, ushort pointer)
         {
             byte[] data = DataFormatter.convertRomPointerToUInt16Pointer(pointer);
-            Array.ConstrainedCopy(data, 0, romdata, levelHeader.headerPointerAddress, 
+            Array.ConstrainedCopy(data, 
+                                  0, 
+                                  romdata, 
+                                  levelHeader.headerPointerAddress, 
                                   LevelHeader.LEVEL_HEADER_POINTER_SIZE);
         }
 

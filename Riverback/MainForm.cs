@@ -15,10 +15,10 @@ namespace Riverback
 {
     public partial class MainForm : Form
     {
-        private static readonly System.Drawing.Color fillColor = System.Drawing.Color.DarkGray;
-        private static readonly System.Drawing.Brush fillBrush = System.Drawing.Brushes.DarkGray;
-        private static readonly System.Drawing.Color highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
-        private static readonly System.Drawing.Brush highlightBrush = new System.Drawing.SolidBrush(highlightColor);
+        private System.Drawing.Color fillColor;
+        private System.Drawing.Brush fillBrush;
+        private System.Drawing.Color highlightColor;
+        private System.Drawing.Brush highlightBrush;
         private const float TILE_SELECTOR_SCALE = 4.0f;
         private const int TILEMAP_SCALE_INT = 2;
         private const float TILEMAP_SCALE = 2.0f;
@@ -47,6 +47,11 @@ namespace Riverback
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            fillColor = System.Drawing.Color.DarkGray;
+            fillBrush = System.Drawing.Brushes.DarkGray;
+            highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
+            highlightBrush = new System.Drawing.SolidBrush(highlightColor);
+
             bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
             pictureBox_tileset.Image = bitmapTileset;
             bitmapTile = new Bitmap(pictureBox_tile.Width, pictureBox_tile.Height);
@@ -147,7 +152,9 @@ namespace Riverback
         {
             if (isLevelLoaded) {
                 Point mouseCoords = new Point(e.X, e.Y);
-                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, TILEMAP_SCALE_INT);
+                int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, 
+                                                                               TileDrawer.LEVEL_TILESET_TILEAMOUNT_WIDTH, 
+                                                                               TILEMAP_SCALE_INT * TileDrawer.TILE_WIDTH);
                 if (tileNum < levelEditor.LevelBank.tileAmount) {
                     if (tilemapTileSelector.Selected) {
                         deselectTiles();
@@ -191,7 +198,9 @@ namespace Riverback
                     drawTilesInLevelEditor(mouseCoords);
                     highlightSelectedTilesInLevelEditor();
                     if (tilemapTileSelector.Selected == false) {
-                        int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                        int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(new Point(e.X, e.Y), 
+                                                                                       TileDrawer.LEVEL_TILEAMOUNT_WIDTH,
+                                                                                       TileDrawer.TILE_WIDTH);
                         lastLevelTileSelected = tileNum;
                     }
                 } else if (e.Button == MouseButtons.Middle) {
@@ -210,7 +219,9 @@ namespace Riverback
                     // Do rectangle drawing here
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
-                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    int tileNum = CoordinateConverter.getTileNumberFromMouseCoords(mouseCoords, 
+                                                                                   TileDrawer.LEVEL_TILEAMOUNT_WIDTH, 
+                                                                                   TileDrawer.TILE_WIDTH);
                     if ((tileNum != lastLevelTileSelected) && (tilemapTileSelector.Selected == false)) {
                         isLevelLoaded = false;
                         updateTilesInLevelEditor(mouseCoords);
@@ -269,7 +280,8 @@ namespace Riverback
         {
             List<TileSelection<TilemapTile>> tileList;
             if (tilemapTileSelector.Selected) {
-                tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, 
+                                                                     TileDrawer.LEVEL_TILEAMOUNT_WIDTH);
             } else {
                 tileList = new List<TileSelection<TilemapTile>>();
                 TilemapTile item = getCurrentTilesetTileAsTilemapTile();
@@ -282,20 +294,32 @@ namespace Riverback
         {
             if (levelEditor.Level != null) {
                 var tileList = getSelectedTiles();
-                Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords);
+                Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
                 Point placementCoords = new Point();
                 foreach (var item in tileList) {
                     placementCoords.X = tileCoords.X + item.tileCoords.X;
                     placementCoords.Y = tileCoords.Y + item.tileCoords.Y;
-                    if ((placementCoords.X < TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH) && (placementCoords.Y < TileDrawer.LEVEL_CANVAS_TILEAMOUNT_HEIGHT)) {
-                        int tileNum = CoordinateConverter.getTileNumberFromTileCoords(placementCoords, TileDrawer.LEVEL_CANVAS_TILEAMOUNT_WIDTH);
+                    if ((placementCoords.X < TileDrawer.LEVEL_TILEAMOUNT_WIDTH) 
+                        && (placementCoords.Y < TileDrawer.LEVEL_TILEAMOUNT_WIDTH)) {
+                        int tileNum = CoordinateConverter.getTileNumberFromTileCoords(placementCoords, 
+                                                                                      TileDrawer.LEVEL_TILEAMOUNT_WIDTH);
                         int tileValue = item.tile.Tile + (item.tile.Bank * 256);
                         if (tileValue > 0) {
-                            levelEditor.setTileInTilemap(tileNum, tileValue, item.tile.VFlip, item.tile.HFlip, item.tile.Priority, item.tile.Palette);
+                            levelEditor.setTileInTilemap(tileNum, 
+                                                         tileValue, 
+                                                         item.tile.VFlip, 
+                                                         item.tile.HFlip, 
+                                                         item.tile.Priority, 
+                                                         item.tile.Palette);
                         } else {
                             if (tilemapTileSelector.Selected == false) {
                                 TilemapTile tile = new TilemapTile();
-                                levelEditor.setTileInTilemap(tileNum, tileValue, item.tile.VFlip, item.tile.HFlip, item.tile.Priority, item.tile.Palette);
+                                levelEditor.setTileInTilemap(tileNum, 
+                                                             tileValue, 
+                                                             item.tile.VFlip, 
+                                                             item.tile.HFlip, 
+                                                             item.tile.Priority, 
+                                                             item.tile.Palette);
                             }
                         }
                     }
@@ -307,14 +331,15 @@ namespace Riverback
         {
             if (levelEditor.LevelBank != null) {
                 var tileList = getSelectedTiles();
-                Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords);
+                Point tileCoords = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
                 Point invalidateBottomRightPoint = new Point();
                 using (Graphics g = Graphics.FromImage(bitmapLevel)) {
                     Point tempCoord = new Point();
                     foreach (var item in tileList) {
                         tempCoord.X = tileCoords.X + item.tileCoords.X;
                         tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                        Point alignedCoords = CoordinateConverter.getMouseCoordsFromTileCoords(tempCoord);
+                        Point alignedCoords = CoordinateConverter.getMouseCoordsFromTileCoords(tempCoord, 
+                                                                                               TileDrawer.TILE_WIDTH);
                         if ((item.tile.Tile != 0) || (item.tile.Bank != 0)) {
                             byte bankPaletteNumber = (byte)(levelEditor.Level.PaletteIndex[item.tile.Palette] - 1);
                             int bankTileNum;
@@ -323,8 +348,14 @@ namespace Riverback
                             else
                                 bankTileNum = currentTilesetTile;
                             TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
-                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, g, alignedCoords.X, alignedCoords.Y,
-                                                        bankTileNum, bankPaletteNumber, item.tile.VFlip, item.tile.HFlip);
+                            TileDrawer.drawTileOnCanvas(levelEditor.LevelBank, 
+                                                        g, 
+                                                        alignedCoords.X, 
+                                                        alignedCoords.Y,
+                                                        bankTileNum, 
+                                                        bankPaletteNumber, 
+                                                        item.tile.VFlip, 
+                                                        item.tile.HFlip);
                         } else {
                             if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
                                 TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
@@ -336,8 +367,8 @@ namespace Riverback
                     }
                 }
                 if ((invalidateBottomRightPoint.X > 0) && (invalidateBottomRightPoint.Y > 0)) {
-                    int width = invalidateBottomRightPoint.X - tileCoords.X + GraphicBank.TILE_WIDTH;
-                    int height = invalidateBottomRightPoint.Y - tileCoords.Y + GraphicBank.TILE_HEIGHT;
+                    int width = invalidateBottomRightPoint.X - tileCoords.X + TileDrawer.TILE_WIDTH;
+                    int height = invalidateBottomRightPoint.Y - tileCoords.Y + TileDrawer.TILE_WIDTH;
                     pictureBox_level.Invalidate(new Rectangle(tileCoords.X, tileCoords.Y, width, height));
                 }
             }
@@ -347,7 +378,8 @@ namespace Riverback
         {
             if (tilemapTileSelector.Selected) {
                 using (Graphics g = Graphics.FromImage(bitmapLevel)) {
-                    Rectangle rect = CoordinateConverter.getMouseCoordsFromRectangleTileCoords(tilemapTileSelector.TileCoords);
+                    Rectangle rect = CoordinateConverter.getMouseCoordsFromRectangleTileCoords(tilemapTileSelector.TileCoords, 
+                                                                                               TileDrawer.TILE_WIDTH);
                     drawTilesInLevelEditor(new Point(rect.X, rect.Y), true);
                     g.FillRectangle(highlightBrush, rect);
                 }
@@ -358,7 +390,8 @@ namespace Riverback
         {
             if (tilemapTileSelector.Selected) {
                 Point mouseCoords = CoordinateConverter.getMouseCoordsFromTileCoords(new Point(tilemapTileSelector.TileCoords.X,
-                                                                                                       tilemapTileSelector.TileCoords.Y));
+                                                                                               tilemapTileSelector.TileCoords.Y), 
+                                                                                     TileDrawer.TILE_WIDTH);
                 drawTilesInLevelEditor(mouseCoords, true);
             }
             tilemapTileSelector.clearSelection();

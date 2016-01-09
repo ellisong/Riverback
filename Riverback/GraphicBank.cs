@@ -22,8 +22,6 @@ namespace Riverback
 
     public class GraphicBank
     {
-        public const int TILE_WIDTH = 8;
-        public const int TILE_HEIGHT = 8;
         public const int PALETTE_AMOUNT = 15;
         public const int PALETTE_COLOR_AMOUNT = 16;
         private Color[] COLORS_HARDCODED_1 =
@@ -120,7 +118,7 @@ namespace Riverback
         public Bitmap getTileImage(int tileNumber, byte paletteNumber)
         {
             byte[] tiledata = getTileARGBarray(tileNumber, paletteNumber);
-            Bitmap img = new Bitmap(GraphicBank.TILE_WIDTH, GraphicBank.TILE_HEIGHT,
+            Bitmap img = new Bitmap(TileDrawer.TILE_WIDTH, TileDrawer.TILE_WIDTH,
                                     PixelFormat.Format32bppArgb);
             int pointer = 0;
             for (int y = 0; y < img.Height; y++) {
@@ -136,7 +134,7 @@ namespace Riverback
             //                                  ImageLockMode.WriteOnly, img.PixelFormat);
             //IntPtr pointer = imgData.Scan0;
             //System.Runtime.InteropServices.Marshal.Copy(tiledata, 0, pointer,
-            //                                            GraphicBank.TILE_WIDTH * GraphicBank.TILE_HEIGHT * 2);
+            //                                            TileDrawer.TILE_WIDTH * GraphicBank.TILE_HEIGHT * 2);
             //img.UnlockBits(imgData);
             return img;
         }

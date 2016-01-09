@@ -87,7 +87,9 @@ namespace Riverback
                     this.Property = (byte)(Property + (value << AND_TILE_PALETTE_SHIFT));
                 }
                 else
-                    throw new ArgumentOutOfRangeException("TilesetTile.Palette", value, "The argument for TilesetTile.Palette is out of range");
+                    throw new ArgumentOutOfRangeException("TilesetTile.Palette", 
+                                                          value, 
+                                                          "The argument for TilesetTile.Palette is out of range");
             }
         }
         
@@ -102,7 +104,9 @@ namespace Riverback
                     this.Property = (byte)(Property + (value << AND_TILE_BANK_SHIFT));
                 }
                 else
-                    throw new ArgumentOutOfRangeException("TilesetTile.Bank", value, "The argument for TilesetTile.Bank is out of range");
+                    throw new ArgumentOutOfRangeException("TilesetTile.Bank", 
+                                                          value, 
+                                                          "The argument for TilesetTile.Bank is out of range");
             }
         }
 

@@ -58,7 +58,11 @@ namespace Riverback
 
         public void setPaletteIndex(byte[] levelData)
         {
-            Array.ConstrainedCopy(levelData, LEVEL_TILE_AMOUNT * 3 + 2 + LEVEL_TILE_INDEX_SIZE, PaletteIndex, 2, LEVEL_PALETTE_INDEX_AMOUNT - 2);
+            Array.ConstrainedCopy(levelData, 
+                                  LEVEL_TILE_AMOUNT * 3 + 2 + LEVEL_TILE_INDEX_SIZE, 
+                                  PaletteIndex, 
+                                  2, 
+                                  LEVEL_PALETTE_INDEX_AMOUNT - 2);
             PaletteIndex[0] = 16;
             PaletteIndex[1] = 17;
         }
