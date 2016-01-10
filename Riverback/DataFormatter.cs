@@ -53,7 +53,7 @@ namespace Riverback
         {
             List<bool> bitList = new List<bool>();
             foreach (byte value in byteList) {
-                bool[] bits = DataFormatter.byteIntoBits(value);
+                bool[] bits = byteIntoBits(value);
                 if (leftToRight == false)
                     Array.Reverse(bits);
                 bitList.AddRange(bits);
@@ -80,8 +80,8 @@ namespace Riverback
         public static int readSnesPointerToRomPointer(byte[] data, int offset)
         {
             byte bank = data[offset + 2];
-            ushort pointer = DataFormatter.switchReadBytesIntoint16(data, offset);
-            return DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
+            ushort pointer = switchReadBytesIntoint16(data, offset);
+            return convertSnesPointerToRomPointer(bank, pointer);
         }
 
         public static byte[] convertRomPointerToSnesPointer(int pointer)

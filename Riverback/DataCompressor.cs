@@ -54,7 +54,7 @@ namespace Riverback
                 for (int pos = 0; pos < 16; pos++) {
                     if ((pointer + pos) < data.Length) {
                         front.Add(data[pointer + pos]);
-                        List<int> indexList = DataCompressor.getIndicesForSublistInList(behind, front);
+                        List<int> indexList = getIndicesForSublistInList(behind, front);
                         indexList.Sort();
                         indexList.Reverse();
                         if (indexList.Count > 0)
@@ -73,7 +73,7 @@ namespace Riverback
                             if (pointer + frontLengthCounter >= data.Length)
                                 break;
                             frontCandidate.Add(data[pointer + frontLengthCounter]);
-                            if (DataCompressor.checkSublistRepetitionInList(frontCandidate, behindCandidate)) {
+                            if (checkSublistRepetitionInList(frontCandidate, behindCandidate)) {
                                 frontLengthCounter += 1;
                             } else {
                                 break;
@@ -149,7 +149,7 @@ namespace Riverback
             for (int x = 0; x < 4; x++) {
                 compressedData.Add(0);
             }
-            DataCompressor.insertPosBytesIntoData(ref compressedData, posByteList);
+            insertPosBytesIntoData(ref compressedData, posByteList);
             return compressedData.ToArray();
         }
 

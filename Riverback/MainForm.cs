@@ -33,7 +33,7 @@ namespace Riverback
         private CoordinateConverter coordConverterLevel;
         private CoordinateConverter coordConverterTileset;
 
-        private TileSelector<TilemapTile> tilemapTileSelector;
+        private TileSelector tilemapTileSelector;
         private int currentTilesetTile;
         private int lastLevelTileSelected;
         private byte bankPaletteNum;
@@ -46,7 +46,7 @@ namespace Riverback
         {
             InitializeComponent();
             levelEditor = new LevelEditor();
-            tilemapTileSelector = new TileSelector<TilemapTile>();
+            tilemapTileSelector = new TileSelector();
             coordConverterLevel = new CoordinateConverter(LEVEL_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
             coordConverterTileset = new CoordinateConverter(LEVEL_TILESET_TILEAMOUNT_WIDTH, 
                                                             TILEMAP_SCALE_INT * TileDrawer.TILE_WIDTH);
@@ -200,7 +200,7 @@ namespace Riverback
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
                     isLevelLoaded = false;
-                    updateTilesInLevelEditor(mouseCoords);
+                    updateTilemapTilesInLevelEditor(mouseCoords);
                     isLevelLoaded = true;
                     drawTilesInLevelEditor(mouseCoords);
                     highlightSelectedTilesInLevelEditor();
@@ -227,7 +227,7 @@ namespace Riverback
                     int tileNum = coordConverterLevel.getTileNumberFromMouseCoords(mouseCoords);
                     if ((tileNum != lastLevelTileSelected) && (tilemapTileSelector.Selected == false)) {
                         isLevelLoaded = false;
-                        updateTilesInLevelEditor(mouseCoords);
+                        updateTilemapTilesInLevelEditor(mouseCoords);
                         isLevelLoaded = true;
                         drawTilesInLevelEditor(mouseCoords);
                         lastLevelTileSelected = tileNum;
@@ -292,7 +292,7 @@ namespace Riverback
             return tileList;
         }
 
-        private void updateTilesInLevelEditor(Point mouseCoords)
+        private void updateTilemapTilesInLevelEditor(Point mouseCoords)
         {
             if (levelEditor.Level != null) {
                 var tileList = getSelectedTiles();

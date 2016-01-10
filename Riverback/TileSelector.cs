@@ -19,7 +19,7 @@ namespace Riverback
         }
     }
 
-    public class TileSelector<T>
+    public class TileSelector
     {
         private const int UNUSED_COORD_NUMBER = -1;
         private Point tileCoordsStart;
@@ -76,10 +76,10 @@ namespace Riverback
             selected = false;
         }
 
-        public List<TileSelection<T>> getTilesFromSelection(T[] tilemap, int tileAmountWidth)
+        public List<TileSelection<TilemapTile>> getTilesFromSelection(TilemapTile[] tilemap, int tileAmountWidth)
         {
             coordConverter.TileAmountWidth = tileAmountWidth;
-            var selectedTiles = new List<TileSelection<T>>();
+            var selectedTiles = new List<TileSelection<TilemapTile>>();
             Point tempCoord = new Point();
             for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {
                 for (int x = tileCoords.X; x <= (tileCoords.X + tileCoords.Width); x++) {
@@ -87,7 +87,24 @@ namespace Riverback
                     tempCoord.Y = y;
                     int tileNumber = coordConverter.getTileNumberFromTileCoords(tempCoord);
                     Point point = new Point(x - tileCoords.X, y - tileCoords.Y);
-                    selectedTiles.Add(new TileSelection<T>(point, tilemap[tileNumber]));
+                    selectedTiles.Add(new TileSelection<TilemapTile>(point, tilemap[tileNumber]));
+                }
+            }
+            return selectedTiles;
+        }
+
+        public List<TileSelection<byte>> getTilesFromSelection(byte[] physmap, int tileAmountWidth)
+        {
+            coordConverter.TileAmountWidth = tileAmountWidth;
+            var selectedTiles = new List<TileSelection<byte>>();
+            Point tempCoord = new Point();
+            for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {
+                for (int x = tileCoords.X; x <= (tileCoords.X + tileCoords.Width); x++) {
+                    tempCoord.X = x;
+                    tempCoord.Y = y;
+                    int tileNumber = coordConverter.getTileNumberFromTileCoords(tempCoord);
+                    Point point = new Point(x - tileCoords.X, y - tileCoords.Y);
+                    selectedTiles.Add(new TileSelection<byte>(point, physmap[tileNumber]));
                 }
             }
             return selectedTiles;

@@ -37,11 +37,7 @@ namespace Riverback
             drawTileOnCanvas(tileImg, graphics, x, y, scale);
         }
 
-        private static void drawTileOnCanvas(Bitmap tileImg, 
-                                             Graphics graphics, 
-                                             float x, 
-                                             float y, 
-                                             float scale = 1.0f)
+        private static void drawTileOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale)
         {
             RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH, TILE_WIDTH);
             RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);

@@ -31,6 +31,18 @@
         private void InitializeComponent()
         {
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.radioButton_field_edit = new System.Windows.Forms.RadioButton();
+            this.radioButton_physmap_edit = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBox_field_show = new System.Windows.Forms.CheckBox();
+            this.checkBox_physmap_show = new System.Windows.Forms.CheckBox();
+            this.checkBox_bytes = new System.Windows.Forms.CheckBox();
+            this.checkBox_grid_show = new System.Windows.Forms.CheckBox();
+            this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
+            this.pictureBox_scratchboard = new System.Windows.Forms.PictureBox();
             this.button_deselect = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
@@ -57,20 +69,19 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
-            this.pictureBox_scratchboard = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox_physmap_show = new System.Windows.Forms.CheckBox();
-            this.checkBox_field_show = new System.Windows.Forms.CheckBox();
-            this.checkBox_bytes = new System.Windows.Forms.CheckBox();
-            this.checkBox_grid_show = new System.Windows.Forms.CheckBox();
-            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButton_field_edit = new System.Windows.Forms.RadioButton();
-            this.radioButton_physmap_edit = new System.Windows.Forms.RadioButton();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage_Tileset = new System.Windows.Forms.TabPage();
+            this.tabPage_Phystiles = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage_Level = new System.Windows.Forms.TabPage();
+            this.tabPage_Scratchboard = new System.Windows.Forms.TabPage();
             this.mainPanel.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
@@ -82,13 +93,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
             this.MainMenu.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.flowLayoutPanel4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.flowLayoutPanel5.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage_Tileset.SuspendLayout();
+            this.tabPage_Phystiles.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage_Level.SuspendLayout();
+            this.tabPage_Scratchboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainPanel
@@ -97,7 +107,6 @@
             this.mainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mainPanel.Controls.Add(this.groupBox2);
             this.mainPanel.Controls.Add(this.groupBox1);
-            this.mainPanel.Controls.Add(this.flowLayoutPanel3);
             this.mainPanel.Controls.Add(this.button_deselect);
             this.mainPanel.Controls.Add(this.flowLayoutPanel1);
             this.mainPanel.Controls.Add(this.panel2);
@@ -106,8 +115,145 @@
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(790, 953);
+            this.mainPanel.Size = new System.Drawing.Size(977, 953);
             this.mainPanel.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.flowLayoutPanel5);
+            this.groupBox2.Location = new System.Drawing.Point(184, 31);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(137, 43);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Edit";
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.AutoSize = true;
+            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel5.Controls.Add(this.radioButton_field_edit);
+            this.flowLayoutPanel5.Controls.Add(this.radioButton_physmap_edit);
+            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(131, 24);
+            this.flowLayoutPanel5.TabIndex = 0;
+            // 
+            // radioButton_field_edit
+            // 
+            this.radioButton_field_edit.AutoSize = true;
+            this.radioButton_field_edit.Checked = true;
+            this.radioButton_field_edit.Location = new System.Drawing.Point(3, 3);
+            this.radioButton_field_edit.Name = "radioButton_field_edit";
+            this.radioButton_field_edit.Size = new System.Drawing.Size(47, 17);
+            this.radioButton_field_edit.TabIndex = 0;
+            this.radioButton_field_edit.TabStop = true;
+            this.radioButton_field_edit.Text = "Field";
+            this.radioButton_field_edit.UseVisualStyleBackColor = true;
+            // 
+            // radioButton_physmap_edit
+            // 
+            this.radioButton_physmap_edit.AutoSize = true;
+            this.radioButton_physmap_edit.Location = new System.Drawing.Point(56, 3);
+            this.radioButton_physmap_edit.Name = "radioButton_physmap_edit";
+            this.radioButton_physmap_edit.Size = new System.Drawing.Size(68, 17);
+            this.radioButton_physmap_edit.TabIndex = 1;
+            this.radioButton_physmap_edit.TabStop = true;
+            this.radioButton_physmap_edit.Text = "Physmap";
+            this.radioButton_physmap_edit.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.flowLayoutPanel4);
+            this.groupBox1.Location = new System.Drawing.Point(184, 80);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(244, 42);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Show";
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.AutoSize = true;
+            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_field_show);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_physmap_show);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_bytes);
+            this.flowLayoutPanel4.Controls.Add(this.checkBox_grid_show);
+            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(238, 23);
+            this.flowLayoutPanel4.TabIndex = 0;
+            // 
+            // checkBox_field_show
+            // 
+            this.checkBox_field_show.AutoSize = true;
+            this.checkBox_field_show.Checked = true;
+            this.checkBox_field_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_field_show.Location = new System.Drawing.Point(3, 3);
+            this.checkBox_field_show.Name = "checkBox_field_show";
+            this.checkBox_field_show.Size = new System.Drawing.Size(48, 17);
+            this.checkBox_field_show.TabIndex = 1;
+            this.checkBox_field_show.Text = "Field";
+            this.checkBox_field_show.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_physmap_show
+            // 
+            this.checkBox_physmap_show.AutoSize = true;
+            this.checkBox_physmap_show.Checked = true;
+            this.checkBox_physmap_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_physmap_show.Location = new System.Drawing.Point(57, 3);
+            this.checkBox_physmap_show.Name = "checkBox_physmap_show";
+            this.checkBox_physmap_show.Size = new System.Drawing.Size(69, 17);
+            this.checkBox_physmap_show.TabIndex = 0;
+            this.checkBox_physmap_show.Text = "Physmap";
+            this.checkBox_physmap_show.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_bytes
+            // 
+            this.checkBox_bytes.AutoSize = true;
+            this.checkBox_bytes.Location = new System.Drawing.Point(132, 3);
+            this.checkBox_bytes.Name = "checkBox_bytes";
+            this.checkBox_bytes.Size = new System.Drawing.Size(52, 17);
+            this.checkBox_bytes.TabIndex = 2;
+            this.checkBox_bytes.Text = "Bytes";
+            this.checkBox_bytes.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_grid_show
+            // 
+            this.checkBox_grid_show.AutoSize = true;
+            this.checkBox_grid_show.Checked = true;
+            this.checkBox_grid_show.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_grid_show.Location = new System.Drawing.Point(190, 3);
+            this.checkBox_grid_show.Name = "checkBox_grid_show";
+            this.checkBox_grid_show.Size = new System.Drawing.Size(45, 17);
+            this.checkBox_grid_show.TabIndex = 3;
+            this.checkBox_grid_show.Text = "Grid";
+            this.checkBox_grid_show.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox_phystiles
+            // 
+            this.pictureBox_phystiles.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_phystiles.ErrorImage = null;
+            this.pictureBox_phystiles.InitialImage = null;
+            this.pictureBox_phystiles.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_phystiles.Name = "pictureBox_phystiles";
+            this.pictureBox_phystiles.Size = new System.Drawing.Size(256, 256);
+            this.pictureBox_phystiles.TabIndex = 0;
+            this.pictureBox_phystiles.TabStop = false;
+            // 
+            // pictureBox_scratchboard
+            // 
+            this.pictureBox_scratchboard.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_scratchboard.ErrorImage = null;
+            this.pictureBox_scratchboard.InitialImage = null;
+            this.pictureBox_scratchboard.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox_scratchboard.Name = "pictureBox_scratchboard";
+            this.pictureBox_scratchboard.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox_scratchboard.TabIndex = 1;
+            this.pictureBox_scratchboard.TabStop = false;
             // 
             // button_deselect
             // 
@@ -122,16 +268,15 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_tileset);
-            this.flowLayoutPanel1.Controls.Add(this.pictureBox_level);
+            this.flowLayoutPanel1.Controls.Add(this.tabControl1);
+            this.flowLayoutPanel1.Controls.Add(this.tabControl2);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 125);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(780, 519);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(808, 550);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // pictureBox_tileset
             // 
-            this.pictureBox_tileset.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox_tileset.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBox_tileset.ErrorImage = null;
             this.pictureBox_tileset.InitialImage = null;
@@ -144,11 +289,10 @@
             // 
             // pictureBox_level
             // 
-            this.pictureBox_level.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox_level.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBox_level.ErrorImage = null;
             this.pictureBox_level.InitialImage = null;
-            this.pictureBox_level.Location = new System.Drawing.Point(265, 3);
+            this.pictureBox_level.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_level.Name = "pictureBox_level";
             this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
             this.pictureBox_level.TabIndex = 1;
@@ -161,7 +305,7 @@
             // 
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.numericUpDown_levelSelector);
-            this.panel2.Location = new System.Drawing.Point(656, 97);
+            this.panel2.Location = new System.Drawing.Point(684, 96);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(128, 26);
             this.panel2.TabIndex = 3;
@@ -191,6 +335,7 @@
             // 
             // panel5
             // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.flowLayoutPanel2);
             this.panel5.Controls.Add(this.pictureBox_tile);
             this.panel5.Controls.Add(this.label2);
@@ -207,7 +352,7 @@
             this.flowLayoutPanel2.Controls.Add(this.checkBox_priority);
             this.flowLayoutPanel2.Controls.Add(this.panel4);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(46, 0);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(46, -1);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(130, 92);
             this.flowLayoutPanel2.TabIndex = 2;
@@ -311,7 +456,7 @@
             this.MainMenu_File});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(790, 24);
+            this.MainMenu.Size = new System.Drawing.Size(977, 24);
             this.MainMenu.TabIndex = 3;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -371,153 +516,69 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // flowLayoutPanel3
+            // tabControl1
             // 
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.Controls.Add(this.pictureBox_phystiles);
-            this.flowLayoutPanel3.Controls.Add(this.pictureBox_scratchboard);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(4, 643);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(780, 262);
-            this.flowLayoutPanel3.TabIndex = 10;
+            this.tabControl1.Controls.Add(this.tabPage_Tileset);
+            this.tabControl1.Controls.Add(this.tabPage_Phystiles);
+            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(270, 544);
+            this.tabControl1.TabIndex = 13;
             // 
-            // pictureBox_phystiles
+            // tabPage_Tileset
             // 
-            this.pictureBox_phystiles.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox_phystiles.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_phystiles.ErrorImage = null;
-            this.pictureBox_phystiles.InitialImage = null;
-            this.pictureBox_phystiles.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox_phystiles.Name = "pictureBox_phystiles";
-            this.pictureBox_phystiles.Size = new System.Drawing.Size(256, 256);
-            this.pictureBox_phystiles.TabIndex = 0;
-            this.pictureBox_phystiles.TabStop = false;
+            this.tabPage_Tileset.Controls.Add(this.pictureBox_tileset);
+            this.tabPage_Tileset.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Tileset.Name = "tabPage_Tileset";
+            this.tabPage_Tileset.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Tileset.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Tileset.TabIndex = 0;
+            this.tabPage_Tileset.Text = "Field Tiles";
+            this.tabPage_Tileset.UseVisualStyleBackColor = true;
             // 
-            // pictureBox_scratchboard
+            // tabPage_Phystiles
             // 
-            this.pictureBox_scratchboard.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_scratchboard.ErrorImage = null;
-            this.pictureBox_scratchboard.InitialImage = null;
-            this.pictureBox_scratchboard.Location = new System.Drawing.Point(265, 3);
-            this.pictureBox_scratchboard.Name = "pictureBox_scratchboard";
-            this.pictureBox_scratchboard.Size = new System.Drawing.Size(512, 256);
-            this.pictureBox_scratchboard.TabIndex = 1;
-            this.pictureBox_scratchboard.TabStop = false;
+            this.tabPage_Phystiles.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_Phystiles.Controls.Add(this.pictureBox_phystiles);
+            this.tabPage_Phystiles.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Phystiles.Name = "tabPage_Phystiles";
+            this.tabPage_Phystiles.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Phystiles.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Phystiles.TabIndex = 1;
+            this.tabPage_Phystiles.Text = "Physmap Tiles";
             // 
-            // groupBox1
+            // tabControl2
             // 
-            this.groupBox1.Controls.Add(this.flowLayoutPanel4);
-            this.groupBox1.Location = new System.Drawing.Point(184, 80);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(244, 42);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Show";
+            this.tabControl2.Controls.Add(this.tabPage_Level);
+            this.tabControl2.Controls.Add(this.tabPage_Scratchboard);
+            this.tabControl2.Location = new System.Drawing.Point(279, 3);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(526, 544);
+            this.tabControl2.TabIndex = 13;
             // 
-            // flowLayoutPanel4
+            // tabPage_Level
             // 
-            this.flowLayoutPanel4.AutoSize = true;
-            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel4.Controls.Add(this.checkBox_field_show);
-            this.flowLayoutPanel4.Controls.Add(this.checkBox_physmap_show);
-            this.flowLayoutPanel4.Controls.Add(this.checkBox_bytes);
-            this.flowLayoutPanel4.Controls.Add(this.checkBox_grid_show);
-            this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(238, 23);
-            this.flowLayoutPanel4.TabIndex = 0;
+            this.tabPage_Level.Controls.Add(this.pictureBox_level);
+            this.tabPage_Level.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Level.Name = "tabPage_Level";
+            this.tabPage_Level.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Level.Size = new System.Drawing.Size(518, 518);
+            this.tabPage_Level.TabIndex = 0;
+            this.tabPage_Level.Text = "Field Display";
+            this.tabPage_Level.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // tabPage_Scratchboard
             // 
-            this.groupBox2.Controls.Add(this.flowLayoutPanel5);
-            this.groupBox2.Location = new System.Drawing.Point(184, 31);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(137, 43);
-            this.groupBox2.TabIndex = 12;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Edit";
-            // 
-            // checkBox_physmap_show
-            // 
-            this.checkBox_physmap_show.AutoSize = true;
-            this.checkBox_physmap_show.Checked = true;
-            this.checkBox_physmap_show.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_physmap_show.Location = new System.Drawing.Point(57, 3);
-            this.checkBox_physmap_show.Name = "checkBox_physmap_show";
-            this.checkBox_physmap_show.Size = new System.Drawing.Size(69, 17);
-            this.checkBox_physmap_show.TabIndex = 0;
-            this.checkBox_physmap_show.Text = "Physmap";
-            this.checkBox_physmap_show.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_field_show
-            // 
-            this.checkBox_field_show.AutoSize = true;
-            this.checkBox_field_show.Checked = true;
-            this.checkBox_field_show.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_field_show.Location = new System.Drawing.Point(3, 3);
-            this.checkBox_field_show.Name = "checkBox_field_show";
-            this.checkBox_field_show.Size = new System.Drawing.Size(48, 17);
-            this.checkBox_field_show.TabIndex = 1;
-            this.checkBox_field_show.Text = "Field";
-            this.checkBox_field_show.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_bytes
-            // 
-            this.checkBox_bytes.AutoSize = true;
-            this.checkBox_bytes.Location = new System.Drawing.Point(132, 3);
-            this.checkBox_bytes.Name = "checkBox_bytes";
-            this.checkBox_bytes.Size = new System.Drawing.Size(52, 17);
-            this.checkBox_bytes.TabIndex = 2;
-            this.checkBox_bytes.Text = "Bytes";
-            this.checkBox_bytes.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_grid_show
-            // 
-            this.checkBox_grid_show.AutoSize = true;
-            this.checkBox_grid_show.Checked = true;
-            this.checkBox_grid_show.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_grid_show.Location = new System.Drawing.Point(190, 3);
-            this.checkBox_grid_show.Name = "checkBox_grid_show";
-            this.checkBox_grid_show.Size = new System.Drawing.Size(45, 17);
-            this.checkBox_grid_show.TabIndex = 3;
-            this.checkBox_grid_show.Text = "Grid";
-            this.checkBox_grid_show.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel5
-            // 
-            this.flowLayoutPanel5.AutoSize = true;
-            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel5.Controls.Add(this.radioButton_field_edit);
-            this.flowLayoutPanel5.Controls.Add(this.radioButton_physmap_edit);
-            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(131, 24);
-            this.flowLayoutPanel5.TabIndex = 0;
-            // 
-            // radioButton_field_edit
-            // 
-            this.radioButton_field_edit.AutoSize = true;
-            this.radioButton_field_edit.Checked = true;
-            this.radioButton_field_edit.Location = new System.Drawing.Point(3, 3);
-            this.radioButton_field_edit.Name = "radioButton_field_edit";
-            this.radioButton_field_edit.Size = new System.Drawing.Size(47, 17);
-            this.radioButton_field_edit.TabIndex = 0;
-            this.radioButton_field_edit.TabStop = true;
-            this.radioButton_field_edit.Text = "Field";
-            this.radioButton_field_edit.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_physmap_edit
-            // 
-            this.radioButton_physmap_edit.AutoSize = true;
-            this.radioButton_physmap_edit.Location = new System.Drawing.Point(56, 3);
-            this.radioButton_physmap_edit.Name = "radioButton_physmap_edit";
-            this.radioButton_physmap_edit.Size = new System.Drawing.Size(68, 17);
-            this.radioButton_physmap_edit.TabIndex = 1;
-            this.radioButton_physmap_edit.TabStop = true;
-            this.radioButton_physmap_edit.Text = "Physmap";
-            this.radioButton_physmap_edit.UseVisualStyleBackColor = true;
+            this.tabPage_Scratchboard.Controls.Add(this.pictureBox_scratchboard);
+            this.tabPage_Scratchboard.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Scratchboard.Name = "tabPage_Scratchboard";
+            this.tabPage_Scratchboard.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Scratchboard.Size = new System.Drawing.Size(518, 518);
+            this.tabPage_Scratchboard.TabIndex = 1;
+            this.tabPage_Scratchboard.Text = "Scratchboard";
+            this.tabPage_Scratchboard.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -525,7 +586,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(790, 953);
+            this.ClientSize = new System.Drawing.Size(977, 953);
             this.Controls.Add(this.mainPanel);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
@@ -533,6 +594,16 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainPanel.ResumeLayout(false);
             this.mainPanel.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
@@ -549,17 +620,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.flowLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.flowLayoutPanel4.ResumeLayout(false);
-            this.flowLayoutPanel4.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.flowLayoutPanel5.ResumeLayout(false);
-            this.flowLayoutPanel5.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage_Tileset.ResumeLayout(false);
+            this.tabPage_Phystiles.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage_Level.ResumeLayout(false);
+            this.tabPage_Scratchboard.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -594,7 +660,6 @@
         private System.Windows.Forms.Button button_deselect;
         private System.Windows.Forms.ToolStripMenuItem savePhysmapdebuggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writePhysmapdebuggingToolStripMenuItem;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.PictureBox pictureBox_phystiles;
         private System.Windows.Forms.PictureBox pictureBox_scratchboard;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -607,5 +672,11 @@
         private System.Windows.Forms.CheckBox checkBox_grid_show;
         private System.Windows.Forms.RadioButton radioButton_field_edit;
         private System.Windows.Forms.RadioButton radioButton_physmap_edit;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage_Tileset;
+        private System.Windows.Forms.TabPage tabPage_Phystiles;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage_Level;
+        private System.Windows.Forms.TabPage tabPage_Scratchboard;
     }
 }
