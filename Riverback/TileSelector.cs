@@ -23,6 +23,7 @@ namespace Riverback
     {
         private const int UNUSED_COORD_NUMBER = -1;
         private Point tileCoordsStart;
+        private CoordinateConverter coordConverter;
         private Rectangle tileCoords;
         public Rectangle TileCoords { get { return tileCoords; } }
         private bool isSelecting;
@@ -34,12 +35,14 @@ namespace Riverback
         {
             tileCoordsStart = new Point(UNUSED_COORD_NUMBER, UNUSED_COORD_NUMBER);
             tileCoords = new Rectangle();
+            coordConverter = new CoordinateConverter();
         }
 
-        public void selectStart(Point mouseCoords, int tileScale = 1)
+        public void selectStart(Point mouseCoords, int tileWidth, int tileScale = 1)
         {
             if (isSelecting == false) {
-                tileCoordsStart = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
+                coordConverter.TileWidth = tileWidth;
+                tileCoordsStart = coordConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 tileCoords.X = UNUSED_COORD_NUMBER + 1;
                 tileCoords.Y = UNUSED_COORD_NUMBER + 1;
                 tileCoords.Width = UNUSED_COORD_NUMBER;
@@ -49,10 +52,11 @@ namespace Riverback
             }
         }
 
-        public void selectEnd(Point mouseCoords, int tileScale = 1)
+        public void selectEnd(Point mouseCoords, int tileWidth, int tileScale = 1)
         {
             if (isSelecting == true) {
-                Point tileCoordsEnd = CoordinateConverter.getTileCoordsFromMouseCoords(mouseCoords, TileDrawer.TILE_WIDTH);
+                coordConverter.TileWidth = tileWidth;
+                Point tileCoordsEnd = coordConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 Point topLeft = new Point(Math.Min(tileCoordsStart.X, tileCoordsEnd.X), 
                                           Math.Min(tileCoordsStart.Y, tileCoordsEnd.Y));
                 Point bottomRight = new Point(Math.Max(tileCoordsStart.X, tileCoordsEnd.X), 
@@ -74,15 +78,16 @@ namespace Riverback
 
         public List<TileSelection<T>> getTilesFromSelection(T[] tilemap, int tileAmountWidth)
         {
+            coordConverter.TileAmountWidth = tileAmountWidth;
             var selectedTiles = new List<TileSelection<T>>();
             Point tempCoord = new Point();
             for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {
                 for (int x = tileCoords.X; x <= (tileCoords.X + tileCoords.Width); x++) {
                     tempCoord.X = x;
                     tempCoord.Y = y;
-                    int tileNumber = CoordinateConverter.getTileNumberFromTileCoords(tempCoord, tileAmountWidth);
-                    selectedTiles.Add(new TileSelection<T>(new Point(x - tileCoords.X, y - tileCoords.Y), 
-                                                                     tilemap[tileNumber]));
+                    int tileNumber = coordConverter.getTileNumberFromTileCoords(tempCoord);
+                    Point point = new Point(x - tileCoords.X, y - tileCoords.Y);
+                    selectedTiles.Add(new TileSelection<T>(point, tilemap[tileNumber]));
                 }
             }
             return selectedTiles;

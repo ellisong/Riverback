@@ -7,7 +7,7 @@ using Riverback;
 namespace Riverback_UnitTests
 {
     [TestClass]
-    public class DataFormatterTests
+    public sealed class DataFormatterTests
     {
         [TestMethod()]
         public void bitsIntoByte_ValidBitList_Calculated()

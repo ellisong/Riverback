@@ -115,11 +115,10 @@ namespace Riverback
             return TileEditor.getARGBarrayFromColoredLinearTile(coloredTileData);
         }
 
-        public Bitmap getTileImage(int tileNumber, byte paletteNumber)
+        public Bitmap getTileImage(int tileNumber, byte paletteNumber, int tileWidth)
         {
             byte[] tiledata = getTileARGBarray(tileNumber, paletteNumber);
-            Bitmap img = new Bitmap(TileDrawer.TILE_WIDTH, TileDrawer.TILE_WIDTH,
-                                    PixelFormat.Format32bppArgb);
+            Bitmap img = new Bitmap(tileWidth, tileWidth, PixelFormat.Format32bppArgb);
             int pointer = 0;
             for (int y = 0; y < img.Height; y++) {
                 for (int x = 0; x < img.Width; x++) {

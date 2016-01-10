@@ -2,56 +2,67 @@
 
 namespace Riverback
 {
-    public static class CoordinateConverter
+    public class CoordinateConverter
     {
-        public static int getTileNumberFromMouseCoords(Point mouseCoords, int tileAmountWidth, int tileWidth)
+        public int TileAmountWidth { get; set; }
+        public int TileWidth { get; set; }
+
+        public CoordinateConverter() {}
+
+        public CoordinateConverter(int tileAmountWidth, int tileWidth)
         {
-            Point tileCoords = getTileCoordsFromMouseCoords(mouseCoords, tileWidth);
-            return getTileNumberFromTileCoords(tileCoords, tileAmountWidth);
+            TileAmountWidth = tileAmountWidth;
+            TileWidth = tileWidth;
         }
 
-        public static Point getMouseCoordsFromTileNumber(int tileNumber, int tileAmountWidth, int tileWidth)
+        public int getTileNumberFromMouseCoords(Point mouseCoords)
         {
-            Point tileCoords = getTileCoordsFromTileNumber(tileNumber, tileAmountWidth);
-            return getMouseCoordsFromTileCoords(tileCoords, tileWidth);
+            Point tileCoords = getTileCoordsFromMouseCoords(mouseCoords);
+            return getTileNumberFromTileCoords(tileCoords);
         }
 
-        public static Point getTileCoordsFromMouseCoords(Point mouseCoords, int tileWidth)
+        public Point getMouseCoordsFromTileNumber(int tileNumber)
+        {
+            Point tileCoords = getTileCoordsFromTileNumber(tileNumber);
+            return getMouseCoordsFromTileCoords(tileCoords);
+        }
+
+        public Point getTileCoordsFromMouseCoords(Point mouseCoords)
         {
             Point tileCoords = new Point();
-            tileCoords.X = mouseCoords.X / tileWidth;
-            tileCoords.Y = mouseCoords.Y / tileWidth;
+            tileCoords.X = mouseCoords.X / TileWidth;
+            tileCoords.Y = mouseCoords.Y / TileWidth;
             return tileCoords;
         }
 
-        public static int getTileNumberFromTileCoords(Point tileCoords, int tileAmountWidth)
+        public int getTileNumberFromTileCoords(Point tileCoords)
         {
-            return (tileCoords.Y * tileAmountWidth + tileCoords.X);
+            return (tileCoords.Y * TileAmountWidth + tileCoords.X);
         }
 
-        public static Point getMouseCoordsFromTileCoords(Point tileCoords, int tileWidth)
+        public Point getMouseCoordsFromTileCoords(Point tileCoords)
         {
             Point mouseCoords = new Point();
-            mouseCoords.X = tileCoords.X * tileWidth;
-            mouseCoords.Y = tileCoords.Y * tileWidth;
+            mouseCoords.X = tileCoords.X * TileWidth;
+            mouseCoords.Y = tileCoords.Y * TileWidth;
             return mouseCoords;
         }
 
-        public static Point getTileCoordsFromTileNumber(int tileNumber, int tileAmountWidth)
+        public Point getTileCoordsFromTileNumber(int tileNumber)
         {
             Point tileCoords = new Point();
-            tileCoords.X = tileNumber % tileAmountWidth;
-            tileCoords.Y = tileNumber / tileAmountWidth;
+            tileCoords.X = tileNumber % TileAmountWidth;
+            tileCoords.Y = tileNumber / TileAmountWidth;
             return tileCoords;
         }
 
-        public static Rectangle getMouseCoordsFromRectangleTileCoords(Rectangle rect, int tileWidth)
+        public Rectangle getMouseCoordsFromRectCoords(Rectangle rect)
         {
             Rectangle mouseCoords = new Rectangle();
-            mouseCoords.X = rect.X * tileWidth;
-            mouseCoords.Y = rect.Y * tileWidth;
-            mouseCoords.Width = (rect.Width + 1) * tileWidth;
-            mouseCoords.Height = (rect.Height + 1) * tileWidth;
+            mouseCoords.X = rect.X * TileWidth;
+            mouseCoords.Y = rect.Y * TileWidth;
+            mouseCoords.Width = (rect.Width + 1) * TileWidth;
+            mouseCoords.Height = (rect.Height + 1) * TileWidth;
             return mouseCoords;
         }
     }

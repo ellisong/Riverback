@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Riverback.Tests
 {
     [TestClass()]
-    public class TileEditorTests
+    public sealed class TileEditorTests
     {
         [TestMethod()]
         public void convertPlanarTileToLinearTile_ValidParameters_ConvertedToLinearTile()
