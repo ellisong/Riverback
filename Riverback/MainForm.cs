@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
+using System.Resources;
 
 namespace Riverback
 {
@@ -41,6 +42,7 @@ namespace Riverback
         private Bitmap bitmapTileset;
         private Bitmap bitmapTile;
         private Bitmap bitmapLevel;
+        private Bitmap bitmapPhysmap;
 
         public MainForm()
         {
@@ -63,10 +65,11 @@ namespace Riverback
 
             bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
             pictureBox_tileset.Image = bitmapTileset;
-            bitmapTile = new Bitmap(pictureBox_tile.Width, pictureBox_tile.Height);
-            pictureBox_tile.Image = bitmapTile;
+            bitmapTile = new Bitmap(pictureBox_tilemaptile.Width, pictureBox_tilemaptile.Height);
+            pictureBox_tilemaptile.Image = bitmapTile;
             bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
             pictureBox_level.Image = bitmapLevel;
+            bitmapPhysmap = (Bitmap)Riverback.Properties.Resources.physmap2.Clone();
         }
 
         private void MainMenu_FileOpen_Click(object sender, EventArgs e)
@@ -153,7 +156,7 @@ namespace Riverback
             if (isLevelLoaded) {
                 bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
                 updateImage_Tileset();
-                updateImage_Tile();
+                updateImage_TilemapTile();
             }
         }
 
@@ -167,7 +170,7 @@ namespace Riverback
                         deselectTiles();
                     }
                     currentTilesetTile = tileNum;
-                    updateImage_Tile();
+                    updateImage_TilemapTile();
                 }
             }
         }
@@ -175,13 +178,13 @@ namespace Riverback
         private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
         {
             if (isLevelLoaded)
-                updateImage_Tile();
+                updateImage_TilemapTile();
         }
 
         private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
         {
             if (isLevelLoaded)
-                updateImage_Tile();
+                updateImage_TilemapTile();
         }
 
         private void checkBox_priority_CheckedChanged(object sender, EventArgs e)
@@ -263,7 +266,7 @@ namespace Riverback
             bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
             currentTilesetTile = 0;
             updateImage_Tileset();
-            updateImage_Tile();
+            updateImage_TilemapTile();
             updateImage_Level();
         }
 
@@ -397,13 +400,6 @@ namespace Riverback
             lastLevelTileSelected = -1;
         }
 
-        private Bitmap getImageFromResources(string filename)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream imgStream = assembly.GetManifestResourceStream("Riverback." + filename);
-            return new Bitmap(imgStream);
-        }
-
         private void updateImage_Tileset()
         {
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
@@ -421,7 +417,7 @@ namespace Riverback
             }
         }
 
-        private void updateImage_Tile()
+        private void updateImage_TilemapTile()
         {
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
                 using (Graphics g = Graphics.FromImage(bitmapTile)) {
@@ -438,9 +434,14 @@ namespace Riverback
                                                 checkBox_vflip.Checked, 
                                                 checkBox_hflip.Checked, 
                                                 TILE_SELECTOR_SCALE);
-                    pictureBox_tile.Invalidate();
+                    pictureBox_tilemaptile.Invalidate();
                 }
             }
+        }
+
+        private void updateImage_PhysmapTile()
+        {
+
         }
 
         private void updateImage_Level()

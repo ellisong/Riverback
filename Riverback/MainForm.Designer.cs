@@ -58,7 +58,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown_tilePalette = new System.Windows.Forms.NumericUpDown();
-            this.pictureBox_tile = new System.Windows.Forms.PictureBox();
+            this.pictureBox_tilemaptile = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +75,7 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage_Level = new System.Windows.Forms.TabPage();
             this.tabPage_Scratchboard = new System.Windows.Forms.TabPage();
+            this.pictureBox_phystile = new System.Windows.Forms.PictureBox();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -91,7 +92,7 @@
             this.flowLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tilemaptile)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage_Tileset.SuspendLayout();
@@ -99,6 +100,7 @@
             this.tabControl2.SuspendLayout();
             this.tabPage_Level.SuspendLayout();
             this.tabPage_Scratchboard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystile)).BeginInit();
             this.SuspendLayout();
             // 
             // mainPanel
@@ -336,8 +338,9 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.pictureBox_phystile);
             this.panel5.Controls.Add(this.flowLayoutPanel2);
-            this.panel5.Controls.Add(this.pictureBox_tile);
+            this.panel5.Controls.Add(this.pictureBox_tilemaptile);
             this.panel5.Controls.Add(this.label2);
             this.panel5.Location = new System.Drawing.Point(4, 31);
             this.panel5.Name = "panel5";
@@ -412,7 +415,7 @@
             // 
             // numericUpDown_tilePalette
             // 
-            this.numericUpDown_tilePalette.Location = new System.Drawing.Point(52, 2);
+            this.numericUpDown_tilePalette.Location = new System.Drawing.Point(52, 1);
             this.numericUpDown_tilePalette.Maximum = new decimal(new int[] {
             7,
             0,
@@ -428,24 +431,24 @@
             0});
             this.numericUpDown_tilePalette.ValueChanged += new System.EventHandler(this.numericUpDown_tilePalette_ValueChanged);
             // 
-            // pictureBox_tile
+            // pictureBox_tilemaptile
             // 
-            this.pictureBox_tile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox_tile.ErrorImage = null;
-            this.pictureBox_tile.InitialImage = null;
-            this.pictureBox_tile.Location = new System.Drawing.Point(8, 31);
-            this.pictureBox_tile.Name = "pictureBox_tile";
-            this.pictureBox_tile.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox_tile.TabIndex = 0;
-            this.pictureBox_tile.TabStop = false;
+            this.pictureBox_tilemaptile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox_tilemaptile.ErrorImage = null;
+            this.pictureBox_tilemaptile.InitialImage = null;
+            this.pictureBox_tilemaptile.Location = new System.Drawing.Point(8, 17);
+            this.pictureBox_tilemaptile.Name = "pictureBox_tilemaptile";
+            this.pictureBox_tilemaptile.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox_tilemaptile.TabIndex = 0;
+            this.pictureBox_tilemaptile.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 4);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.label2.Location = new System.Drawing.Point(2, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 24);
+            this.label2.Size = new System.Drawing.Size(27, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Tile:";
             // 
@@ -580,6 +583,17 @@
             this.tabPage_Scratchboard.Text = "Scratchboard";
             this.tabPage_Scratchboard.UseVisualStyleBackColor = true;
             // 
+            // pictureBox_phystile
+            // 
+            this.pictureBox_phystile.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox_phystile.ErrorImage = null;
+            this.pictureBox_phystile.InitialImage = null;
+            this.pictureBox_phystile.Location = new System.Drawing.Point(8, 53);
+            this.pictureBox_phystile.Name = "pictureBox_phystile";
+            this.pictureBox_phystile.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox_phystile.TabIndex = 3;
+            this.pictureBox_phystile.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -617,7 +631,7 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tilemaptile)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -626,6 +640,7 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage_Level.ResumeLayout(false);
             this.tabPage_Scratchboard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -635,7 +650,7 @@
 
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.PictureBox pictureBox_tile;
+        private System.Windows.Forms.PictureBox pictureBox_tilemaptile;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDown_tilePalette;
         private System.Windows.Forms.Label label2;
@@ -678,5 +693,6 @@
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage_Level;
         private System.Windows.Forms.TabPage tabPage_Scratchboard;
+        private System.Windows.Forms.PictureBox pictureBox_phystile;
     }
 }

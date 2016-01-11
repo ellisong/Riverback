@@ -114,6 +114,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Resources\physmap.png" />
+    <None Include="Resources\physmap_bytes.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -130,20 +132,21 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\physmap.png" />
+    <None Include="Resources\gridtile8.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\physmap_bytes.png" />
+    <None Include="Resources\gridtile16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gridtile16.png" />
-    <Resource Include="Resources\gridtile512x256.png" />
-    <Resource Include="Resources\gridtile8.png" />
-    <Resource Include="Resources\physmap_bytes2.png" />
+    <None Include="Resources\gridtile512x256.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\physmap2.png" />
+    <None Include="Resources\physmap_bytes2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\physmap2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
