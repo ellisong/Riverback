@@ -23,6 +23,7 @@ namespace Riverback
         private const int PHYSTILE_TILEAMOUNT = 256;
         private const float TILE_SELECTOR_SCALE = 4.0f;
         private const float TILEMAP_SCALE = 2.0f;
+        private const int IMAGE_DPI = 72;
 
         private System.Drawing.Color fillColor;
         private System.Drawing.Brush fillBrush;
@@ -71,12 +72,16 @@ namespace Riverback
             highlightBrush = new System.Drawing.SolidBrush(highlightColor);
 
             bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
+            bitmapTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_tileset.Image = bitmapTileset;
             bitmapTilemapTile = new Bitmap(pictureBox_tilemaptile.Width, pictureBox_tilemaptile.Height);
+            bitmapTilemapTile.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_tilemaptile.Image = bitmapTilemapTile;
             bitmapPhysTile = new Bitmap(pictureBox_phystile.Width, pictureBox_phystile.Height);
+            bitmapPhysTile.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_phystile.Image = bitmapPhysTile;
             bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
+            bitmapLevel.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_level.Image = bitmapLevel;
 
             imagePhysTileset = (Bitmap)Riverback.Properties.Resources.physmap;
@@ -391,6 +396,8 @@ namespace Riverback
                         if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
                             TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
                     }
+                    if (checkBox_grid_show.Checked)
+                        TileDrawer.drawGridCellOnCanvas(g, alignedCoords.X, alignedCoords.Y);
                 }
             }
         }
@@ -417,7 +424,7 @@ namespace Riverback
                 pictureBox_level.Invalidate(new Rectangle(topLeft.X, topLeft.Y, width, height));
             }
         }
-        
+
         private void highlightSelectedTilesInLevelEditor()
         {
             if (tilemapTileSelector.Selected) {
@@ -446,7 +453,7 @@ namespace Riverback
         private void updateImage_Tileset()
         {
             if ((levelEditor.Level != null) && (levelEditor.LevelBank != null)) {
-                using (Graphics g = Graphics.FromImage(bitmapTileset)) {
+                using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
@@ -455,6 +462,8 @@ namespace Riverback
                                                     LEVEL_TILESET_TILEAMOUNT_WIDTH, 
                                                     bankPaletteNum, 
                                                     TILEMAP_SCALE);
+                    if (checkBox_grid_show.Checked)
+                        g.DrawImage(Riverback.Properties.Resources.gridtile16_256x512, 0, 0);
                     pictureBox_tileset.Invalidate();
                 }
             }
@@ -471,7 +480,11 @@ namespace Riverback
             }
             if (checkBox_grid_show.Checked)
                 using (Graphics g = Graphics.FromImage(pictureBox_phystiles.Image))
-                    g.DrawImage(Riverback.Properties.Resources.gridtile16_256x256, 0, 0);
+                    g.DrawImage(Riverback.Properties.Resources.gridtile16_256x256, 
+                                0, 
+                                0, 
+                                new Rectangle(0, 0, 256, 256), 
+                                GraphicsUnit.Pixel);
             pictureBox_phystiles.Invalidate();
 
         }
@@ -520,6 +533,10 @@ namespace Riverback
                 using (Graphics g = Graphics.FromImage(bitmapLevel)) {
                     g.Clear(fillColor);
                     TileDrawer.drawLevelOnCanvas(g, levelEditor.Level, levelEditor.LevelBank, LEVEL_TILEAMOUNT_WIDTH);
+                    if (checkBox_grid_show.Checked)
+                        g.DrawImage(Riverback.Properties.Resources.gridtile8_512x512, 0, 0);
+                    if (tilemapTileSelector.Selected)
+                        highlightSelectedTilesInLevelEditor();
                     pictureBox_level.Invalidate();
                 }
             }

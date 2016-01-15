@@ -142,9 +142,6 @@
     <None Include="Resources\gridtile16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\physmap_bytes2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\physmap2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gridtile16_256x512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\physmap_bytes2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gridtile8_512x512.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

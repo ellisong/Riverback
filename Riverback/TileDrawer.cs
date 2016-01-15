@@ -64,6 +64,14 @@ namespace Riverback
             graphics.FillRectangle(fillBrush, clearRect);
         }
 
+        public static void drawGridCellOnCanvas(Graphics graphics, float x, float y, float scale = 1.0f)
+        {
+            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH, TILE_WIDTH);
+            RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
+            Image img = Riverback.Properties.Resources.gridtile8;
+            graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
+        }
+
         public static void drawLevelOnCanvas(Graphics graphics, Level level, GraphicBank levelBank, int tileAmountWidth)
         {
             int tileNum = 0;
