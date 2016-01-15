@@ -73,9 +73,19 @@ namespace Riverback.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gridtile512x256 {
+        internal static System.Drawing.Bitmap gridtile16_256x256 {
             get {
-                object obj = ResourceManager.GetObject("gridtile512x256", resourceCulture);
+                object obj = ResourceManager.GetObject("gridtile16_256x256", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gridtile16_256x512 {
+            get {
+                object obj = ResourceManager.GetObject("gridtile16_256x512", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
