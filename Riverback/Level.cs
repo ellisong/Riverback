@@ -13,12 +13,12 @@ namespace Riverback
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
 
         public int CompressedDataSize { get; set; }
-        public LevelHeader LevelHeader { get; private set; }
-        public byte[] Physmap { get; private set; }
-        public TilemapTile[] Tilemap { get; private set; }
+        public LevelHeader LevelHeader { get; set; }
+        public byte[] Physmap { get; set; }
+        public TilemapTile[] Tilemap { get; set; }
         public int TileIndexAmount { get { return TileIndex.Where(x => x == true).Count(); } }
-        public List<bool> TileIndex { get; private set; }
-        public byte[] PaletteIndex { get; private set; }
+        public List<bool> TileIndex { get; set; }
+        public byte[] PaletteIndex { get; set; }
 
         public Level(LevelHeader levelHeader)
         {

@@ -132,7 +132,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\wordtiles.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gridtile8.png" />
   </ItemGroup>

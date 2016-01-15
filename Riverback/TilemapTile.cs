@@ -121,6 +121,16 @@ namespace Riverback
             this.Property = tile.Property;
         }
 
+        public TilemapTile(int tileValue, bool vflip, bool hflip, bool priority, byte palette)
+        {
+            this.Bank = (byte)(tileValue / 256);
+            this.Tile = (byte)(tileValue % 256);
+            this.VFlip = vflip;
+            this.HFlip = hflip;
+            this.Priority = priority;
+            this.Palette = palette;
+        }
+
         public void setTileFromLevelData(byte[] leveldata, int tileNumber)
         {
             this.Tile = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2)];

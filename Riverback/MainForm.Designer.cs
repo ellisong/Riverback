@@ -42,7 +42,6 @@
             this.checkBox_bytes = new System.Windows.Forms.CheckBox();
             this.checkBox_grid_show = new System.Windows.Forms.CheckBox();
             this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
-            this.pictureBox_scratchboard = new System.Windows.Forms.PictureBox();
             this.button_deselect = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
@@ -74,7 +73,6 @@
             this.tabPage_Phystiles = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage_Level = new System.Windows.Forms.TabPage();
-            this.tabPage_Scratchboard = new System.Windows.Forms.TabPage();
             this.pictureBox_phystile = new System.Windows.Forms.PictureBox();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -82,7 +80,6 @@
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
@@ -99,7 +96,6 @@
             this.tabPage_Phystiles.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage_Level.SuspendLayout();
-            this.tabPage_Scratchboard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystile)).BeginInit();
             this.SuspendLayout();
             // 
@@ -204,8 +200,6 @@
             // checkBox_physmap_show
             // 
             this.checkBox_physmap_show.AutoSize = true;
-            this.checkBox_physmap_show.Checked = true;
-            this.checkBox_physmap_show.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_physmap_show.Location = new System.Drawing.Point(57, 3);
             this.checkBox_physmap_show.Name = "checkBox_physmap_show";
             this.checkBox_physmap_show.Size = new System.Drawing.Size(69, 17);
@@ -226,8 +220,6 @@
             // checkBox_grid_show
             // 
             this.checkBox_grid_show.AutoSize = true;
-            this.checkBox_grid_show.Checked = true;
-            this.checkBox_grid_show.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_grid_show.Location = new System.Drawing.Point(190, 3);
             this.checkBox_grid_show.Name = "checkBox_grid_show";
             this.checkBox_grid_show.Size = new System.Drawing.Size(45, 17);
@@ -245,17 +237,6 @@
             this.pictureBox_phystiles.Size = new System.Drawing.Size(256, 256);
             this.pictureBox_phystiles.TabIndex = 0;
             this.pictureBox_phystiles.TabStop = false;
-            // 
-            // pictureBox_scratchboard
-            // 
-            this.pictureBox_scratchboard.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pictureBox_scratchboard.ErrorImage = null;
-            this.pictureBox_scratchboard.InitialImage = null;
-            this.pictureBox_scratchboard.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox_scratchboard.Name = "pictureBox_scratchboard";
-            this.pictureBox_scratchboard.Size = new System.Drawing.Size(512, 512);
-            this.pictureBox_scratchboard.TabIndex = 1;
-            this.pictureBox_scratchboard.TabStop = false;
             // 
             // button_deselect
             // 
@@ -554,7 +535,6 @@
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage_Level);
-            this.tabControl2.Controls.Add(this.tabPage_Scratchboard);
             this.tabControl2.Location = new System.Drawing.Point(279, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -571,17 +551,6 @@
             this.tabPage_Level.TabIndex = 0;
             this.tabPage_Level.Text = "Field Display";
             this.tabPage_Level.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_Scratchboard
-            // 
-            this.tabPage_Scratchboard.Controls.Add(this.pictureBox_scratchboard);
-            this.tabPage_Scratchboard.Location = new System.Drawing.Point(4, 22);
-            this.tabPage_Scratchboard.Name = "tabPage_Scratchboard";
-            this.tabPage_Scratchboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Scratchboard.Size = new System.Drawing.Size(518, 518);
-            this.tabPage_Scratchboard.TabIndex = 1;
-            this.tabPage_Scratchboard.Text = "Scratchboard";
-            this.tabPage_Scratchboard.UseVisualStyleBackColor = true;
             // 
             // pictureBox_phystile
             // 
@@ -617,7 +586,6 @@
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_scratchboard)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
@@ -639,7 +607,6 @@
             this.tabPage_Phystiles.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage_Level.ResumeLayout(false);
-            this.tabPage_Scratchboard.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -676,7 +643,6 @@
         private System.Windows.Forms.ToolStripMenuItem savePhysmapdebuggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writePhysmapdebuggingToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox_phystiles;
-        private System.Windows.Forms.PictureBox pictureBox_scratchboard;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -692,7 +658,6 @@
         private System.Windows.Forms.TabPage tabPage_Phystiles;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage_Level;
-        private System.Windows.Forms.TabPage tabPage_Scratchboard;
         private System.Windows.Forms.PictureBox pictureBox_phystile;
     }
 }
