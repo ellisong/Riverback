@@ -43,40 +43,7 @@ namespace Riverback
         {
             headerPointerAddress = LEVEL_HEADER_POINTER_ADDRESS + (int)this.headerNumber * LEVEL_HEADER_POINTER_SIZE;
             headerAddress = DataFormatter.switchReadBytesIntoint16(romdata, headerPointerAddress);
-            levelPointer = DataFormatter.readSnesPointerToRomPointer(romdata, headerAddress);
-            graphicsBankIndex = romdata[headerAddress + 0x03];
-            fieldNumber = romdata[headerAddress + 0x04];
-            musicSelect = romdata[headerAddress + 0x05];
-            enemyType[0] = romdata[headerAddress + 0x06];
-            enemyType[1] = romdata[headerAddress + 0x07];
-            enemyType[2] = romdata[headerAddress + 0x08];
-            enemyType[3] = romdata[headerAddress + 0x09];
-            enemyType[4] = romdata[headerAddress + 0x0A];
-            enemyType[5] = romdata[headerAddress + 0x0B];
-            unknownData[0] = romdata[headerAddress + 0x0C];
-            unknownData[1] = romdata[headerAddress + 0x0D];
-            unknownData[2] = romdata[headerAddress + 0x0E];
-            unknownData[3] = romdata[headerAddress + 0x0F];
-            unknownData[4] = romdata[headerAddress + 0x10];
-            unknownData[5] = romdata[headerAddress + 0x11];
-            unknownData[6] = romdata[headerAddress + 0x12];
-            unknownData[7] = romdata[headerAddress + 0x13];
-            unknownData[8] = romdata[headerAddress + 0x14];
-            unknownData[9] = romdata[headerAddress + 0x15];
-            unknownData[10] = romdata[headerAddress + 0x16];
-            unknownData[11] = romdata[headerAddress + 0x17];
-            unknownData[12] = romdata[headerAddress + 0x18];
-            unknownData[13] = romdata[headerAddress + 0x19];
-            unknownData[14] = romdata[headerAddress + 0x1A];
-            unknownData[15] = romdata[headerAddress + 0x1B];
-            waterHeight = romdata[headerAddress + 0x1C];
-            waterType = romdata[headerAddress + 0x1D];
-            unknownData2 = romdata[headerAddress + 0x1E];
-            levelTimer = DataFormatter.switchReadBytesIntoint16(romdata, headerAddress + 0x1F);
-            doorExits[0] = romdata[headerAddress + 0x21];
-            doorExits[1] = romdata[headerAddress + 0x22];
-            doorExits[2] = romdata[headerAddress + 0x23];
-            doorExits[3] = romdata[headerAddress + 0x24];
+            deserialize(romdata, headerAddress);
         }
 
         public byte[] serialize()
@@ -95,6 +62,47 @@ namespace Riverback
             compressedData.Add((byte)((levelTimer & 0xFF00) >> 8));
             compressedData.AddRange(doorExits);
             return compressedData.ToArray();
+        }
+
+        // Requires headerPointerAddress and headerAddress to be set
+        public void deserialize(byte[] data, int offset)
+        {
+            if (data.Length >= LEVEL_HEADER_SIZE) {
+                levelPointer = DataFormatter.readSnesPointerToRomPointer(data, offset);
+                graphicsBankIndex = data[offset + 0x03];
+                fieldNumber = data[offset + 0x04];
+                musicSelect = data[offset + 0x05];
+                enemyType[0] = data[offset + 0x06];
+                enemyType[1] = data[offset + 0x07];
+                enemyType[2] = data[offset + 0x08];
+                enemyType[3] = data[offset + 0x09];
+                enemyType[4] = data[offset + 0x0A];
+                enemyType[5] = data[offset + 0x0B];
+                unknownData[0] = data[offset + 0x0C];
+                unknownData[1] = data[offset + 0x0D];
+                unknownData[2] = data[offset + 0x0E];
+                unknownData[3] = data[offset + 0x0F];
+                unknownData[4] = data[offset + 0x10];
+                unknownData[5] = data[offset + 0x11];
+                unknownData[6] = data[offset + 0x12];
+                unknownData[7] = data[offset + 0x13];
+                unknownData[8] = data[offset + 0x14];
+                unknownData[9] = data[offset + 0x15];
+                unknownData[10] = data[offset + 0x16];
+                unknownData[11] = data[offset + 0x17];
+                unknownData[12] = data[offset + 0x18];
+                unknownData[13] = data[offset + 0x19];
+                unknownData[14] = data[offset + 0x1A];
+                unknownData[15] = data[offset + 0x1B];
+                waterHeight = data[offset + 0x1C];
+                waterType = data[offset + 0x1D];
+                unknownData2 = data[offset + 0x1E];
+                levelTimer = DataFormatter.switchReadBytesIntoint16(data, offset + 0x1F);
+                doorExits[0] = data[offset + 0x21];
+                doorExits[1] = data[offset + 0x22];
+                doorExits[2] = data[offset + 0x23];
+                doorExits[3] = data[offset + 0x24];
+            }
         }
     }
 }

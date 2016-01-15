@@ -69,11 +69,11 @@
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.savePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.writePhysmapdebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.exportLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -517,8 +517,8 @@
             this.MainMenu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu_File_Open,
             this.saveLevelToolStripMenuItem,
-            this.savePhysmapdebuggingToolStripMenuItem,
-            this.writePhysmapdebuggingToolStripMenuItem,
+            this.exportLevelToolStripMenuItem,
+            this.importLevelToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.MainMenu_File.Name = "MainMenu_File";
             this.MainMenu_File.Size = new System.Drawing.Size(37, 20);
@@ -527,35 +527,21 @@
             // MainMenu_File_Open
             // 
             this.MainMenu_File_Open.Name = "MainMenu_File_Open";
-            this.MainMenu_File_Open.Size = new System.Drawing.Size(223, 22);
+            this.MainMenu_File_Open.Size = new System.Drawing.Size(169, 22);
             this.MainMenu_File_Open.Text = "Open ROM";
             this.MainMenu_File_Open.Click += new System.EventHandler(this.MainMenu_FileOpen_Click);
             // 
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.saveLevelToolStripMenuItem.Text = "Save Level";
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.saveLevelToolStripMenuItem.Text = "Save level to ROM";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
-            // 
-            // savePhysmapdebuggingToolStripMenuItem
-            // 
-            this.savePhysmapdebuggingToolStripMenuItem.Name = "savePhysmapdebuggingToolStripMenuItem";
-            this.savePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.savePhysmapdebuggingToolStripMenuItem.Text = "Save Physmap (debugging)";
-            this.savePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.savePhysmapdebuggingToolStripMenuItem_Click);
-            // 
-            // writePhysmapdebuggingToolStripMenuItem
-            // 
-            this.writePhysmapdebuggingToolStripMenuItem.Name = "writePhysmapdebuggingToolStripMenuItem";
-            this.writePhysmapdebuggingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
-            this.writePhysmapdebuggingToolStripMenuItem.Text = "Write physmap (debugging)";
-            this.writePhysmapdebuggingToolStripMenuItem.Click += new System.EventHandler(this.writePhysmapdebuggingToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
@@ -567,6 +553,20 @@
             // 
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
+            // 
+            // exportLevelToolStripMenuItem
+            // 
+            this.exportLevelToolStripMenuItem.Name = "exportLevelToolStripMenuItem";
+            this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.exportLevelToolStripMenuItem.Text = "Export level";
+            this.exportLevelToolStripMenuItem.Click += new System.EventHandler(this.exportLevelToolStripMenuItem_Click);
+            // 
+            // importLevelToolStripMenuItem
+            // 
+            this.importLevelToolStripMenuItem.Name = "importLevelToolStripMenuItem";
+            this.importLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.importLevelToolStripMenuItem.Text = "Import level";
+            this.importLevelToolStripMenuItem.Click += new System.EventHandler(this.importLevelToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -645,8 +645,6 @@
         private System.Windows.Forms.PictureBox pictureBox_level;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button button_deselect;
-        private System.Windows.Forms.ToolStripMenuItem savePhysmapdebuggingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem writePhysmapdebuggingToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox_phystiles;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
@@ -664,5 +662,7 @@
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage_Level;
         private System.Windows.Forms.PictureBox pictureBox_phystile;
+        private System.Windows.Forms.ToolStripMenuItem exportLevelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importLevelToolStripMenuItem;
     }
 }

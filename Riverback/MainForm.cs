@@ -121,29 +121,40 @@ namespace Riverback
             }
         }
 
-        private void savePhysmapdebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                     string fileName;
                     if ((fileName = saveFileDialog.FileName) != "") {
                         isLevelLoaded = false;
-                        File.WriteAllBytes(fileName, levelEditor.Level.Physmap);
+                        RomWriter writer = new RomWriter(romdata);
+                        byte[] data = writer.exportLevel(levelEditor.LevelHeader, levelEditor.Level);
+                        File.WriteAllBytes(fileName, data);
                         isLevelLoaded = true;
                     }
                 }
             }
         }
 
-        private void writePhysmapdebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        private void importLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     if (openFileDialog.CheckFileExists) {
                         isLevelLoaded = false;
                         byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
-                        Array.ConstrainedCopy(openedData, 0, levelEditor.Level.Physmap, 0, Level.LEVEL_TILE_AMOUNT);
-                        deselectTiles();
+                        RomWriter writer = new RomWriter(romdata);
+                        writer.importLevel(openedData, levelEditor.Level, levelEditor.LevelHeader);
+                        levelEditor.updateGraphicsBanks(romdata);
+                        levelEditor.updateLevelBank();
+                        bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                        currentTilesetTile = 0;
+                        currentPhysmapTile = 0;
+                        updateImage_Tileset();
+                        updateImage_TilemapTile();
+                        updateImage_PhysmapTile();
+                        updateImage_Level();
                         isLevelLoaded = true;
                     }
                 }

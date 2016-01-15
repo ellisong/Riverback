@@ -15,6 +15,8 @@ namespace Riverback
         public const int WRITE_LEVEL_ADDRESS = 0x100000;
         public const int WRITE_LEVEL_SEARCH_SIZE = 0x200;
         public const int EXPAND_ROM_SIZE = 0x200000;
+        public const int UMIKAWLEVEL_LENGTH = 11;
+        public const int IMPORTLEVEL_LENGTH = 12600;
 
         private XElement root;
         private byte[] romdata;
@@ -70,6 +72,43 @@ namespace Riverback
         {
             byte[] data = levelHeader.serialize();
             Array.ConstrainedCopy(data, 0, romdata, (int)levelHeader.headerAddress, (int)LevelHeader.LEVEL_HEADER_SIZE);
+        }
+
+        public byte[] exportLevel(LevelHeader levelHeader, Level level)
+        {
+            List<byte> data = new List<byte>();
+            string str = "UMIKAWLEVEL";
+            data.AddRange(Encoding.ASCII.GetBytes(str));
+            data.AddRange(levelHeader.serialize());
+            data.AddRange(level.serialize(false));
+            return data.ToArray();
+        }
+
+        public bool importLevel(byte[] data, Level level, LevelHeader levelHeader)
+        {
+            if (data.Length != IMPORTLEVEL_LENGTH)
+                return false;
+            int offset = 0;
+
+            string str = "UMIKAWLEVEL";
+            byte[] compareTo = Encoding.ASCII.GetBytes(str);
+            byte[] checksum = new byte[UMIKAWLEVEL_LENGTH];
+            Array.ConstrainedCopy(data, offset, checksum, 0, UMIKAWLEVEL_LENGTH);
+            //if (checksum.SequenceEqual(compareTo))
+            //    return false;
+
+            offset += UMIKAWLEVEL_LENGTH;
+            byte[] header = new byte[LevelHeader.LEVEL_HEADER_SIZE];
+            Array.ConstrainedCopy(data, offset, header, 0, LevelHeader.LEVEL_HEADER_SIZE);
+            levelHeader.deserialize(header, 0);
+
+            offset += LevelHeader.LEVEL_HEADER_SIZE;
+
+            byte[] levelData = new byte[Level.LEVELDATA_SIZE];
+            Array.ConstrainedCopy(data, offset, levelData, 0, Level.LEVELDATA_SIZE);
+            level.update(levelData);
+
+            return true;
         }
 
         public void writeLevel(Level level)

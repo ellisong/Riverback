@@ -11,6 +11,7 @@ namespace Riverback
         public const int LEVEL_TILE_AMOUNT = 4096;
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
+        public const int LEVELDATA_SIZE = LEVEL_TILE_AMOUNT * 3 + LEVEL_TILE_INDEX_SIZE + LEVEL_PALETTE_INDEX_AMOUNT;
 
         public int CompressedDataSize { get; set; }
         public LevelHeader LevelHeader { get; set; }
@@ -67,20 +68,20 @@ namespace Riverback
             PaletteIndex[1] = 17;
         }
 
-        public byte[] serialize()
+        public byte[] serialize(bool compress = true)
         {
-            List<byte> compressedData = new List<byte>();
-            compressedData.AddRange(Physmap);
+            List<byte> data = new List<byte>();
+            data.AddRange(Physmap);
             foreach (TilemapTile tile in Tilemap) {
-                compressedData.Add(tile.Tile);
-                compressedData.Add(tile.Property);
+                data.Add(tile.Tile);
+                data.Add(tile.Property);
             }
 
             byte[] tileAmountBytes = new byte[2];
             int tileAmount = TileIndex.Where(x => x == true).Count();
             tileAmountBytes[0] = (byte)(tileAmount & 0x00FF);
             tileAmountBytes[1] = (byte)(tileAmount >> 8);
-            compressedData.AddRange(tileAmountBytes);
+            data.AddRange(tileAmountBytes);
 
             int tileIndexNumber = 0;
             List<bool> bitList = new List<bool>();
@@ -93,13 +94,15 @@ namespace Riverback
                     tileIndexNumber += 1;
                 }
                 bitList.Reverse();
-                compressedData.Add(DataFormatter.bitsIntoByte(bitList));
+                data.Add(DataFormatter.bitsIntoByte(bitList));
             }
 
             for (int x = 2; x < 8; x++)
-                compressedData.Add(PaletteIndex[x]);
+                data.Add(PaletteIndex[x]);
 
-            return DataCompressor.compress(compressedData.ToArray());
+            if (compress)
+                return DataCompressor.compress(data.ToArray());
+            return data.ToArray();
         }
     }
 }
