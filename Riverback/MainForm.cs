@@ -385,8 +385,7 @@ namespace Riverback
             if ((tilemapTileSelector.Selected) && (clearHighlight == false))
                 highlightSelectedTilesInLevelEditor();
             if (checkBox_grid_show.Checked)
-                using (Graphics g = Graphics.FromImage(bitmapLevel))
-                    TileDrawer.drawGridCellOnCanvas(g, mouseCoords.X, mouseCoords.Y);
+                drawGridTilesInLevelEditor(mouseCoords);
             invalidateTilesInLevelEditor(mouseCoords);
         }
 
@@ -460,10 +459,9 @@ namespace Riverback
                                                         alignedCoords.Y,
                                                         t.VFlip,
                                                         t.HFlip);
-                        }
-                    } else {
-                        if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
+                        } else if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false)) {
                             TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
+                        }
                     }
                 }
             }
@@ -488,11 +486,27 @@ namespace Riverback
                             if (checkBox_field_show.Checked == false)
                                 TileDrawer.clearTileOnCanvas(g, fillBrush, destCoords.X, destCoords.Y);
                             TileDrawer.drawTileFromImageOnCanvas(imagePhysTileset, g, srcCoords, destCoords);
-                        }
-                    } else {
-                        if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false))
+                        } else if ((clearEmptyTiles == true) || (tilemapTileSelector.Selected == false)) {
                             TileDrawer.clearTileOnCanvas(g, fillBrush, destCoords.X, destCoords.Y);
+                        }
                     }
+                }
+            }
+        }
+
+        private void drawGridTilesInLevelEditor(Point mouseCoords)
+        {
+            var tileList = getSelectedPhysmapTiles();
+            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
+            using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+                Point tempCoord = new Point();
+                foreach (var item in tileList) {
+                    tempCoord.X = tileCoords.X + item.tileCoords.X;
+                    tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
+                    Point destCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
+                    if ((checkBox_field_show.Checked == false) && (checkBox_physmap_show.Checked == false))
+                        TileDrawer.clearTileOnCanvas(g, fillBrush, destCoords.X, destCoords.Y);
+                    TileDrawer.drawGridCellOnCanvas(g, destCoords.X, destCoords.Y);
                 }
             }
         }
