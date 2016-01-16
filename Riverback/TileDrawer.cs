@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Riverback
 {
@@ -44,6 +45,20 @@ namespace Riverback
             graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
+        public static void drawTileFromImageOnCanvas(Image phystiles, 
+                                                     Graphics graphics, 
+                                                     Point srcPoint, 
+                                                     Point destPoint, 
+                                                     float scale = 1.0f)
+        {
+            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TileDrawer.TILE_WIDTH, TileDrawer.TILE_WIDTH);
+            RectangleF destRect = new RectangleF(destPoint.X, 
+                                                 destPoint.Y, 
+                                                 TileDrawer.TILE_WIDTH * scale, 
+                                                 TileDrawer.TILE_WIDTH * scale);
+            graphics.DrawImage(phystiles, destRect, srcRect, GraphicsUnit.Pixel);
+        }
+
         public static void drawAllTilesOnCanvas(GraphicBank bank, 
                                                 Graphics graphics, 
                                                 int tileAmountWidth, 
@@ -72,19 +87,32 @@ namespace Riverback
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawLevelOnCanvas(Graphics graphics, Level level, GraphicBank levelBank, int tileAmountWidth)
+        public static void drawLevelOnCanvas(Graphics graphics, 
+                                             Image imagePhysTileset, 
+                                             Level level, 
+                                             GraphicBank levelBank, 
+                                             int tileAmountWidth, 
+                                             bool displayTilemapTiles = true, 
+                                             bool displayPhysmapTiles = false)
         {
             int tileNum = 0;
             for (int y = 0; y < tileAmountWidth; y++) {
                 for (int x = 0; x < tileAmountWidth; x++) {
                     TilemapTile tile = level.Tilemap[y * tileAmountWidth + x];
+                    byte phys = level.Physmap[y * tileAmountWidth + x];
                     byte tileValue = tile.Tile;
                     tileNum += 1;
-                    if ((tileValue != 0) || (tile.Bank != 0)) {
-                        Bitmap tileImg = levelBank.getTileImage(tile.Bank * 256 + tileValue, 
-                                                               (byte)(level.PaletteIndex[tile.Palette] - 1), 
+                    if (((tileValue != 0) || (tile.Bank != 0)) && (displayTilemapTiles)) {
+                        Bitmap tileImg = levelBank.getTileImage(tile.Bank * 256 + tileValue,
+                                                               (byte)(level.PaletteIndex[tile.Palette] - 1),
                                                                TILE_WIDTH);
                         drawTileOnCanvas(tileImg, graphics, x * TILE_WIDTH, y * TILE_WIDTH, tile.VFlip, tile.HFlip);
+                    }
+                    if ((phys != 0) && (displayPhysmapTiles)) {
+                        Point srcCoords = new Point(phys % 16 * TILE_WIDTH,
+                                                    phys / 16 * TILE_WIDTH);
+                        Point destCoords = new Point(x * TILE_WIDTH, y * TILE_WIDTH);
+                        TileDrawer.drawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
                     }
                 }
             }

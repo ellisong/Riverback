@@ -71,6 +71,12 @@ namespace Riverback
             levelBank.palettes = banks[index].palettes;
         }
 
+        public void setTileInPhysmap(int tileNum, byte tile)
+        {
+            if (tileNum < Level.LEVEL_TILE_AMOUNT)
+                Level.Physmap[tileNum] = tile;
+        }
+
         public void setTileInTilemap(int tileNum, TilemapTile tile)
         {
             if (tileNum < Level.LEVEL_TILE_AMOUNT) {
