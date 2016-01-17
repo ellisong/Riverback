@@ -20,6 +20,7 @@ namespace Riverback
         private GraphicBank levelBank;
         public GraphicBank LevelBank { get { return levelBank; } }
         private List<GraphicBank> banks;
+        public List<GraphicBank> Banks { get { return banks; } }
         private int tileOffset;
         public int TileOffset { get { return tileOffset; } }
 

@@ -30,6 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPanel = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
@@ -48,6 +49,13 @@
             this.pictureBox_tileset = new System.Windows.Forms.PictureBox();
             this.tabPage_Phystiles = new System.Windows.Forms.TabPage();
             this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
+            this.tabPage_Indextiles = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button_applyindices = new System.Windows.Forms.Button();
+            this.textBox_tilesremaining = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox_indexTiles = new System.Windows.Forms.PictureBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage_Level = new System.Windows.Forms.TabPage();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
@@ -69,11 +77,11 @@
             this.MainMenu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.saveLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.exportLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -85,6 +93,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).BeginInit();
             this.tabPage_Phystiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).BeginInit();
+            this.tabPage_Indextiles.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_indexTiles)).BeginInit();
             this.tabControl2.SuspendLayout();
             this.tabPage_Level.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).BeginInit();
@@ -255,6 +266,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage_Tileset);
             this.tabControl1.Controls.Add(this.tabPage_Phystiles);
+            this.tabControl1.Controls.Add(this.tabPage_Indextiles);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -306,6 +318,81 @@
             this.pictureBox_phystiles.TabIndex = 0;
             this.pictureBox_phystiles.TabStop = false;
             this.pictureBox_phystiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_phystiles_MouseClick);
+            // 
+            // tabPage_Indextiles
+            // 
+            this.tabPage_Indextiles.Controls.Add(this.textBox1);
+            this.tabPage_Indextiles.Controls.Add(this.button_applyindices);
+            this.tabPage_Indextiles.Controls.Add(this.textBox_tilesremaining);
+            this.tabPage_Indextiles.Controls.Add(this.label4);
+            this.tabPage_Indextiles.Controls.Add(this.panel1);
+            this.tabPage_Indextiles.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_Indextiles.Name = "tabPage_Indextiles";
+            this.tabPage_Indextiles.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Indextiles.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Indextiles.TabIndex = 2;
+            this.tabPage_Indextiles.Text = "Index Tiles";
+            this.tabPage_Indextiles.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(161, 216);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(89, 283);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
+            // button_applyindices
+            // 
+            this.button_applyindices.Location = new System.Drawing.Point(161, 59);
+            this.button_applyindices.Name = "button_applyindices";
+            this.button_applyindices.Size = new System.Drawing.Size(89, 23);
+            this.button_applyindices.TabIndex = 3;
+            this.button_applyindices.Text = "Apply Indices";
+            this.button_applyindices.UseVisualStyleBackColor = true;
+            // 
+            // textBox_tilesremaining
+            // 
+            this.textBox_tilesremaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_tilesremaining.Location = new System.Drawing.Point(173, 23);
+            this.textBox_tilesremaining.Name = "textBox_tilesremaining";
+            this.textBox_tilesremaining.ReadOnly = true;
+            this.textBox_tilesremaining.Size = new System.Drawing.Size(77, 29);
+            this.textBox_tilesremaining.TabIndex = 2;
+            this.textBox_tilesremaining.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(158, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Tiles remaining:";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.pictureBox_indexTiles);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(148, 496);
+            this.panel1.TabIndex = 0;
+            // 
+            // pictureBox_indexTiles
+            // 
+            this.pictureBox_indexTiles.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox_indexTiles.ErrorImage = null;
+            this.pictureBox_indexTiles.InitialImage = null;
+            this.pictureBox_indexTiles.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox_indexTiles.Name = "pictureBox_indexTiles";
+            this.pictureBox_indexTiles.Size = new System.Drawing.Size(128, 1024);
+            this.pictureBox_indexTiles.TabIndex = 0;
+            this.pictureBox_indexTiles.TabStop = false;
+            this.pictureBox_indexTiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseClick);
             // 
             // tabControl2
             // 
@@ -538,6 +625,20 @@
             this.saveLevelToolStripMenuItem.Text = "Save level to ROM";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
             // 
+            // exportLevelToolStripMenuItem
+            // 
+            this.exportLevelToolStripMenuItem.Name = "exportLevelToolStripMenuItem";
+            this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.exportLevelToolStripMenuItem.Text = "Export level";
+            this.exportLevelToolStripMenuItem.Click += new System.EventHandler(this.exportLevelToolStripMenuItem_Click);
+            // 
+            // importLevelToolStripMenuItem
+            // 
+            this.importLevelToolStripMenuItem.Name = "importLevelToolStripMenuItem";
+            this.importLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.importLevelToolStripMenuItem.Text = "Import level";
+            this.importLevelToolStripMenuItem.Click += new System.EventHandler(this.importLevelToolStripMenuItem_Click);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -553,20 +654,6 @@
             // 
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
-            // 
-            // exportLevelToolStripMenuItem
-            // 
-            this.exportLevelToolStripMenuItem.Name = "exportLevelToolStripMenuItem";
-            this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.exportLevelToolStripMenuItem.Text = "Export level";
-            this.exportLevelToolStripMenuItem.Click += new System.EventHandler(this.exportLevelToolStripMenuItem_Click);
-            // 
-            // importLevelToolStripMenuItem
-            // 
-            this.importLevelToolStripMenuItem.Name = "importLevelToolStripMenuItem";
-            this.importLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.importLevelToolStripMenuItem.Text = "Import level";
-            this.importLevelToolStripMenuItem.Click += new System.EventHandler(this.importLevelToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -596,6 +683,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tileset)).EndInit();
             this.tabPage_Phystiles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystiles)).EndInit();
+            this.tabPage_Indextiles.ResumeLayout(false);
+            this.tabPage_Indextiles.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_indexTiles)).EndInit();
             this.tabControl2.ResumeLayout(false);
             this.tabPage_Level.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_level)).EndInit();
@@ -664,5 +755,12 @@
         private System.Windows.Forms.PictureBox pictureBox_phystile;
         private System.Windows.Forms.ToolStripMenuItem exportLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importLevelToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage_Indextiles;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBox_indexTiles;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox_tilesremaining;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button_applyindices;
     }
 }
