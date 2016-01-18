@@ -281,23 +281,25 @@ namespace Riverback
             if (isLevelLoaded) {
                 Point mouseCoords = new Point(e.X, e.Y);
                 int tileNum = coordConverterTileIndex.getTileNumberFromMouseCoords(mouseCoords);
-                int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
-                int tileAmount = levelEditor.Banks[index].tileAmount;
-                if (tileNum > tileAmount)
-                    index += 1;
-                if (selectedTileIndices[tileNum]) {
-                    indexTilesRemaining += 1;
-                    selectedTileIndices[tileNum] = false;
-                } else {
-                    if (indexTilesRemaining > 0) {
-                        indexTilesRemaining -= 1;
-                        selectedTileIndices[tileNum] = true;
+                if (tileNum > 0) {
+                    int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
+                    int tileAmount = levelEditor.Banks[index].tileAmount;
+                    if (tileNum > tileAmount)
+                        index += 1;
+                    if (selectedTileIndices[tileNum]) {
+                        indexTilesRemaining += 1;
+                        selectedTileIndices[tileNum] = false;
+                    } else {
+                        if (indexTilesRemaining > 0) {
+                            indexTilesRemaining -= 1;
+                            selectedTileIndices[tileNum] = true;
+                        }
                     }
+                    updateTextBox_IndexTiles();
+                    drawIndexTile(index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
+                    Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
+                    invalidateIndexTile(alignedMouseCoords);
                 }
-                updateTextBox_IndexTiles();
-                drawIndexTile(index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
-                Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
-                invalidateIndexTile(alignedMouseCoords);
             }
         }
 
