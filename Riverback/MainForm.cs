@@ -47,6 +47,8 @@ namespace Riverback
         private int lastLevelTileSelected;
         private byte bankPaletteNum;
         private bool[] selectedTileIndices;
+        private LevelHeader selectedLevelHeader;
+        private byte[] selectedPaletteIndex;
 
         private Bitmap bitmapTileset;
         private Bitmap bitmapTilemapTile;
@@ -69,6 +71,8 @@ namespace Riverback
             coordConverterPhysmap = new CoordinateConverter(LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
             coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
             selectedTileIndices = new bool[2048];
+            selectedLevelHeader = new LevelHeader();
+            selectedPaletteIndex = new byte[Level.LEVEL_PALETTE_INDEX_AMOUNT];
             lastLevelTileSelected = -1;
             currentTilesetTile = 0;
             currentPhysmapTile = 0;
@@ -128,7 +132,7 @@ namespace Riverback
                     if ((fileName = saveFileDialog.FileName) != "") {
                         isLevelLoaded = false;
                         RomWriter writer = new RomWriter(romdata);
-                        writer.writeLevel(levelEditor.Level);
+                        writer.writeLevel(levelEditor.Level, levelEditor.LevelHeader);
                         File.WriteAllBytes(fileName, romdata);
                         isLevelLoaded = true;
                     }
@@ -242,6 +246,16 @@ namespace Riverback
                 levelEditor.updateLevelBank();
                 currentTilesetTile = 0;
                 updateImages(true, true, true, false, false, true);
+            }
+        }
+
+        private void button_applyheader_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                updateLevelHeaderValues();
+                levelEditor.updateLevelHeader(selectedLevelHeader);
+                levelEditor.updateLevelBank();
+                updateImages(true, true, true, true, true, true);
             }
         }
 
@@ -370,7 +384,10 @@ namespace Riverback
             isLevelLoaded = true;
             indexTilesRemaining = INDEXTILES_MAX - levelEditor.LevelBank.tileAmount;
             updateTextBox_IndexTiles();
+            selectedLevelHeader = new LevelHeader(levelEditor.LevelHeader);
+            selectedPaletteIndex = (byte[])levelEditor.Level.PaletteIndex.Clone();
             bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+            updateLevelHeaderControls();
             currentTilesetTile = 0;
             currentPhysmapTile = 0;
             updateImages(true, true, true, false, true, true);
@@ -661,6 +678,108 @@ namespace Riverback
             }
             tilemapTileSelector.clearSelection();
             lastLevelTileSelected = -1;
+        }
+
+        private void updateLevelHeaderValues()
+        {
+            if (isLevelLoaded) {
+                //selectedLevelHeader.headerNumber = (byte)numericUpDown_headernumber.Value;
+                //selectedLevelHeader.headerPointerAddress = (int)numericUpDown_headerpointer.Value;
+                //selectedLevelHeader.headerAddress = (int)numericUpDown_headeraddress.Value;
+                //selectedLevelHeader.levelPointer = (int)numericUpDown_levelpointer.Value;
+                selectedLevelHeader.graphicsBankIndex = (byte)numericUpDown_graphicsbankindex.Value;
+                selectedLevelHeader.fieldNumber = (byte)numericUpDown_fieldnumber.Value;
+                selectedLevelHeader.musicSelect = (byte)numericUpDown_musicselect.Value;
+                selectedLevelHeader.enemyType[0] = (byte)numericUpDown_enemytype1.Value;
+                selectedLevelHeader.enemyType[1] = (byte)numericUpDown_enemytype2.Value;
+                selectedLevelHeader.enemyType[2] = (byte)numericUpDown_enemytype3.Value;
+                selectedLevelHeader.enemyType[3] = (byte)numericUpDown_enemytype4.Value;
+                selectedLevelHeader.enemyType[4] = (byte)numericUpDown_enemytype5.Value;
+                selectedLevelHeader.enemyType[5] = (byte)numericUpDown_enemytype6.Value;
+                selectedLevelHeader.unknownData[0] = (byte)numericUpDown_unknown1.Value;
+                selectedLevelHeader.unknownData[1] = (byte)numericUpDown_unknown2.Value;
+                selectedLevelHeader.unknownData[2] = (byte)numericUpDown_unknown3.Value;
+                selectedLevelHeader.unknownData[3] = (byte)numericUpDown_unknown4.Value;
+                selectedLevelHeader.unknownData[4] = (byte)numericUpDown_unknown5.Value;
+                selectedLevelHeader.unknownData[5] = (byte)numericUpDown_unknown6.Value;
+                selectedLevelHeader.unknownData[6] = (byte)numericUpDown_unknown7.Value;
+                selectedLevelHeader.unknownData[7] = (byte)numericUpDown_unknown8.Value;
+                selectedLevelHeader.unknownData[8] = (byte)numericUpDown_unknown9.Value;
+                selectedLevelHeader.unknownData[9] = (byte)numericUpDown_unknown10.Value;
+                selectedLevelHeader.unknownData[10] = (byte)numericUpDown_unknown11.Value;
+                selectedLevelHeader.unknownData[11] = (byte)numericUpDown_unknown12.Value;
+                selectedLevelHeader.unknownData[12] = (byte)numericUpDown_unknown13.Value;
+                selectedLevelHeader.unknownData[13] = (byte)numericUpDown_unknown14.Value;
+                selectedLevelHeader.unknownData[14] = (byte)numericUpDown_unknown15.Value;
+                selectedLevelHeader.unknownData[15] = (byte)numericUpDown_unknown16.Value;
+                selectedLevelHeader.waterHeight = (byte)numericUpDown_waterheight.Value;
+                selectedLevelHeader.waterType = (byte)numericUpDown_watertype.Value;
+                selectedLevelHeader.unknownData2 = (byte)numericUpDown_unknownsingle.Value;
+                selectedLevelHeader.levelTimer = (int)numericUpDown_leveltimer.Value;
+                selectedLevelHeader.doorExits[0] = (byte)numericUpDown_doorexit1.Value;
+                selectedLevelHeader.doorExits[1] = (byte)numericUpDown_doorexit2.Value;
+                selectedLevelHeader.doorExits[2] = (byte)numericUpDown_doorexit3.Value;
+                selectedLevelHeader.doorExits[3] = (byte)numericUpDown_doorexit4.Value;
+                levelEditor.Level.PaletteIndex[2] = (byte)numericUpDown_paletteindices1.Value;
+                levelEditor.Level.PaletteIndex[3] = (byte)numericUpDown_paletteindices2.Value;
+                levelEditor.Level.PaletteIndex[4] = (byte)numericUpDown_paletteindices3.Value;
+                levelEditor.Level.PaletteIndex[5] = (byte)numericUpDown_paletteindices4.Value;
+                levelEditor.Level.PaletteIndex[6] = (byte)numericUpDown_paletteindices5.Value;
+                levelEditor.Level.PaletteIndex[7] = (byte)numericUpDown_paletteindices6.Value;
+            }
+        }
+
+        private void updateLevelHeaderControls()
+        {
+            if (isLevelLoaded) {
+                textBox_headernumber.Text = String.Format("{0}", selectedLevelHeader.headerNumber);
+                textBox_headernumber.Invalidate();
+                textBox_headerpointer.Text = String.Format("{0}", selectedLevelHeader.headerPointerAddress);
+                textBox_headerpointer.Invalidate();
+                textBox_headeraddress.Text = String.Format("{0}", selectedLevelHeader.headerAddress);
+                textBox_headeraddress.Invalidate();
+                textBox_levelpointer.Text = String.Format("{0}", selectedLevelHeader.levelPointer);
+                textBox_levelpointer.Invalidate();
+                numericUpDown_graphicsbankindex.Value = selectedLevelHeader.graphicsBankIndex;
+                numericUpDown_fieldnumber.Value = selectedLevelHeader.fieldNumber;
+                numericUpDown_musicselect.Value = selectedLevelHeader.musicSelect;
+                numericUpDown_enemytype1.Value = selectedLevelHeader.enemyType[0];
+                numericUpDown_enemytype2.Value = selectedLevelHeader.enemyType[1];
+                numericUpDown_enemytype3.Value = selectedLevelHeader.enemyType[2];
+                numericUpDown_enemytype4.Value = selectedLevelHeader.enemyType[3];
+                numericUpDown_enemytype5.Value = selectedLevelHeader.enemyType[4];
+                numericUpDown_enemytype6.Value = selectedLevelHeader.enemyType[5];
+                numericUpDown_unknown1.Value = selectedLevelHeader.unknownData[0];
+                numericUpDown_unknown2.Value = selectedLevelHeader.unknownData[1];
+                numericUpDown_unknown3.Value = selectedLevelHeader.unknownData[2];
+                numericUpDown_unknown4.Value = selectedLevelHeader.unknownData[3];
+                numericUpDown_unknown5.Value = selectedLevelHeader.unknownData[4];
+                numericUpDown_unknown6.Value = selectedLevelHeader.unknownData[5];
+                numericUpDown_unknown7.Value = selectedLevelHeader.unknownData[6];
+                numericUpDown_unknown8.Value = selectedLevelHeader.unknownData[7];
+                numericUpDown_unknown9.Value = selectedLevelHeader.unknownData[8];
+                numericUpDown_unknown10.Value = selectedLevelHeader.unknownData[9];
+                numericUpDown_unknown11.Value = selectedLevelHeader.unknownData[10];
+                numericUpDown_unknown12.Value = selectedLevelHeader.unknownData[11];
+                numericUpDown_unknown13.Value = selectedLevelHeader.unknownData[12];
+                numericUpDown_unknown14.Value = selectedLevelHeader.unknownData[13];
+                numericUpDown_unknown15.Value = selectedLevelHeader.unknownData[14];
+                numericUpDown_unknown16.Value = selectedLevelHeader.unknownData[15];
+                numericUpDown_waterheight.Value = selectedLevelHeader.waterHeight;
+                numericUpDown_watertype.Value = selectedLevelHeader.waterType;
+                numericUpDown_unknownsingle.Value = selectedLevelHeader.unknownData2;
+                numericUpDown_leveltimer.Value = selectedLevelHeader.levelTimer;
+                numericUpDown_doorexit1.Value = selectedLevelHeader.doorExits[0];
+                numericUpDown_doorexit2.Value = selectedLevelHeader.doorExits[1];
+                numericUpDown_doorexit3.Value = selectedLevelHeader.doorExits[2];
+                numericUpDown_doorexit4.Value = selectedLevelHeader.doorExits[3];
+                numericUpDown_paletteindices1.Value = levelEditor.Level.PaletteIndex[2];
+                numericUpDown_paletteindices2.Value = levelEditor.Level.PaletteIndex[3];
+                numericUpDown_paletteindices3.Value = levelEditor.Level.PaletteIndex[4];
+                numericUpDown_paletteindices4.Value = levelEditor.Level.PaletteIndex[5];
+                numericUpDown_paletteindices5.Value = levelEditor.Level.PaletteIndex[6];
+                numericUpDown_paletteindices6.Value = levelEditor.Level.PaletteIndex[7];
+            }
         }
 
         private void updateImages(bool level, bool tileset, bool tilesetTile, bool physmap, bool physmapTile, bool tileIndex)

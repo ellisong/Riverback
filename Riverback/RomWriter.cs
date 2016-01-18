@@ -111,10 +111,11 @@ namespace Riverback
             return true;
         }
 
-        public void writeLevel(Level level)
+        public void writeLevel(Level level, LevelHeader levelHeader)
         {
             byte[] data = level.serialize();
 
+            level.LevelHeader = levelHeader;
             int originalLevelPointer = 0;
             int originalLevelSize = 0;
             XElement xmlLevel = root.Element("level");

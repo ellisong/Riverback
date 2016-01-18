@@ -39,6 +39,24 @@ namespace Riverback
             unknownData = new byte[16];
         }
 
+        public LevelHeader(LevelHeader levelHeader)
+        {
+            this.headerNumber = levelHeader.headerNumber;
+            this.headerPointerAddress = levelHeader.headerPointerAddress;
+            this.headerAddress = levelHeader.headerAddress;
+            this.levelPointer = levelHeader.levelPointer;
+            this.graphicsBankIndex = levelHeader.graphicsBankIndex;
+            this.fieldNumber = levelHeader.fieldNumber;
+            this.musicSelect = levelHeader.musicSelect;
+            this.enemyType = (byte[])levelHeader.enemyType.Clone();
+            this.unknownData = (byte[])levelHeader.unknownData.Clone();
+            this.waterHeight = levelHeader.waterHeight;
+            this.waterType = levelHeader.waterType;
+            this.unknownData2 = levelHeader.unknownData2;
+            this.levelTimer = levelHeader.levelTimer;
+            this.doorExits = (byte[])levelHeader.doorExits.Clone();
+        }
+
         public void update(byte[] romdata)
         {
             headerPointerAddress = LEVEL_HEADER_POINTER_ADDRESS + (int)this.headerNumber * LEVEL_HEADER_POINTER_SIZE;
