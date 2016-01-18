@@ -352,6 +352,7 @@
             this.button_applyindices.TabIndex = 3;
             this.button_applyindices.Text = "Apply Indices";
             this.button_applyindices.UseVisualStyleBackColor = true;
+            this.button_applyindices.Click += new System.EventHandler(this.button_applyindices_Click);
             // 
             // textBox_tilesremaining
             // 
