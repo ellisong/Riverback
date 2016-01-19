@@ -90,12 +90,11 @@ namespace Riverback
                 return false;
             int offset = 0;
 
-            string str = "UMIKAWLEVEL";
-            byte[] compareTo = Encoding.ASCII.GetBytes(str);
+            byte[] str = Encoding.ASCII.GetBytes("UMIKAWLEVEL");
             byte[] checksum = new byte[UMIKAWLEVEL_LENGTH];
             Array.ConstrainedCopy(data, offset, checksum, 0, UMIKAWLEVEL_LENGTH);
-            //if (checksum.SequenceEqual(compareTo))
-            //    return false;
+            if (str.SequenceEqual(checksum) == false)
+                return false;
 
             offset += UMIKAWLEVEL_LENGTH;
             byte[] header = new byte[LevelHeader.LEVEL_HEADER_SIZE];
