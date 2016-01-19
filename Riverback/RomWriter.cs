@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace Riverback
@@ -86,15 +87,25 @@ namespace Riverback
 
         public bool importLevel(byte[] data, Level level, LevelHeader levelHeader)
         {
-            if (data.Length != IMPORTLEVEL_LENGTH)
+            if (data.Length != IMPORTLEVEL_LENGTH) {
+                MessageBox.Show("The file you opened is not a valid Umihara Kawase level.",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
                 return false;
+            }
             int offset = 0;
 
             byte[] str = Encoding.ASCII.GetBytes("UMIKAWLEVEL");
             byte[] checksum = new byte[UMIKAWLEVEL_LENGTH];
             Array.ConstrainedCopy(data, offset, checksum, 0, UMIKAWLEVEL_LENGTH);
-            if (str.SequenceEqual(checksum) == false)
+            if (str.SequenceEqual(checksum) == false) {
+                MessageBox.Show("The file you opened is not a valid Umihara Kawase level.",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
                 return false;
+            }
 
             offset += UMIKAWLEVEL_LENGTH;
             byte[] header = new byte[LevelHeader.LEVEL_HEADER_SIZE];

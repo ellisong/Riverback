@@ -114,6 +114,26 @@ namespace Riverback
                 if (openFileDialog.CheckFileExists) {
                     isLevelLoaded = false;
                     byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
+
+                    if (openedData.Length >= 0x8000) {
+                        byte[] str = Encoding.ASCII.GetBytes("UMIHARAKAWASE");
+                        byte[] checksum = new byte[str.Length];
+                        Array.ConstrainedCopy(openedData, 0x7FC0, checksum, 0, str.Length);
+                        if (str.SequenceEqual(checksum) == false) {
+                            MessageBox.Show("The file you opened is not a valid headerless Umihara Kawase ROM.", 
+                                            "Error", 
+                                            MessageBoxButtons.OK, 
+                                            MessageBoxIcon.Exclamation);
+                            return;
+                        }
+                    } else {
+                        MessageBox.Show("The file you opened is not a valid headerless Umihara Kawase ROM.",
+                                            "Error",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Exclamation);
+                        return;
+                    }
+
                     romdata = RomWriter.expandRom(openedData);
                     if (romdata != null) {
                         deselectTiles();
@@ -376,7 +396,10 @@ namespace Riverback
             } else {
                 byte[] openedData = File.ReadAllBytes(importFileName);
                 RomWriter writer = new RomWriter(romdata);
-                writer.importLevel(openedData, levelEditor.Level, levelEditor.LevelHeader);
+                if (writer.importLevel(openedData, levelEditor.Level, levelEditor.LevelHeader) == false) {
+                    isLevelLoaded = true;
+                    return;
+                }
             }
             levelEditor.updateGraphicsBanks(romdata);
             levelEditor.updateLevelBank();
