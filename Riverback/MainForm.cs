@@ -811,8 +811,8 @@ namespace Riverback
 
         private void updateImages(bool level, bool tileset, bool tilesetTile, bool physmap, bool physmapTile, bool tileIndex)
         {
-            if (level)
-                updateImage_Level();
+            if (tileIndex)
+                updateImage_TileIndex();
             if (tileset)
                 updateImage_Tileset();
             if (tilesetTile)
@@ -821,8 +821,8 @@ namespace Riverback
                 updateImage_Physmap();
             if (physmapTile)
                 updateImage_PhysmapTile();
-            if (tileIndex)
-                updateImage_TileIndex();
+            if (level)
+                updateImage_Level();
         }
 
         private void updateImage_Tileset()
