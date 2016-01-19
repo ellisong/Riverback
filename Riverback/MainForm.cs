@@ -757,11 +757,11 @@ namespace Riverback
             if (isLevelLoaded) {
                 textBox_headernumber.Text = String.Format("{0}", selectedLevelHeader.headerNumber);
                 textBox_headernumber.Invalidate();
-                textBox_headerpointer.Text = String.Format("{0}", selectedLevelHeader.headerPointerAddress);
+                textBox_headerpointer.Text = String.Format("{0:X}", selectedLevelHeader.headerPointerAddress);
                 textBox_headerpointer.Invalidate();
-                textBox_headeraddress.Text = String.Format("{0}", selectedLevelHeader.headerAddress);
+                textBox_headeraddress.Text = String.Format("{0:X}", selectedLevelHeader.headerAddress);
                 textBox_headeraddress.Invalidate();
-                textBox_levelpointer.Text = String.Format("{0}", selectedLevelHeader.levelPointer);
+                textBox_levelpointer.Text = String.Format("{0:X}", selectedLevelHeader.levelPointer);
                 textBox_levelpointer.Invalidate();
                 numericUpDown_graphicsbankindex.Value = selectedLevelHeader.graphicsBankIndex;
                 numericUpDown_fieldnumber.Value = selectedLevelHeader.fieldNumber;
