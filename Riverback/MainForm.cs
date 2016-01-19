@@ -734,10 +734,12 @@ namespace Riverback
                 selectedLevelHeader.unknownData[12] = (byte)numericUpDown_unknown13.Value;
                 selectedLevelHeader.unknownData[13] = (byte)numericUpDown_unknown14.Value;
                 selectedLevelHeader.unknownData[14] = (byte)numericUpDown_unknown15.Value;
-                selectedLevelHeader.unknownData[15] = (byte)numericUpDown_unknown16.Value;
                 selectedLevelHeader.waterHeight = (byte)numericUpDown_waterheight.Value;
-                selectedLevelHeader.waterType = (byte)numericUpDown_watertype.Value;
-                selectedLevelHeader.unknownData2 = (byte)numericUpDown_unknownsingle.Value;
+
+                selectedLevelHeader.waterType = 2;
+                if (checkBox_wavywater.Checked)
+                    selectedLevelHeader.waterType = 3;
+                
                 selectedLevelHeader.levelTimer = (int)numericUpDown_leveltimer.Value;
                 selectedLevelHeader.doorExits[0] = (byte)numericUpDown_doorexit1.Value;
                 selectedLevelHeader.doorExits[1] = (byte)numericUpDown_doorexit2.Value;
@@ -787,10 +789,12 @@ namespace Riverback
                 numericUpDown_unknown13.Value = selectedLevelHeader.unknownData[12];
                 numericUpDown_unknown14.Value = selectedLevelHeader.unknownData[13];
                 numericUpDown_unknown15.Value = selectedLevelHeader.unknownData[14];
-                numericUpDown_unknown16.Value = selectedLevelHeader.unknownData[15];
                 numericUpDown_waterheight.Value = selectedLevelHeader.waterHeight;
-                numericUpDown_watertype.Value = selectedLevelHeader.waterType;
-                numericUpDown_unknownsingle.Value = selectedLevelHeader.unknownData2;
+
+                checkBox_wavywater.Checked = false;
+                if (selectedLevelHeader.waterType == 3)
+                    checkBox_wavywater.Checked = true;
+                
                 numericUpDown_leveltimer.Value = selectedLevelHeader.levelTimer;
                 numericUpDown_doorexit1.Value = selectedLevelHeader.doorExits[0];
                 numericUpDown_doorexit2.Value = selectedLevelHeader.doorExits[1];

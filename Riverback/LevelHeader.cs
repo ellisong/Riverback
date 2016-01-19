@@ -26,6 +26,7 @@ namespace Riverback
         public byte[] enemyType;
         public byte[] unknownData;
         public byte waterHeight;
+        public byte displayWater;
         public byte waterType;
         public byte unknownData2;
         public int levelTimer;
@@ -36,7 +37,7 @@ namespace Riverback
             this.headerNumber = headerNumber;
             enemyType = new byte[6];
             doorExits = new byte[4];
-            unknownData = new byte[16];
+            unknownData = new byte[15];
         }
 
         public LevelHeader(LevelHeader levelHeader)
@@ -51,6 +52,7 @@ namespace Riverback
             this.enemyType = (byte[])levelHeader.enemyType.Clone();
             this.unknownData = (byte[])levelHeader.unknownData.Clone();
             this.waterHeight = levelHeader.waterHeight;
+            this.displayWater = levelHeader.displayWater;
             this.waterType = levelHeader.waterType;
             this.unknownData2 = levelHeader.unknownData2;
             this.levelTimer = levelHeader.levelTimer;
@@ -74,6 +76,7 @@ namespace Riverback
             compressedData.AddRange(enemyType);
             compressedData.AddRange(unknownData);
             compressedData.Add(waterHeight);
+            compressedData.Add(displayWater);
             compressedData.Add(waterType);
             compressedData.Add(unknownData2);
             compressedData.Add((byte)(levelTimer & 0x00FF));
@@ -111,8 +114,8 @@ namespace Riverback
                 unknownData[12] = data[offset + 0x18];
                 unknownData[13] = data[offset + 0x19];
                 unknownData[14] = data[offset + 0x1A];
-                unknownData[15] = data[offset + 0x1B];
-                waterHeight = data[offset + 0x1C];
+                waterHeight = data[offset + 0x1B];
+                displayWater = data[offset + 0x1C];
                 waterType = data[offset + 0x1D];
                 unknownData2 = data[offset + 0x1E];
                 levelTimer = DataFormatter.switchReadBytesIntoint16(data, offset + 0x1F);
