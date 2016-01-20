@@ -448,23 +448,25 @@ namespace Riverback
 
         private void drawAndSetTiles(Point mouseCoords, bool drawHighlight = true)
         {
-            clearSelectedAreaInLevelEditor(mouseCoords);
-            if (checkBox_field_show.Checked) {
-                if (radioButton_field_edit.Checked)
-                    setTilemapTilesInLevelEditor(mouseCoords);
-                drawTilemapTilesInLevelEditor(mouseCoords);
-            }
-            if (checkBox_physmap_show.Checked) {
-                if (radioButton_physmap_edit.Checked)
-                    setPhysmapTilesInLevelEditor(mouseCoords);
-                drawPhysmapTilesInLevelEditor(mouseCoords);
-            }
+            if ((mouseCoords.X >= 0) && (mouseCoords.Y >= 0)) {
+                clearSelectedAreaInLevelEditor(mouseCoords);
+                if (checkBox_field_show.Checked) {
+                    if (radioButton_field_edit.Checked)
+                        setTilemapTilesInLevelEditor(mouseCoords);
+                    drawTilemapTilesInLevelEditor(mouseCoords);
+                }
+                if (checkBox_physmap_show.Checked) {
+                    if (radioButton_physmap_edit.Checked)
+                        setPhysmapTilesInLevelEditor(mouseCoords);
+                    drawPhysmapTilesInLevelEditor(mouseCoords);
+                }
 
-            if (checkBox_grid_show.Checked)
-                drawGridTilesInLevelEditor(mouseCoords);
-            if ((tilemapTileSelector.Selected) && (drawHighlight))
-                highlightSelectedTilesInLevelEditor();
-            invalidateTilesInLevelEditor(mouseCoords);
+                if (checkBox_grid_show.Checked)
+                    drawGridTilesInLevelEditor(mouseCoords);
+                if ((tilemapTileSelector.Selected) && (drawHighlight))
+                    highlightSelectedTilesInLevelEditor();
+                invalidateTilesInLevelEditor(mouseCoords);
+            }
         }
 
         private void setTilemapTilesInLevelEditor(Point mouseCoords)
