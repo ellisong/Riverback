@@ -598,7 +598,7 @@ namespace Riverback
                 if (invalidateBottomRightPoint.Y < alignedCoords.Y)
                     invalidateBottomRightPoint.Y = alignedCoords.Y;
             }
-            if ((invalidateBottomRightPoint.X > 0) && (invalidateBottomRightPoint.Y > 0)) {
+            if ((invalidateBottomRightPoint.X >= 0) && (invalidateBottomRightPoint.Y >= 0)) {
                 Point topLeft = coordConverterLevel.getMouseCoordsFromTileCoords(tileCoords);
                 int width = invalidateBottomRightPoint.X - topLeft.X + TileDrawer.TILE_WIDTH;
                 int height = invalidateBottomRightPoint.Y - topLeft.Y + TileDrawer.TILE_WIDTH;

@@ -60,6 +60,7 @@
             this.tabPage_Level = new System.Windows.Forms.TabPage();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox_wavywater = new System.Windows.Forms.CheckBox();
             this.textBox_levelpointer = new System.Windows.Forms.TextBox();
             this.textBox_headeraddress = new System.Windows.Forms.TextBox();
             this.textBox_headerpointer = new System.Windows.Forms.TextBox();
@@ -137,7 +138,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.checkBox_wavywater = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -525,6 +533,14 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label25);
+            this.tabPage1.Controls.Add(this.label24);
+            this.tabPage1.Controls.Add(this.label23);
+            this.tabPage1.Controls.Add(this.label22);
+            this.tabPage1.Controls.Add(this.label21);
+            this.tabPage1.Controls.Add(this.label20);
+            this.tabPage1.Controls.Add(this.label17);
+            this.tabPage1.Controls.Add(this.label14);
             this.tabPage1.Controls.Add(this.checkBox_wavywater);
             this.tabPage1.Controls.Add(this.textBox_levelpointer);
             this.tabPage1.Controls.Add(this.textBox_headeraddress);
@@ -588,6 +604,16 @@
             this.tabPage1.Text = "Level Header Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // checkBox_wavywater
+            // 
+            this.checkBox_wavywater.AutoSize = true;
+            this.checkBox_wavywater.Location = new System.Drawing.Point(215, 170);
+            this.checkBox_wavywater.Name = "checkBox_wavywater";
+            this.checkBox_wavywater.Size = new System.Drawing.Size(109, 17);
+            this.checkBox_wavywater.TabIndex = 67;
+            this.checkBox_wavywater.Text = "Water has waves";
+            this.checkBox_wavywater.UseVisualStyleBackColor = true;
+            // 
             // textBox_levelpointer
             // 
             this.textBox_levelpointer.Location = new System.Drawing.Point(327, 5);
@@ -633,7 +659,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(7, 348);
+            this.label19.Location = new System.Drawing.Point(8, 397);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(79, 13);
             this.label19.TabIndex = 60;
@@ -642,7 +668,7 @@
             // numericUpDown_paletteindices6
             // 
             this.numericUpDown_paletteindices6.Hexadecimal = true;
-            this.numericUpDown_paletteindices6.Location = new System.Drawing.Point(394, 341);
+            this.numericUpDown_paletteindices6.Location = new System.Drawing.Point(395, 390);
             this.numericUpDown_paletteindices6.Maximum = new decimal(new int[] {
             15,
             0,
@@ -665,7 +691,7 @@
             // numericUpDown_paletteindices5
             // 
             this.numericUpDown_paletteindices5.Hexadecimal = true;
-            this.numericUpDown_paletteindices5.Location = new System.Drawing.Point(342, 341);
+            this.numericUpDown_paletteindices5.Location = new System.Drawing.Point(343, 390);
             this.numericUpDown_paletteindices5.Maximum = new decimal(new int[] {
             15,
             0,
@@ -688,7 +714,7 @@
             // numericUpDown_paletteindices4
             // 
             this.numericUpDown_paletteindices4.Hexadecimal = true;
-            this.numericUpDown_paletteindices4.Location = new System.Drawing.Point(290, 341);
+            this.numericUpDown_paletteindices4.Location = new System.Drawing.Point(291, 390);
             this.numericUpDown_paletteindices4.Maximum = new decimal(new int[] {
             15,
             0,
@@ -711,7 +737,7 @@
             // numericUpDown_paletteindices3
             // 
             this.numericUpDown_paletteindices3.Hexadecimal = true;
-            this.numericUpDown_paletteindices3.Location = new System.Drawing.Point(238, 341);
+            this.numericUpDown_paletteindices3.Location = new System.Drawing.Point(239, 390);
             this.numericUpDown_paletteindices3.Maximum = new decimal(new int[] {
             15,
             0,
@@ -734,7 +760,7 @@
             // numericUpDown_paletteindices2
             // 
             this.numericUpDown_paletteindices2.Hexadecimal = true;
-            this.numericUpDown_paletteindices2.Location = new System.Drawing.Point(186, 341);
+            this.numericUpDown_paletteindices2.Location = new System.Drawing.Point(187, 390);
             this.numericUpDown_paletteindices2.Maximum = new decimal(new int[] {
             15,
             0,
@@ -757,7 +783,7 @@
             // numericUpDown_paletteindices1
             // 
             this.numericUpDown_paletteindices1.Hexadecimal = true;
-            this.numericUpDown_paletteindices1.Location = new System.Drawing.Point(134, 341);
+            this.numericUpDown_paletteindices1.Location = new System.Drawing.Point(135, 390);
             this.numericUpDown_paletteindices1.Maximum = new decimal(new int[] {
             15,
             0,
@@ -802,7 +828,7 @@
             // numericUpDown_unknown15
             // 
             this.numericUpDown_unknown15.Hexadecimal = true;
-            this.numericUpDown_unknown15.Location = new System.Drawing.Point(320, 295);
+            this.numericUpDown_unknown15.Location = new System.Drawing.Point(460, 317);
             this.numericUpDown_unknown15.Maximum = new decimal(new int[] {
             255,
             0,
@@ -815,7 +841,7 @@
             // numericUpDown_unknown8
             // 
             this.numericUpDown_unknown8.Hexadecimal = true;
-            this.numericUpDown_unknown8.Location = new System.Drawing.Point(371, 269);
+            this.numericUpDown_unknown8.Location = new System.Drawing.Point(388, 269);
             this.numericUpDown_unknown8.Maximum = new decimal(new int[] {
             255,
             0,
@@ -828,7 +854,7 @@
             // numericUpDown_unknown7
             // 
             this.numericUpDown_unknown7.Hexadecimal = true;
-            this.numericUpDown_unknown7.Location = new System.Drawing.Point(320, 269);
+            this.numericUpDown_unknown7.Location = new System.Drawing.Point(341, 269);
             this.numericUpDown_unknown7.Maximum = new decimal(new int[] {
             255,
             0,
@@ -841,7 +867,7 @@
             // numericUpDown_unknown14
             // 
             this.numericUpDown_unknown14.Hexadecimal = true;
-            this.numericUpDown_unknown14.Location = new System.Drawing.Point(268, 295);
+            this.numericUpDown_unknown14.Location = new System.Drawing.Point(388, 317);
             this.numericUpDown_unknown14.Maximum = new decimal(new int[] {
             255,
             0,
@@ -854,7 +880,7 @@
             // numericUpDown_unknown6
             // 
             this.numericUpDown_unknown6.Hexadecimal = true;
-            this.numericUpDown_unknown6.Location = new System.Drawing.Point(268, 269);
+            this.numericUpDown_unknown6.Location = new System.Drawing.Point(278, 269);
             this.numericUpDown_unknown6.Maximum = new decimal(new int[] {
             255,
             0,
@@ -867,7 +893,7 @@
             // numericUpDown_unknown13
             // 
             this.numericUpDown_unknown13.Hexadecimal = true;
-            this.numericUpDown_unknown13.Location = new System.Drawing.Point(216, 295);
+            this.numericUpDown_unknown13.Location = new System.Drawing.Point(312, 317);
             this.numericUpDown_unknown13.Maximum = new decimal(new int[] {
             255,
             0,
@@ -880,7 +906,7 @@
             // numericUpDown_unknown5
             // 
             this.numericUpDown_unknown5.Hexadecimal = true;
-            this.numericUpDown_unknown5.Location = new System.Drawing.Point(216, 269);
+            this.numericUpDown_unknown5.Location = new System.Drawing.Point(231, 269);
             this.numericUpDown_unknown5.Maximum = new decimal(new int[] {
             255,
             0,
@@ -893,7 +919,7 @@
             // numericUpDown_unknown12
             // 
             this.numericUpDown_unknown12.Hexadecimal = true;
-            this.numericUpDown_unknown12.Location = new System.Drawing.Point(164, 295);
+            this.numericUpDown_unknown12.Location = new System.Drawing.Point(236, 317);
             this.numericUpDown_unknown12.Maximum = new decimal(new int[] {
             255,
             0,
@@ -906,7 +932,7 @@
             // numericUpDown_unknown4
             // 
             this.numericUpDown_unknown4.Hexadecimal = true;
-            this.numericUpDown_unknown4.Location = new System.Drawing.Point(164, 269);
+            this.numericUpDown_unknown4.Location = new System.Drawing.Point(167, 269);
             this.numericUpDown_unknown4.Maximum = new decimal(new int[] {
             255,
             0,
@@ -919,7 +945,7 @@
             // numericUpDown_unknown11
             // 
             this.numericUpDown_unknown11.Hexadecimal = true;
-            this.numericUpDown_unknown11.Location = new System.Drawing.Point(115, 295);
+            this.numericUpDown_unknown11.Location = new System.Drawing.Point(160, 317);
             this.numericUpDown_unknown11.Maximum = new decimal(new int[] {
             255,
             0,
@@ -932,7 +958,7 @@
             // numericUpDown_unknown3
             // 
             this.numericUpDown_unknown3.Hexadecimal = true;
-            this.numericUpDown_unknown3.Location = new System.Drawing.Point(115, 269);
+            this.numericUpDown_unknown3.Location = new System.Drawing.Point(120, 269);
             this.numericUpDown_unknown3.Maximum = new decimal(new int[] {
             255,
             0,
@@ -945,7 +971,7 @@
             // numericUpDown_unknown10
             // 
             this.numericUpDown_unknown10.Hexadecimal = true;
-            this.numericUpDown_unknown10.Location = new System.Drawing.Point(63, 295);
+            this.numericUpDown_unknown10.Location = new System.Drawing.Point(84, 317);
             this.numericUpDown_unknown10.Maximum = new decimal(new int[] {
             255,
             0,
@@ -958,7 +984,7 @@
             // numericUpDown_unknown2
             // 
             this.numericUpDown_unknown2.Hexadecimal = true;
-            this.numericUpDown_unknown2.Location = new System.Drawing.Point(63, 269);
+            this.numericUpDown_unknown2.Location = new System.Drawing.Point(58, 269);
             this.numericUpDown_unknown2.Maximum = new decimal(new int[] {
             255,
             0,
@@ -971,7 +997,7 @@
             // numericUpDown_unknown9
             // 
             this.numericUpDown_unknown9.Hexadecimal = true;
-            this.numericUpDown_unknown9.Location = new System.Drawing.Point(11, 295);
+            this.numericUpDown_unknown9.Location = new System.Drawing.Point(8, 317);
             this.numericUpDown_unknown9.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1514,15 +1540,84 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // checkBox_wavywater
+            // label14
             // 
-            this.checkBox_wavywater.AutoSize = true;
-            this.checkBox_wavywater.Location = new System.Drawing.Point(215, 170);
-            this.checkBox_wavywater.Name = "checkBox_wavywater";
-            this.checkBox_wavywater.Size = new System.Drawing.Size(109, 17);
-            this.checkBox_wavywater.TabIndex = 67;
-            this.checkBox_wavywater.Text = "Water has waves";
-            this.checkBox_wavywater.UseVisualStyleBackColor = true;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(8, 301);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(69, 13);
+            this.label14.TabIndex = 68;
+            this.label14.Text = "Object types:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(6, 340);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(55, 13);
+            this.label17.TabIndex = 69;
+            this.label17.Text = "01, 39, 41";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(78, 340);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 70;
+            this.label20.Text = "02, 3A, 42";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(154, 340);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(56, 13);
+            this.label21.TabIndex = 71;
+            this.label21.Text = "03, 3B, 43";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(230, 340);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(56, 13);
+            this.label22.TabIndex = 72;
+            this.label22.Text = "04, 3C, 44";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(306, 340);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(57, 13);
+            this.label23.TabIndex = 73;
+            this.label23.Text = "05, 3D, 45";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(382, 340);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(56, 13);
+            this.label24.TabIndex = 74;
+            this.label24.Text = "06, 3E, 46";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(454, 340);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(55, 13);
+            this.label25.TabIndex = 75;
+            this.label25.Text = "07, 3F, 47";
             // 
             // MainForm
             // 
@@ -1725,5 +1820,13 @@
         private System.Windows.Forms.TextBox textBox_headerpointer;
         private System.Windows.Forms.TextBox textBox_headernumber;
         private System.Windows.Forms.CheckBox checkBox_wavywater;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label17;
     }
 }
