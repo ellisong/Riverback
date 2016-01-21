@@ -24,11 +24,12 @@ namespace Riverback
         public byte fieldNumber;
         public byte musicSelect;
         public byte[] enemyType;
-        public byte[] unknownData;
+        public byte[] spawnRates;
+        public byte[] objectType;
         public byte waterHeight;
         public byte displayWater;
         public byte waterType;
-        public byte unknownData2;
+        public byte alwaysE6;
         public int levelTimer;
         public byte[] doorExits;
 
@@ -37,7 +38,8 @@ namespace Riverback
             this.headerNumber = headerNumber;
             enemyType = new byte[6];
             doorExits = new byte[4];
-            unknownData = new byte[15];
+            spawnRates = new byte[8];
+            objectType = new byte[7];
         }
 
         public LevelHeader(LevelHeader levelHeader)
@@ -50,11 +52,12 @@ namespace Riverback
             this.fieldNumber = levelHeader.fieldNumber;
             this.musicSelect = levelHeader.musicSelect;
             this.enemyType = (byte[])levelHeader.enemyType.Clone();
-            this.unknownData = (byte[])levelHeader.unknownData.Clone();
+            this.spawnRates = (byte[])levelHeader.spawnRates.Clone();
+            this.objectType = (byte[])levelHeader.objectType.Clone();
             this.waterHeight = levelHeader.waterHeight;
             this.displayWater = levelHeader.displayWater;
             this.waterType = levelHeader.waterType;
-            this.unknownData2 = levelHeader.unknownData2;
+            this.alwaysE6 = levelHeader.alwaysE6;
             this.levelTimer = levelHeader.levelTimer;
             this.doorExits = (byte[])levelHeader.doorExits.Clone();
         }
@@ -74,11 +77,12 @@ namespace Riverback
             compressedData.Add(fieldNumber);
             compressedData.Add(musicSelect);
             compressedData.AddRange(enemyType);
-            compressedData.AddRange(unknownData);
+            compressedData.AddRange(spawnRates);
+            compressedData.AddRange(objectType);
             compressedData.Add(waterHeight);
             compressedData.Add(displayWater);
             compressedData.Add(waterType);
-            compressedData.Add(unknownData2);
+            compressedData.Add(alwaysE6);
             compressedData.Add((byte)(levelTimer & 0x00FF));
             compressedData.Add((byte)((levelTimer & 0xFF00) >> 8));
             compressedData.AddRange(doorExits);
@@ -99,25 +103,25 @@ namespace Riverback
                 enemyType[3] = data[offset + 0x09];
                 enemyType[4] = data[offset + 0x0A];
                 enemyType[5] = data[offset + 0x0B];
-                unknownData[0] = data[offset + 0x0C];
-                unknownData[1] = data[offset + 0x0D];
-                unknownData[2] = data[offset + 0x0E];
-                unknownData[3] = data[offset + 0x0F];
-                unknownData[4] = data[offset + 0x10];
-                unknownData[5] = data[offset + 0x11];
-                unknownData[6] = data[offset + 0x12];
-                unknownData[7] = data[offset + 0x13];
-                unknownData[8] = data[offset + 0x14];
-                unknownData[9] = data[offset + 0x15];
-                unknownData[10] = data[offset + 0x16];
-                unknownData[11] = data[offset + 0x17];
-                unknownData[12] = data[offset + 0x18];
-                unknownData[13] = data[offset + 0x19];
-                unknownData[14] = data[offset + 0x1A];
+                spawnRates[0] = data[offset + 0x0C];
+                spawnRates[1] = data[offset + 0x0D];
+                spawnRates[2] = data[offset + 0x0E];
+                spawnRates[3] = data[offset + 0x0F];
+                spawnRates[4] = data[offset + 0x10];
+                spawnRates[5] = data[offset + 0x11];
+                spawnRates[6] = data[offset + 0x12];
+                spawnRates[7] = data[offset + 0x13];
+                objectType[0] = data[offset + 0x14];
+                objectType[1] = data[offset + 0x15];
+                objectType[2] = data[offset + 0x16];
+                objectType[3] = data[offset + 0x17];
+                objectType[4] = data[offset + 0x18];
+                objectType[5] = data[offset + 0x19];
+                objectType[6] = data[offset + 0x1A];
                 waterHeight = data[offset + 0x1B];
                 displayWater = data[offset + 0x1C];
                 waterType = data[offset + 0x1D];
-                unknownData2 = data[offset + 0x1E];
+                alwaysE6 = data[offset + 0x1E];
                 levelTimer = DataFormatter.switchReadBytesIntoint16(data, offset + 0x1F);
                 doorExits[0] = data[offset + 0x21];
                 doorExits[1] = data[offset + 0x22];

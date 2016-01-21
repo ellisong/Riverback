@@ -60,6 +60,14 @@
             this.tabPage_Level = new System.Windows.Forms.TabPage();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.checkBox_wavywater = new System.Windows.Forms.CheckBox();
             this.textBox_levelpointer = new System.Windows.Forms.TextBox();
             this.textBox_headeraddress = new System.Windows.Forms.TextBox();
@@ -75,21 +83,21 @@
             this.numericUpDown_paletteindices1 = new System.Windows.Forms.NumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
             this.numericUpDown_waterheight = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown15 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown8 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown7 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown14 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown6 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown13 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown5 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown12 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown11 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown10 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown9 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_unknown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype7 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate8 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate7 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype6 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate6 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype5 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate5 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate4 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_objecttype1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_spawnrate1 = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown_doorexit4 = new System.Windows.Forms.NumericUpDown();
@@ -138,14 +146,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -171,21 +171,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_paletteindices2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_paletteindices1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_waterheight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit2)).BeginInit();
@@ -556,21 +556,21 @@
             this.tabPage1.Controls.Add(this.numericUpDown_paletteindices1);
             this.tabPage1.Controls.Add(this.label18);
             this.tabPage1.Controls.Add(this.numericUpDown_waterheight);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown15);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown8);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown7);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown14);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown6);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown13);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown5);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown12);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown4);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown11);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown3);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown10);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown2);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown9);
-            this.tabPage1.Controls.Add(this.numericUpDown_unknown1);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype7);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate8);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate7);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype6);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate6);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype5);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate5);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype4);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate4);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype3);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate3);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype2);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate2);
+            this.tabPage1.Controls.Add(this.numericUpDown_objecttype1);
+            this.tabPage1.Controls.Add(this.numericUpDown_spawnrate1);
             this.tabPage1.Controls.Add(this.label16);
             this.tabPage1.Controls.Add(this.label15);
             this.tabPage1.Controls.Add(this.numericUpDown_doorexit4);
@@ -603,6 +603,85 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Level Header Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(454, 340);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(55, 13);
+            this.label25.TabIndex = 75;
+            this.label25.Text = "07, 3F, 47";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(382, 340);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(56, 13);
+            this.label24.TabIndex = 74;
+            this.label24.Text = "06, 3E, 46";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(306, 340);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(57, 13);
+            this.label23.TabIndex = 73;
+            this.label23.Text = "05, 3D, 45";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(230, 340);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(56, 13);
+            this.label22.TabIndex = 72;
+            this.label22.Text = "04, 3C, 44";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(154, 340);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(56, 13);
+            this.label21.TabIndex = 71;
+            this.label21.Text = "03, 3B, 43";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(78, 340);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.TabIndex = 70;
+            this.label20.Text = "02, 3A, 42";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(6, 340);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(55, 13);
+            this.label17.TabIndex = 69;
+            this.label17.Text = "01, 39, 41";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(8, 301);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(69, 13);
+            this.label14.TabIndex = 68;
+            this.label14.Text = "Object types:";
             // 
             // checkBox_wavywater
             // 
@@ -808,9 +887,9 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(8, 253);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(80, 13);
+            this.label18.Size = new System.Drawing.Size(148, 13);
             this.label18.TabIndex = 53;
-            this.label18.Text = "Unknown data:";
+            this.label18.Text = "Spawn rates (Enemies 0 to 3):";
             // 
             // numericUpDown_waterheight
             // 
@@ -825,200 +904,200 @@
             this.numericUpDown_waterheight.Size = new System.Drawing.Size(63, 20);
             this.numericUpDown_waterheight.TabIndex = 50;
             // 
-            // numericUpDown_unknown15
+            // numericUpDown_objecttype7
             // 
-            this.numericUpDown_unknown15.Hexadecimal = true;
-            this.numericUpDown_unknown15.Location = new System.Drawing.Point(460, 317);
-            this.numericUpDown_unknown15.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype7.Hexadecimal = true;
+            this.numericUpDown_objecttype7.Location = new System.Drawing.Point(460, 317);
+            this.numericUpDown_objecttype7.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown15.Name = "numericUpDown_unknown15";
-            this.numericUpDown_unknown15.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown15.TabIndex = 49;
+            this.numericUpDown_objecttype7.Name = "numericUpDown_objecttype7";
+            this.numericUpDown_objecttype7.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype7.TabIndex = 49;
             // 
-            // numericUpDown_unknown8
+            // numericUpDown_spawnrate8
             // 
-            this.numericUpDown_unknown8.Hexadecimal = true;
-            this.numericUpDown_unknown8.Location = new System.Drawing.Point(388, 269);
-            this.numericUpDown_unknown8.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate8.Hexadecimal = true;
+            this.numericUpDown_spawnrate8.Location = new System.Drawing.Point(388, 269);
+            this.numericUpDown_spawnrate8.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown8.Name = "numericUpDown_unknown8";
-            this.numericUpDown_unknown8.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown8.TabIndex = 48;
+            this.numericUpDown_spawnrate8.Name = "numericUpDown_spawnrate8";
+            this.numericUpDown_spawnrate8.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate8.TabIndex = 48;
             // 
-            // numericUpDown_unknown7
+            // numericUpDown_spawnrate7
             // 
-            this.numericUpDown_unknown7.Hexadecimal = true;
-            this.numericUpDown_unknown7.Location = new System.Drawing.Point(341, 269);
-            this.numericUpDown_unknown7.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate7.Hexadecimal = true;
+            this.numericUpDown_spawnrate7.Location = new System.Drawing.Point(341, 269);
+            this.numericUpDown_spawnrate7.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown7.Name = "numericUpDown_unknown7";
-            this.numericUpDown_unknown7.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown7.TabIndex = 47;
+            this.numericUpDown_spawnrate7.Name = "numericUpDown_spawnrate7";
+            this.numericUpDown_spawnrate7.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate7.TabIndex = 47;
             // 
-            // numericUpDown_unknown14
+            // numericUpDown_objecttype6
             // 
-            this.numericUpDown_unknown14.Hexadecimal = true;
-            this.numericUpDown_unknown14.Location = new System.Drawing.Point(388, 317);
-            this.numericUpDown_unknown14.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype6.Hexadecimal = true;
+            this.numericUpDown_objecttype6.Location = new System.Drawing.Point(388, 317);
+            this.numericUpDown_objecttype6.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown14.Name = "numericUpDown_unknown14";
-            this.numericUpDown_unknown14.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown14.TabIndex = 46;
+            this.numericUpDown_objecttype6.Name = "numericUpDown_objecttype6";
+            this.numericUpDown_objecttype6.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype6.TabIndex = 46;
             // 
-            // numericUpDown_unknown6
+            // numericUpDown_spawnrate6
             // 
-            this.numericUpDown_unknown6.Hexadecimal = true;
-            this.numericUpDown_unknown6.Location = new System.Drawing.Point(278, 269);
-            this.numericUpDown_unknown6.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate6.Hexadecimal = true;
+            this.numericUpDown_spawnrate6.Location = new System.Drawing.Point(278, 269);
+            this.numericUpDown_spawnrate6.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown6.Name = "numericUpDown_unknown6";
-            this.numericUpDown_unknown6.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown6.TabIndex = 45;
+            this.numericUpDown_spawnrate6.Name = "numericUpDown_spawnrate6";
+            this.numericUpDown_spawnrate6.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate6.TabIndex = 45;
             // 
-            // numericUpDown_unknown13
+            // numericUpDown_objecttype5
             // 
-            this.numericUpDown_unknown13.Hexadecimal = true;
-            this.numericUpDown_unknown13.Location = new System.Drawing.Point(312, 317);
-            this.numericUpDown_unknown13.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype5.Hexadecimal = true;
+            this.numericUpDown_objecttype5.Location = new System.Drawing.Point(312, 317);
+            this.numericUpDown_objecttype5.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown13.Name = "numericUpDown_unknown13";
-            this.numericUpDown_unknown13.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown13.TabIndex = 44;
+            this.numericUpDown_objecttype5.Name = "numericUpDown_objecttype5";
+            this.numericUpDown_objecttype5.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype5.TabIndex = 44;
             // 
-            // numericUpDown_unknown5
+            // numericUpDown_spawnrate5
             // 
-            this.numericUpDown_unknown5.Hexadecimal = true;
-            this.numericUpDown_unknown5.Location = new System.Drawing.Point(231, 269);
-            this.numericUpDown_unknown5.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate5.Hexadecimal = true;
+            this.numericUpDown_spawnrate5.Location = new System.Drawing.Point(231, 269);
+            this.numericUpDown_spawnrate5.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown5.Name = "numericUpDown_unknown5";
-            this.numericUpDown_unknown5.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown5.TabIndex = 43;
+            this.numericUpDown_spawnrate5.Name = "numericUpDown_spawnrate5";
+            this.numericUpDown_spawnrate5.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate5.TabIndex = 43;
             // 
-            // numericUpDown_unknown12
+            // numericUpDown_objecttype4
             // 
-            this.numericUpDown_unknown12.Hexadecimal = true;
-            this.numericUpDown_unknown12.Location = new System.Drawing.Point(236, 317);
-            this.numericUpDown_unknown12.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype4.Hexadecimal = true;
+            this.numericUpDown_objecttype4.Location = new System.Drawing.Point(236, 317);
+            this.numericUpDown_objecttype4.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown12.Name = "numericUpDown_unknown12";
-            this.numericUpDown_unknown12.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown12.TabIndex = 42;
+            this.numericUpDown_objecttype4.Name = "numericUpDown_objecttype4";
+            this.numericUpDown_objecttype4.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype4.TabIndex = 42;
             // 
-            // numericUpDown_unknown4
+            // numericUpDown_spawnrate4
             // 
-            this.numericUpDown_unknown4.Hexadecimal = true;
-            this.numericUpDown_unknown4.Location = new System.Drawing.Point(167, 269);
-            this.numericUpDown_unknown4.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate4.Hexadecimal = true;
+            this.numericUpDown_spawnrate4.Location = new System.Drawing.Point(167, 269);
+            this.numericUpDown_spawnrate4.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown4.Name = "numericUpDown_unknown4";
-            this.numericUpDown_unknown4.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown4.TabIndex = 41;
+            this.numericUpDown_spawnrate4.Name = "numericUpDown_spawnrate4";
+            this.numericUpDown_spawnrate4.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate4.TabIndex = 41;
             // 
-            // numericUpDown_unknown11
+            // numericUpDown_objecttype3
             // 
-            this.numericUpDown_unknown11.Hexadecimal = true;
-            this.numericUpDown_unknown11.Location = new System.Drawing.Point(160, 317);
-            this.numericUpDown_unknown11.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype3.Hexadecimal = true;
+            this.numericUpDown_objecttype3.Location = new System.Drawing.Point(160, 317);
+            this.numericUpDown_objecttype3.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown11.Name = "numericUpDown_unknown11";
-            this.numericUpDown_unknown11.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown11.TabIndex = 40;
+            this.numericUpDown_objecttype3.Name = "numericUpDown_objecttype3";
+            this.numericUpDown_objecttype3.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype3.TabIndex = 40;
             // 
-            // numericUpDown_unknown3
+            // numericUpDown_spawnrate3
             // 
-            this.numericUpDown_unknown3.Hexadecimal = true;
-            this.numericUpDown_unknown3.Location = new System.Drawing.Point(120, 269);
-            this.numericUpDown_unknown3.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate3.Hexadecimal = true;
+            this.numericUpDown_spawnrate3.Location = new System.Drawing.Point(120, 269);
+            this.numericUpDown_spawnrate3.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown3.Name = "numericUpDown_unknown3";
-            this.numericUpDown_unknown3.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown3.TabIndex = 39;
+            this.numericUpDown_spawnrate3.Name = "numericUpDown_spawnrate3";
+            this.numericUpDown_spawnrate3.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate3.TabIndex = 39;
             // 
-            // numericUpDown_unknown10
+            // numericUpDown_objecttype2
             // 
-            this.numericUpDown_unknown10.Hexadecimal = true;
-            this.numericUpDown_unknown10.Location = new System.Drawing.Point(84, 317);
-            this.numericUpDown_unknown10.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype2.Hexadecimal = true;
+            this.numericUpDown_objecttype2.Location = new System.Drawing.Point(84, 317);
+            this.numericUpDown_objecttype2.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown10.Name = "numericUpDown_unknown10";
-            this.numericUpDown_unknown10.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown10.TabIndex = 38;
+            this.numericUpDown_objecttype2.Name = "numericUpDown_objecttype2";
+            this.numericUpDown_objecttype2.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype2.TabIndex = 38;
             // 
-            // numericUpDown_unknown2
+            // numericUpDown_spawnrate2
             // 
-            this.numericUpDown_unknown2.Hexadecimal = true;
-            this.numericUpDown_unknown2.Location = new System.Drawing.Point(58, 269);
-            this.numericUpDown_unknown2.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate2.Hexadecimal = true;
+            this.numericUpDown_spawnrate2.Location = new System.Drawing.Point(58, 269);
+            this.numericUpDown_spawnrate2.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown2.Name = "numericUpDown_unknown2";
-            this.numericUpDown_unknown2.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown2.TabIndex = 37;
+            this.numericUpDown_spawnrate2.Name = "numericUpDown_spawnrate2";
+            this.numericUpDown_spawnrate2.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate2.TabIndex = 37;
             // 
-            // numericUpDown_unknown9
+            // numericUpDown_objecttype1
             // 
-            this.numericUpDown_unknown9.Hexadecimal = true;
-            this.numericUpDown_unknown9.Location = new System.Drawing.Point(8, 317);
-            this.numericUpDown_unknown9.Maximum = new decimal(new int[] {
+            this.numericUpDown_objecttype1.Hexadecimal = true;
+            this.numericUpDown_objecttype1.Location = new System.Drawing.Point(8, 317);
+            this.numericUpDown_objecttype1.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown9.Name = "numericUpDown_unknown9";
-            this.numericUpDown_unknown9.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown9.TabIndex = 36;
+            this.numericUpDown_objecttype1.Name = "numericUpDown_objecttype1";
+            this.numericUpDown_objecttype1.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_objecttype1.TabIndex = 36;
             // 
-            // numericUpDown_unknown1
+            // numericUpDown_spawnrate1
             // 
-            this.numericUpDown_unknown1.Hexadecimal = true;
-            this.numericUpDown_unknown1.Location = new System.Drawing.Point(11, 269);
-            this.numericUpDown_unknown1.Maximum = new decimal(new int[] {
+            this.numericUpDown_spawnrate1.Hexadecimal = true;
+            this.numericUpDown_spawnrate1.Location = new System.Drawing.Point(11, 269);
+            this.numericUpDown_spawnrate1.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown_unknown1.Name = "numericUpDown_unknown1";
-            this.numericUpDown_unknown1.Size = new System.Drawing.Size(46, 20);
-            this.numericUpDown_unknown1.TabIndex = 35;
+            this.numericUpDown_spawnrate1.Name = "numericUpDown_spawnrate1";
+            this.numericUpDown_spawnrate1.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDown_spawnrate1.TabIndex = 35;
             // 
             // label16
             // 
@@ -1540,85 +1619,6 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 301);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(69, 13);
-            this.label14.TabIndex = 68;
-            this.label14.Text = "Object types:";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(6, 340);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(55, 13);
-            this.label17.TabIndex = 69;
-            this.label17.Text = "01, 39, 41";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(78, 340);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(56, 13);
-            this.label20.TabIndex = 70;
-            this.label20.Text = "02, 3A, 42";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(154, 340);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(56, 13);
-            this.label21.TabIndex = 71;
-            this.label21.Text = "03, 3B, 43";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(230, 340);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(56, 13);
-            this.label22.TabIndex = 72;
-            this.label22.Text = "04, 3C, 44";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(306, 340);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(57, 13);
-            this.label23.TabIndex = 73;
-            this.label23.Text = "05, 3D, 45";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(382, 340);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(56, 13);
-            this.label24.TabIndex = 74;
-            this.label24.Text = "06, 3E, 46";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(454, 340);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(55, 13);
-            this.label25.TabIndex = 75;
-            this.label25.Text = "07, 3F, 47";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1663,21 +1663,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_paletteindices2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_paletteindices1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_waterheight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_unknown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_objecttype1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_spawnrate1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_doorexit2)).EndInit();
@@ -1792,21 +1792,21 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_leveltimer;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.NumericUpDown numericUpDown_waterheight;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown15;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown8;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown7;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown14;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown6;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown13;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown5;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown12;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown4;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown11;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown10;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown9;
-        private System.Windows.Forms.NumericUpDown numericUpDown_unknown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype7;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate8;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate7;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype6;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate6;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype5;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate5;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype4;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate4;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype2;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate2;
+        private System.Windows.Forms.NumericUpDown numericUpDown_objecttype1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_spawnrate1;
         private System.Windows.Forms.Button button_applyheader;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.NumericUpDown numericUpDown_paletteindices6;
