@@ -31,17 +31,16 @@ namespace Riverback
         private bool selected;
         public bool Selected { get { return selected; } }
 
-        public TileSelector()
+		public TileSelector(CoordinateConverter coordConverter)
         {
             tileCoordsStart = new Point(UNUSED_COORD_NUMBER, UNUSED_COORD_NUMBER);
             tileCoords = new Rectangle();
-            coordConverter = new CoordinateConverter();
+			this.coordConverter = coordConverter;
         }
 
         public void selectStart(Point mouseCoords, int tileWidth, int tileScale = 1)
         {
             if (isSelecting == false) {
-                coordConverter.TileWidth = tileWidth;
                 tileCoordsStart = coordConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 tileCoords.X = UNUSED_COORD_NUMBER + 1;
                 tileCoords.Y = UNUSED_COORD_NUMBER + 1;
@@ -55,7 +54,6 @@ namespace Riverback
         public void selectEnd(Point mouseCoords, int tileWidth, int tileScale = 1)
         {
             if (isSelecting == true) {
-                coordConverter.TileWidth = tileWidth;
                 Point tileCoordsEnd = coordConverter.getTileCoordsFromMouseCoords(mouseCoords);
                 Point topLeft = new Point(Math.Min(tileCoordsStart.X, tileCoordsEnd.X), 
                                           Math.Min(tileCoordsStart.Y, tileCoordsEnd.Y));
@@ -89,7 +87,6 @@ namespace Riverback
 
         public List<TileSelection<TilemapTile>> getTilesFromSelection(TilemapTile[] tilemap, int tileAmountWidth)
         {
-            coordConverter.TileAmountWidth = tileAmountWidth;
             var selectedTiles = new List<TileSelection<TilemapTile>>();
             Point tempCoord = new Point();
             for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {
@@ -106,7 +103,6 @@ namespace Riverback
 
         public List<TileSelection<byte>> getTilesFromSelection(byte[] physmap, int tileAmountWidth)
         {
-            coordConverter.TileAmountWidth = tileAmountWidth;
             var selectedTiles = new List<TileSelection<byte>>();
             Point tempCoord = new Point();
             for (int y = tileCoords.Y; y <= (tileCoords.Y + tileCoords.Height); y++) {

@@ -64,13 +64,13 @@ namespace Riverback
         {
             InitializeComponent();
             levelEditor = new LevelEditor();
-            tilemapTileSelector = new TileSelector();
             coordConverterLevel = new CoordinateConverter(LEVEL_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
             coordConverterTileset = new CoordinateConverter(LEVEL_TILESET_TILEAMOUNT_WIDTH, 
                                                             (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
             coordConverterPhysmap = new CoordinateConverter(LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
             coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
-            selectedTileIndices = new bool[2048];
+			tilemapTileSelector = new TileSelector(coordConverterLevel);
+			selectedTileIndices = new bool[2048];
             selectedLevelHeader = new LevelHeader();
             selectedPaletteIndex = new byte[Level.LEVEL_PALETTE_INDEX_AMOUNT];
             lastLevelTileSelected = -1;

@@ -29,30 +29,34 @@ namespace Riverback
 
         public Point getTileCoordsFromMouseCoords(Point mouseCoords)
         {
+			Point tempCoords = checkMouseCoords(mouseCoords);
             Point tileCoords = new Point();
-            tileCoords.X = mouseCoords.X / TileWidth;
-            tileCoords.Y = mouseCoords.Y / TileWidth;
+			tileCoords.X = tempCoords.X / TileWidth;
+			tileCoords.Y = tempCoords.Y / TileWidth;
             return tileCoords;
         }
 
         public int getTileNumberFromTileCoords(Point tileCoords)
         {
-            return (tileCoords.Y * TileAmountWidth + tileCoords.X);
+			Point tempCoords = checkTileCoords(tileCoords);
+			return (tempCoords.Y * TileAmountWidth + tempCoords.X);
         }
 
         public Point getMouseCoordsFromTileCoords(Point tileCoords)
         {
+			Point tempCoords = checkTileCoords(tileCoords);
             Point mouseCoords = new Point();
-            mouseCoords.X = tileCoords.X * TileWidth;
-            mouseCoords.Y = tileCoords.Y * TileWidth;
+			mouseCoords.X = tempCoords.X * TileWidth;
+			mouseCoords.Y = tempCoords.Y * TileWidth;
             return mouseCoords;
         }
 
         public Point getTileCoordsFromTileNumber(int tileNumber)
         {
+			int tempNum = checkTileNum(tileNumber);
             Point tileCoords = new Point();
-            tileCoords.X = tileNumber % TileAmountWidth;
-            tileCoords.Y = tileNumber / TileAmountWidth;
+			tileCoords.X = tempNum % TileAmountWidth;
+			tileCoords.Y = tempNum / TileAmountWidth;
             return tileCoords;
         }
 
@@ -65,5 +69,46 @@ namespace Riverback
             mouseCoords.Height = (rect.Height + 1) * TileWidth;
             return mouseCoords;
         }
+
+		private Point checkMouseCoords(Point mouseCoords)
+		{
+			Point tempCoords = new Point(mouseCoords.X, mouseCoords.Y);
+			if (tempCoords.X < 0)
+				tempCoords.X = 0;
+			else if (tempCoords.X >= TileAmountWidth * TileWidth)
+				tempCoords.X = TileAmountWidth * TileWidth - 1;
+
+			if (tempCoords.Y < 0)
+				tempCoords.Y = 0;
+			else if (tempCoords.Y >= TileAmountWidth * TileWidth)
+				tempCoords.Y = TileAmountWidth * TileWidth - 1;
+
+			return tempCoords;
+		}
+
+		private Point checkTileCoords(Point tileCoords)
+		{
+			Point tempCoords = new Point(tileCoords.X, tileCoords.Y);
+			if (tempCoords.X < 0)
+				tempCoords.X = 0;
+			else if (tempCoords.X >= TileAmountWidth)
+				tempCoords.X = TileAmountWidth - 1;
+
+			if (tempCoords.Y < 0)
+				tempCoords.Y = 0;
+			else if (tempCoords.Y >= TileAmountWidth)
+				tempCoords.Y = TileAmountWidth - 1;
+
+			return tempCoords;
+		}
+
+		private int checkTileNum(int tileNum)
+		{
+			if (tileNum > TileAmountWidth * TileAmountWidth)
+				return TileAmountWidth * TileAmountWidth;
+			if (tileNum < 0)
+				return 0;
+			return tileNum;
+		}
     }
 }
