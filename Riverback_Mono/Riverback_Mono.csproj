@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{0D43A4EB-E992-44AB-A1C1-928E8021FCBE}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Riverback_Mono</RootNamespace>
+    <AssemblyName>Riverback_Mono</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="..\Riverback\Color.cs">
+      <Link>Color.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\CoordinateConverter.cs">
+      <Link>CoordinateConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\DataCompressor.cs">
+      <Link>DataCompressor.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\DataFormatter.cs">
+      <Link>DataFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\GraphicBank.cs">
+      <Link>GraphicBank.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Level.cs">
+      <Link>Level.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\LevelEditor.cs">
+      <Link>LevelEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\LevelHeader.cs">
+      <Link>LevelHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\MainForm.Designer.cs">
+      <Link>MainForm.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\MainForm.cs">
+      <Link>MainForm.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Palette.cs">
+      <Link>Palette.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\RomWriter.cs">
+      <Link>RomWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\TileDrawer.cs">
+      <Link>TileDrawer.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\TileEditor.cs">
+      <Link>TileEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\TileSelector.cs">
+      <Link>TileSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\TilemapTile.cs">
+      <Link>TilemapTile.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Riverback\Properties\Settings.Designer.cs">
+      <Link>Properties\Settings.Designer.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile16.png">
+      <Link>Resources\gridtile16.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile16_256x256.png">
+      <Link>Resources\gridtile16_256x256.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile16_256x512.png">
+      <Link>Resources\gridtile16_256x512.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile8.png">
+      <Link>Resources\gridtile8.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile8_256x1024.png">
+      <Link>Resources\gridtile8_256x1024.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\gridtile8_512x512.png">
+      <Link>Resources\gridtile8_512x512.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\physmap.png">
+      <Link>Resources\physmap.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\physmap2.png">
+      <Link>Resources\physmap2.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\physmap_bytes.png">
+      <Link>Resources\physmap_bytes.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\physmap_bytes2.png">
+      <Link>Resources\physmap_bytes2.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Resources\wordtiles.png">
+      <Link>Resources\wordtiles.png</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <LogicalName>Riverback.Properties.Resources.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Riverback\MainForm.resx">
+      <Link>MainForm.resx</Link>
+      <LogicalName>Riverback.MainForm.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Riverback\Properties\Settings.settings">
+      <Link>Properties\Settings.settings</Link>
+    </None>
+    <None Include="..\Riverback\App.config">
+      <Link>App.config</Link>
+    </None>
+  </ItemGroup>
+</Project>
