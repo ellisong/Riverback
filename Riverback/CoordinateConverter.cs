@@ -5,13 +5,15 @@ namespace Riverback
     public class CoordinateConverter
     {
         public int TileAmountWidth { get; set; }
+        public int TileAmountHeight { get; set; }
         public int TileWidth { get; set; }
 
         public CoordinateConverter() {}
 
-        public CoordinateConverter(int tileAmountWidth, int tileWidth)
+        public CoordinateConverter(int tileAmountWidth, int tileAmountHeight, int tileWidth)
         {
             TileAmountWidth = tileAmountWidth;
+            TileAmountHeight = tileAmountHeight;
             TileWidth = tileWidth;
         }
 
@@ -80,8 +82,8 @@ namespace Riverback
 
 			if (tempCoords.Y < 0)
 				tempCoords.Y = 0;
-			else if (tempCoords.Y >= TileAmountWidth * TileWidth)
-				tempCoords.Y = TileAmountWidth * TileWidth - 1;
+			else if (tempCoords.Y >= TileAmountHeight * TileWidth)
+				tempCoords.Y = TileAmountHeight * TileWidth - 1;
 
 			return tempCoords;
 		}
@@ -96,16 +98,16 @@ namespace Riverback
 
 			if (tempCoords.Y < 0)
 				tempCoords.Y = 0;
-			else if (tempCoords.Y >= TileAmountWidth)
-				tempCoords.Y = TileAmountWidth - 1;
+			else if (tempCoords.Y >= TileAmountHeight)
+				tempCoords.Y = TileAmountHeight - 1;
 
 			return tempCoords;
 		}
 
 		private int checkTileNum(int tileNum)
 		{
-			if (tileNum > TileAmountWidth * TileAmountWidth)
-				return TileAmountWidth * TileAmountWidth;
+			if (tileNum > TileAmountWidth * TileAmountHeight)
+				return TileAmountWidth * TileAmountHeight;
 			if (tileNum < 0)
 				return 0;
 			return tileNum;

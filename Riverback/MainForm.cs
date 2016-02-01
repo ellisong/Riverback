@@ -18,8 +18,10 @@ namespace Riverback
     {
         private const int LEVEL_TILEAMOUNT_WIDTH = 64;
         private const int LEVEL_TILESET_TILEAMOUNT_WIDTH = 16;
+        private const int LEVEL_TILESET_TILEAMOUNT_HEIGHT = 32;
         private const int LEVEL_PHYSMAP_TILEAMOUNT_WIDTH = 16;
         private const int LEVEL_TILEINDEX_TILEAMOUNT_WIDTH = 16;
+        private const int LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT = 128;
         private const int PHYSTILE_TILEAMOUNT_WIDTH = 16;
         private const int PHYSTILE_TILEAMOUNT = 256;
         private const float TILE_SELECTOR_SCALE = 4.0f;
@@ -64,11 +66,18 @@ namespace Riverback
         {
             InitializeComponent();
             levelEditor = new LevelEditor();
-            coordConverterLevel = new CoordinateConverter(LEVEL_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
+            coordConverterLevel = new CoordinateConverter(LEVEL_TILEAMOUNT_WIDTH, 
+                                                          LEVEL_TILEAMOUNT_WIDTH, 
+                                                          TileDrawer.TILE_WIDTH);
             coordConverterTileset = new CoordinateConverter(LEVEL_TILESET_TILEAMOUNT_WIDTH, 
+                                                            LEVEL_TILESET_TILEAMOUNT_HEIGHT, 
                                                             (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
-            coordConverterPhysmap = new CoordinateConverter(LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
-            coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, TileDrawer.TILE_WIDTH);
+            coordConverterPhysmap = new CoordinateConverter(LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, 
+                                                            LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, 
+                                                            TileDrawer.TILE_WIDTH);
+            coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, 
+                                                              LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT, 
+                                                              TileDrawer.TILE_WIDTH);
 			tilemapTileSelector = new TileSelector(coordConverterLevel);
 			selectedTileIndices = new bool[2048];
             selectedLevelHeader = new LevelHeader();
