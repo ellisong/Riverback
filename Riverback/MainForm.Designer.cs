@@ -1578,35 +1578,39 @@
             // MainMenu_File_Open
             // 
             this.MainMenu_File_Open.Name = "MainMenu_File_Open";
-            this.MainMenu_File_Open.Size = new System.Drawing.Size(169, 22);
-            this.MainMenu_File_Open.Text = "Open ROM";
+            this.MainMenu_File_Open.ShortcutKeyDisplayString = "Ctrl+O";
+            this.MainMenu_File_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.MainMenu_File_Open.Size = new System.Drawing.Size(209, 22);
+            this.MainMenu_File_Open.Text = "&Open ROM";
             this.MainMenu_File_Open.Click += new System.EventHandler(this.MainMenu_FileOpen_Click);
             // 
             // saveLevelToolStripMenuItem
             // 
             this.saveLevelToolStripMenuItem.Name = "saveLevelToolStripMenuItem";
-            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.saveLevelToolStripMenuItem.Text = "Save level to ROM";
+            this.saveLevelToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveLevelToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.saveLevelToolStripMenuItem.Text = "&Save level to ROM";
             this.saveLevelToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_SaveLevel_Click);
             // 
             // exportLevelToolStripMenuItem
             // 
             this.exportLevelToolStripMenuItem.Name = "exportLevelToolStripMenuItem";
-            this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.exportLevelToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.exportLevelToolStripMenuItem.Text = "Export level";
             this.exportLevelToolStripMenuItem.Click += new System.EventHandler(this.exportLevelToolStripMenuItem_Click);
             // 
             // importLevelToolStripMenuItem
             // 
             this.importLevelToolStripMenuItem.Name = "importLevelToolStripMenuItem";
-            this.importLevelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.importLevelToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.importLevelToolStripMenuItem.Text = "Import level";
             this.importLevelToolStripMenuItem.Click += new System.EventHandler(this.importLevelToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
@@ -1621,8 +1625,6 @@
             // 
             // MainForm
             // 
-            //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(977, 953);

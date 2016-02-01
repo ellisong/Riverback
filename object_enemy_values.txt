@@ -1,0 +1,107 @@
+object values:
+0x00: nothing
+0x04: escalator slow right. animates palette 7.
+0x05: escalator slow left.
+0x06: escalator fast right
+0x07: causes death
+0x08: rising platform series (bank 0)
+0x09: falling platform series (bank 0)
+0x0B: pullable/moveable wall
+0x0C: door
+0x0E: downward pillar
+0x0F: upward pillar
+0x10: pop-out ceiling tile
+0x11: pop-out ground tile
+0x18: bridge piece
+0x19: bridge piece. collapses when touched.
+0x20: single platform (bank 0, white)
+0x21: single platform (bank 0, blue)
+0x22: waves can push you on platform $41-$47. slippery.
+0x26: rising platform series (bank 0, blue, way less frequent)
+0x28: boss door barricade
+0x29: causes death
+0x2A: ice/glass
+0x2B:
+0x2C: rising platform series (bank 4)
+0x2D: falling platform series (bank 4)
+0x2E: rising spiked platform series (bank 4)
+0x2F: falling spiked platform series (bank 4)
+0x30: rising platform series (bank 2)
+0x31: falling platform series (bank 2)
+0x32: rising spiked platform series (bank 2)
+0x33: falling spiked platform series (bank 2)
+0x34: single platform (bank 1)
+0x35: single platform (bank 5)
+0x36: rising platform series (bank 1)
+0x37: falling platform series (bank 1)
+0x38: single platform (bank 6)
+0x39: single spiked platform (bank 6)
+0x3A: rising platform series (bank 5)
+0x3B: falling platform series (bank 5)
+
+
+enemy values:
+0x00: nothing
+0x01: "Poof"-sprite, crashes alone
+0x02: "Splash"-sprite, crashes alone
+0x03: net spawner (byte before this is what's dropped)
+0x04: goldfish
+0x05: eel
+0x06: flying clam
+0x07: brown snail
+0x08: bucket, type 1 (byte after this is what's spouted)
+0x09: bucket, type 2 (byte after this is what's spouted)
+0x0A: flying fish (for bucket)
+0x0B: small fish (for bucket)
+0x0C: UNUSED. Puffer fish.
+0x0D: blue fish
+0x0E: "Poof"-sprite, crashes alone.
+0x0F: red egg-laying fish
+0x10: shark (byte after is what's thrown)
+0x11: shark bait, also can be on ceiling
+0x12: giant tuna fish
+0x13: squid (horizontal) (byte after this is what's spitted)
+0x14: squid (vertical) (byte before this is what's spouted)
+0x15: squid ink
+0x16: tiny fish in water (decorative)
+0x17: brown bird
+0x18: blue bird
+0x19: "Poof"-sprite, crashes alone
+0x1A: "Poof"-sprite, crashes alone
+0x0B: "Poof"-sprite, crashes alone
+0x1C: barnacle (ground) (byte after this is what's spitted)
+0x1D: UNUSED. barnacle (vertical) (byte after this is what's spitted)
+0x1E: UNUSED. blue barnacle, spits cannonballs
+0x1F: barnacle spark
+0x20: UNUSED. blue barnacle
+0x21: blue snail
+0x22: UNUSED. octopus (identical?)
+0x23: UNUSED. catfish
+0x24: "Poof"-sprite, crashes alone
+0x25: "Poof"-sprite, crashes alone
+0x26: "Poof"-sprite, crashes alone
+0x27: "Poof"-sprite, crashes alone
+0x28: "Poof"-sprite, crashes alone
+0x29: "Poof"-sprite, crashes alone
+0x2A: "Poof"-sprite, crashes alone
+0x2B: "Poof"-sprite, crashes alone
+0x2C: "Poof"-sprite, crashes alone
+0x2D: "Poof"-sprite, crashes alone
+0x2E: "Poof"-sprite, crashes alone
+0x2F: backpack (1-up)
+0x30: giant tadpole (boss) (put 0x31 and 0x36 after this)
+0x31: frog (for boss)
+0x32: giant seahorse (boss, enemy #3) (put 0x33 and 0x35 before this, 0x34 after this)
+0x33: vertical seahorse (for boss)
+0x34: small seahorse (for boss)
+0x35: giant ink (for boss)
+0x36: frog egg? (for boss)
+0x37: giant crab (boss) (put 0x38 and 0x3D after this)
+0x38: crab's bubble (for boss)
+0x39: tiger flying fish (boss) (put 0x3A after this)
+0x3A: tiger flying fish second formation? (boss)
+0x3B: flounder flying fish (boss) (put 0x3C after this)
+0x3C: flounder flying fish second formation? (boss)
+0x3D: crab's platform shrapnel (for boss)
+0x3E: "Poof"-sprite, crashes alone
+0x3F: "Poof"-sprite, crashes alone
