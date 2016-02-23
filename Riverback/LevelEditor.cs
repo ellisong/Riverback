@@ -65,7 +65,7 @@ namespace Riverback
             PlanarTilesWithOffset pt = banks[index].getPlanarTilesFromBankData(level.TileIndex, 0);
             tileOffset = banks[index].TileOffset;
             List<byte> levelBankData = pt.planarTiles;
-            PlanarTilesWithOffset pt2 = banks[index+1].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
+            PlanarTilesWithOffset pt2 = banks[index + 1].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
             levelBankData.AddRange(pt2.planarTiles);
             levelBank = new GraphicBank(levelBankData.ToArray(), false);
             levelBank.tileAmount = level.TileIndexAmount;
@@ -75,6 +75,16 @@ namespace Riverback
         public void updateLevelHeader(LevelHeader levelHeader)
         {
             this.levelHeader = new LevelHeader(levelHeader);
+        }
+
+        public void removeInvalidTiles()
+        {
+            for (int index = 0; index < Level.LEVEL_TILE_AMOUNT; index++) {
+                if ((level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile) >= LevelBank.tileAmount) {
+                    level.Tilemap[index].Bank = 0;
+                    level.Tilemap[index].Tile = 0;
+                }
+            }
         }
 
         public void setTileInPhysmap(int tileNum, byte tile)

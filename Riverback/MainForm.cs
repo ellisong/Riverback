@@ -273,6 +273,7 @@ namespace Riverback
             if (isLevelLoaded) {
                 levelEditor.Level.TileIndex = selectedTileIndices.ToList();
                 levelEditor.updateLevelBank();
+                levelEditor.removeInvalidTiles();
                 currentTilesetTile = 0;
                 updateImages(true, true, true, false, false, true);
             }
