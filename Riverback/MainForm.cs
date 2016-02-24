@@ -47,6 +47,7 @@ namespace Riverback
         private int currentTilesetTile;
         private byte currentPhysmapTile;
         private int lastLevelTileSelected;
+        private int lastIndexTileSelected;
         private byte bankPaletteNum;
         private bool[] selectedTileIndices;
         private LevelHeader selectedLevelHeader;
@@ -83,6 +84,7 @@ namespace Riverback
             selectedLevelHeader = new LevelHeader();
             selectedPaletteIndex = new byte[Level.LEVEL_PALETTE_INDEX_AMOUNT];
             lastLevelTileSelected = -1;
+            lastIndexTileSelected = -1;
             currentTilesetTile = 0;
             currentPhysmapTile = 0;
         }
@@ -279,6 +281,19 @@ namespace Riverback
             }
         }
 
+        private void button_clearindices_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                selectedTileIndices[0] = true;
+                for (int index = 1; index < selectedTileIndices.Length; index++) {
+                    selectedTileIndices[index] = false;
+                }
+                indexTilesRemaining = INDEXTILES_MAX - 1;
+                updateImages(false, false, false, false, false, true);
+                updateTextBox_IndexTiles();
+            }
+        }
+
         private void button_applyheader_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
@@ -320,31 +335,14 @@ namespace Riverback
             }
         }
 
-        private void pictureBox_indexTiles_MouseClick(object sender, MouseEventArgs e)
+        private void pictureBox_indexTiles_MouseDown(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
-                Point mouseCoords = new Point(e.X, e.Y);
-                int tileNum = coordConverterTileIndex.getTileNumberFromMouseCoords(mouseCoords);
-                if (tileNum > 0) {
-                    int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
-                    int tileAmount = levelEditor.Banks[index].tileAmount;
-                    if (tileNum > tileAmount)
-                        index += 1;
-                    if (selectedTileIndices[tileNum]) {
-                        indexTilesRemaining += 1;
-                        selectedTileIndices[tileNum] = false;
-                    } else {
-                        if (indexTilesRemaining > 0) {
-                            indexTilesRemaining -= 1;
-                            selectedTileIndices[tileNum] = true;
-                        }
-                    }
-                    updateTextBox_IndexTiles();
-                    drawIndexTile(index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
-                    Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
-                    invalidateIndexTile(alignedMouseCoords);
-                }
-            }
+            setIndexTilesFromMouseClick(e);
+        }
+
+        private void pictureBox_indexTiles_MouseMove(object sender, MouseEventArgs e)
+        {
+            setIndexTilesFromMouseClick(e);
         }
 
         private void pictureBox_level_MouseDown(object sender, MouseEventArgs e)
@@ -518,6 +516,37 @@ namespace Riverback
                             levelEditor.setTileInPhysmap(tileNum, 0);
                         }
                     }
+                }
+            }
+        }
+
+        private void setIndexTilesFromMouseClick(MouseEventArgs e)
+        {
+            if (((e.Button == MouseButtons.Left) || (e.Button == MouseButtons.Right)) && (isLevelLoaded)) {
+                Point mouseCoords = new Point(e.X, e.Y);
+                int tileNum = coordConverterTileIndex.getTileNumberFromMouseCoords(mouseCoords);
+                if ((tileNum > 0) && (tileNum != lastIndexTileSelected)) {
+                    int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
+                    int tileAmount = levelEditor.Banks[index].tileAmount;
+                    if (tileNum > tileAmount)
+                        index += 1;
+                    if (e.Button == MouseButtons.Left) {
+                        if ((indexTilesRemaining < INDEXTILES_MAX - 1) && (selectedTileIndices[tileNum] == true)) {
+                            selectedTileIndices[tileNum] = false;
+                            indexTilesRemaining += 1;
+                            lastIndexTileSelected = tileNum;
+                        }
+                    } else {
+                        if ((indexTilesRemaining > 0) && (selectedTileIndices[tileNum] == false)) {
+                            selectedTileIndices[tileNum] = true;
+                            indexTilesRemaining -= 1;
+                            lastIndexTileSelected = tileNum;
+                        }
+                    }
+                    updateTextBox_IndexTiles();
+                    drawIndexTile(index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
+                    Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
+                    invalidateIndexTile(alignedMouseCoords);
                 }
             }
         }

@@ -50,6 +50,7 @@
             this.tabPage_Phystiles = new System.Windows.Forms.TabPage();
             this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
             this.tabPage_Indextiles = new System.Windows.Forms.TabPage();
+            this.button_clearindices = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button_applyindices = new System.Windows.Forms.Button();
             this.textBox_tilesremaining = new System.Windows.Forms.TextBox();
@@ -422,6 +423,7 @@
             // 
             // tabPage_Indextiles
             // 
+            this.tabPage_Indextiles.Controls.Add(this.button_clearindices);
             this.tabPage_Indextiles.Controls.Add(this.textBox1);
             this.tabPage_Indextiles.Controls.Add(this.button_applyindices);
             this.tabPage_Indextiles.Controls.Add(this.textBox_tilesremaining);
@@ -434,6 +436,16 @@
             this.tabPage_Indextiles.TabIndex = 2;
             this.tabPage_Indextiles.Text = "Index Tiles";
             this.tabPage_Indextiles.UseVisualStyleBackColor = true;
+            // 
+            // button_clearindices
+            // 
+            this.button_clearindices.Location = new System.Drawing.Point(161, 89);
+            this.button_clearindices.Name = "button_clearindices";
+            this.button_clearindices.Size = new System.Drawing.Size(89, 23);
+            this.button_clearindices.TabIndex = 5;
+            this.button_clearindices.Text = "Clear Indices";
+            this.button_clearindices.UseVisualStyleBackColor = true;
+            this.button_clearindices.Click += new System.EventHandler(this.button_clearindices_Click);
             // 
             // textBox1
             // 
@@ -494,7 +506,8 @@
             this.pictureBox_indexTiles.Size = new System.Drawing.Size(128, 1024);
             this.pictureBox_indexTiles.TabIndex = 0;
             this.pictureBox_indexTiles.TabStop = false;
-            this.pictureBox_indexTiles.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseClick);
+            this.pictureBox_indexTiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseDown);
+            this.pictureBox_indexTiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseMove);
             // 
             // tabControl2
             // 
@@ -1829,5 +1842,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button_clearindices;
     }
 }
