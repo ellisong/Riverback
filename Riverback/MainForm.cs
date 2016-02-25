@@ -204,6 +204,26 @@ namespace Riverback
             Application.Exit();
         }
 
+        private void clearLevelTilemapTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                for (int tileNum = 0; tileNum < Level.LEVEL_TILE_AMOUNT; tileNum++ ) {
+                    levelEditor.setTileInTilemap(tileNum, 0, false, false, false, 0);
+                }
+                updateImages(true, false, false, false, false, false);
+            }
+        }
+
+        private void clearLevelPhysmapTilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (isLevelLoaded) {
+                for (int tileNum = 0; tileNum < Level.LEVEL_TILE_AMOUNT; tileNum++) {
+                    levelEditor.setTileInPhysmap(tileNum, 0);
+                }
+                updateImages(true, false, false, false, false, false);
+            }
+        }
+
         private void numericUpDown_levelSelector_ValueChanged(object sender, EventArgs e)
         {
             if (romdata != null) {

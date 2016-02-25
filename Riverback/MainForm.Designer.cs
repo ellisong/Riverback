@@ -147,6 +147,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearLevelTilemapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearLevelPhysmapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -1569,7 +1572,8 @@
             // 
             this.MainMenu.BackColor = System.Drawing.SystemColors.Control;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MainMenu_File});
+            this.MainMenu_File,
+            this.editToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(977, 24);
@@ -1634,6 +1638,29 @@
             // 
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearLevelTilemapTilesToolStripMenuItem,
+            this.clearLevelPhysmapTilesToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // clearLevelTilemapTilesToolStripMenuItem
+            // 
+            this.clearLevelTilemapTilesToolStripMenuItem.Name = "clearLevelTilemapTilesToolStripMenuItem";
+            this.clearLevelTilemapTilesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.clearLevelTilemapTilesToolStripMenuItem.Text = "Clear tilemap level tiles";
+            this.clearLevelTilemapTilesToolStripMenuItem.Click += new System.EventHandler(this.clearLevelTilemapTilesToolStripMenuItem_Click);
+            // 
+            // clearLevelPhysmapTilesToolStripMenuItem
+            // 
+            this.clearLevelPhysmapTilesToolStripMenuItem.Name = "clearLevelPhysmapTilesToolStripMenuItem";
+            this.clearLevelPhysmapTilesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.clearLevelPhysmapTilesToolStripMenuItem.Text = "Clear physmap level tiles";
+            this.clearLevelPhysmapTilesToolStripMenuItem.Click += new System.EventHandler(this.clearLevelPhysmapTilesToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1843,5 +1870,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button button_clearindices;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearLevelTilemapTilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearLevelPhysmapTilesToolStripMenuItem;
     }
 }
