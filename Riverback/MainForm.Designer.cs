@@ -265,6 +265,7 @@
             this.radioButton_field_edit.TabStop = true;
             this.radioButton_field_edit.Text = "Field";
             this.radioButton_field_edit.UseVisualStyleBackColor = true;
+            this.radioButton_field_edit.CheckedChanged += new System.EventHandler(this.radioButton_field_edit_CheckedChanged);
             // 
             // radioButton_physmap_edit
             // 
@@ -276,6 +277,7 @@
             this.radioButton_physmap_edit.TabStop = true;
             this.radioButton_physmap_edit.Text = "Physmap";
             this.radioButton_physmap_edit.UseVisualStyleBackColor = true;
+            this.radioButton_physmap_edit.CheckedChanged += new System.EventHandler(this.radioButton_physmap_edit_CheckedChanged);
             // 
             // groupBox1
             // 

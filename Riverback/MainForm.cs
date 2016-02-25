@@ -244,6 +244,18 @@ namespace Riverback
             }
         }
 
+        private void radioButton_field_edit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_field_edit.Checked)
+                checkBox_field_show.Checked = true;
+        }
+
+        private void radioButton_physmap_edit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_physmap_edit.Checked)
+                checkBox_physmap_show.Checked = true;
+        }
+
         private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
         {
             if (isLevelLoaded)
@@ -334,6 +346,8 @@ namespace Riverback
                         deselectTiles();
                     }
                     currentTilesetTile = tileNum;
+                    radioButton_field_edit.Select();
+                    checkBox_field_show.Checked = true;
                     updateImages(false, false, true, false, false, false);
                 }
             }
@@ -350,6 +364,8 @@ namespace Riverback
                         deselectTiles();
                     }
                     currentPhysmapTile = (byte)tileNum;
+                    radioButton_physmap_edit.Select();
+                    checkBox_physmap_show.Checked = true;
                     updateImages(false, false, false, false, true, false);
                 }
             }
