@@ -123,6 +123,9 @@
   <data name="textBox1.Text" xml:space="preserve">
     <value>Index tiles are used to select field tiles to use in the tileset. Right click on a tile to add it. Left click on a tile to remove it. Click "Apply Indices" when done. Beware that having less than 15 tiles remaining can cause graphical issues depending on the level.</value>
   </data>
+  <metadata name="MainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>127, 17</value>
   </metadata>

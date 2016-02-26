@@ -119,6 +119,140 @@ namespace Riverback
             pictureBox_level.Image = bitmapLevel;
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Left | Keys.Control)) {
+                if (numericUpDown_tilePalette.Value > numericUpDown_tilePalette.Minimum) {
+                    numericUpDown_tilePalette.Value -= 1;
+                    numericUpDown_tilePalette.Invalidate();
+                    return true;
+                }
+            } else if (keyData == (Keys.Right | Keys.Control)) {
+                if (numericUpDown_tilePalette.Value < numericUpDown_tilePalette.Maximum) {
+                    numericUpDown_tilePalette.Value += 1;
+                    numericUpDown_tilePalette.Invalidate();
+                    return true;
+                }
+            } else if (keyData == Keys.Left) {
+                if (isLevelLoaded) {
+                    if (radioButton_field_edit.Checked) {
+                        if (currentTilesetTile > 0) {
+                            currentTilesetTile -= 1;
+                            updateImages(false, false, true, false, false, false);
+                        }
+                    } else {
+                        if (currentPhysmapTile > 0) {
+                            currentPhysmapTile -= 1;
+                            updateImages(false, false, false, false, true, false);
+                        }
+                    }
+                    return true;
+                }
+            } else if (keyData == Keys.Right) {
+                if (isLevelLoaded) {
+                    if (radioButton_field_edit.Checked) {
+                        if (currentTilesetTile < levelEditor.LevelBank.tileAmount - 1) {
+                            currentTilesetTile += 1;
+                            updateImages(false, false, true, false, false, false);
+                        }
+                    } else {
+                        if (currentPhysmapTile < PHYSTILE_TILEAMOUNT - 1) {
+                            currentPhysmapTile += 1;
+                            updateImages(false, false, false, false, true, false);
+                        }
+                    }
+                    return true;
+                }
+            } else if (keyData == Keys.Up) {
+                if (isLevelLoaded) {
+                    if (radioButton_field_edit.Checked) {
+                        if (currentTilesetTile >= LEVEL_TILESET_TILEAMOUNT_WIDTH) {
+                            currentTilesetTile -= LEVEL_TILESET_TILEAMOUNT_WIDTH;
+                            updateImages(false, false, true, false, false, false);
+                        }
+                    } else {
+                        if (currentPhysmapTile >= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
+                            currentPhysmapTile -= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
+                            updateImages(false, false, false, false, true, false);
+                        }
+                    }
+                    return true;
+                }
+            } else if (keyData == Keys.Down) {
+                if (isLevelLoaded) {
+                    if (radioButton_field_edit.Checked) {
+                        if (currentTilesetTile < levelEditor.LevelBank.tileAmount - LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
+                            currentTilesetTile += LEVEL_TILESET_TILEAMOUNT_WIDTH;
+                            updateImages(false, false, true, false, false, false);
+                        }
+                    } else {
+                        if (currentPhysmapTile < PHYSTILE_TILEAMOUNT - LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
+                            currentPhysmapTile += LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
+                            updateImages(false, false, false, false, true, false);
+                        }
+                    }
+                    return true;
+                }
+            } else if (keyData == Keys.D1) {
+                if (checkBox_field_show.Checked)
+                    checkBox_field_show.Checked = false;
+                else
+                    checkBox_field_show.Checked = true;
+                return true;
+            } else if (keyData == Keys.D2) {
+                if (checkBox_physmap_show.Checked)
+                    checkBox_physmap_show.Checked = false;
+                else
+                    checkBox_physmap_show.Checked = true;
+                return true;
+            } else if (keyData == Keys.D3) {
+                if (checkBox_bytes_show.Checked)
+                    checkBox_bytes_show.Checked = false;
+                else
+                    checkBox_bytes_show.Checked = true;
+                return true;
+            } else if (keyData == Keys.D4) {
+                if (checkBox_grid_show.Checked)
+                    checkBox_grid_show.Checked = false;
+                else
+                    checkBox_grid_show.Checked = true;
+                return true;
+            } else if (keyData == Keys.V) {
+                if (checkBox_vflip.Checked)
+                    checkBox_vflip.Checked = false;
+                else
+                    checkBox_vflip.Checked = true;
+                return true;
+            } else if (keyData == Keys.H) {
+                if (checkBox_hflip.Checked)
+                    checkBox_hflip.Checked = false;
+                else
+                    checkBox_hflip.Checked = true;
+                return true;
+            } else if (keyData == Keys.O) {
+                if (checkBox_priority.Checked)
+                    checkBox_priority.Checked = false;
+                else
+                    checkBox_priority.Checked = true;
+                return true;
+            } else if (keyData == Keys.D) {
+                if (isLevelLoaded) {
+                    if (tilemapTileSelector.Selected) {
+                        deselectTiles();
+                        return true;
+                    }
+                }
+            } else if (keyData == Keys.Tab) {
+                if (radioButton_field_edit.Checked)
+                    radioButton_physmap_edit.Checked = true;
+                else
+                    radioButton_field_edit.Checked = true;
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void MainMenu_FileOpen_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK) {

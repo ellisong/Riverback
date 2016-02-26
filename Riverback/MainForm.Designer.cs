@@ -145,11 +145,11 @@
             this.exportLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importLevelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLevelTilemapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLevelPhysmapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -229,7 +229,7 @@
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(977, 953);
+            this.mainPanel.Size = new System.Drawing.Size(977, 741);
             this.mainPanel.TabIndex = 1;
             // 
             // groupBox2
@@ -256,7 +256,6 @@
             // 
             // radioButton_field_edit
             // 
-            this.radioButton_field_edit.AutoSize = true;
             this.radioButton_field_edit.Checked = true;
             this.radioButton_field_edit.Location = new System.Drawing.Point(3, 3);
             this.radioButton_field_edit.Name = "radioButton_field_edit";
@@ -269,7 +268,6 @@
             // 
             // radioButton_physmap_edit
             // 
-            this.radioButton_physmap_edit.AutoSize = true;
             this.radioButton_physmap_edit.Location = new System.Drawing.Point(56, 3);
             this.radioButton_physmap_edit.Name = "radioButton_physmap_edit";
             this.radioButton_physmap_edit.Size = new System.Drawing.Size(68, 17);
@@ -305,7 +303,6 @@
             // 
             // checkBox_field_show
             // 
-            this.checkBox_field_show.AutoSize = true;
             this.checkBox_field_show.Checked = true;
             this.checkBox_field_show.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_field_show.Location = new System.Drawing.Point(3, 3);
@@ -318,7 +315,6 @@
             // 
             // checkBox_physmap_show
             // 
-            this.checkBox_physmap_show.AutoSize = true;
             this.checkBox_physmap_show.Location = new System.Drawing.Point(57, 3);
             this.checkBox_physmap_show.Name = "checkBox_physmap_show";
             this.checkBox_physmap_show.Size = new System.Drawing.Size(69, 17);
@@ -329,7 +325,6 @@
             // 
             // checkBox_bytes_show
             // 
-            this.checkBox_bytes_show.AutoSize = true;
             this.checkBox_bytes_show.Location = new System.Drawing.Point(132, 3);
             this.checkBox_bytes_show.Name = "checkBox_bytes_show";
             this.checkBox_bytes_show.Size = new System.Drawing.Size(52, 17);
@@ -340,7 +335,6 @@
             // 
             // checkBox_grid_show
             // 
-            this.checkBox_grid_show.AutoSize = true;
             this.checkBox_grid_show.Location = new System.Drawing.Point(190, 3);
             this.checkBox_grid_show.Name = "checkBox_grid_show";
             this.checkBox_grid_show.Size = new System.Drawing.Size(45, 17);
@@ -1480,7 +1474,6 @@
             // 
             // checkBox_vflip
             // 
-            this.checkBox_vflip.AutoSize = true;
             this.checkBox_vflip.Location = new System.Drawing.Point(3, 3);
             this.checkBox_vflip.Name = "checkBox_vflip";
             this.checkBox_vflip.Size = new System.Drawing.Size(80, 17);
@@ -1491,7 +1484,6 @@
             // 
             // checkBox_hflip
             // 
-            this.checkBox_hflip.AutoSize = true;
             this.checkBox_hflip.Location = new System.Drawing.Point(3, 26);
             this.checkBox_hflip.Name = "checkBox_hflip";
             this.checkBox_hflip.Size = new System.Drawing.Size(92, 17);
@@ -1502,7 +1494,6 @@
             // 
             // checkBox_priority
             // 
-            this.checkBox_priority.AutoSize = true;
             this.checkBox_priority.Location = new System.Drawing.Point(3, 49);
             this.checkBox_priority.Name = "checkBox_priority";
             this.checkBox_priority.Size = new System.Drawing.Size(112, 17);
@@ -1523,7 +1514,6 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.label1.Location = new System.Drawing.Point(3, 4);
             this.label1.Name = "label1";
@@ -1632,15 +1622,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.MainMenu_Exit_Click);
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
-            this.saveFileDialog.RestoreDirectory = true;
-            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1664,11 +1645,20 @@
             this.clearLevelPhysmapTilesToolStripMenuItem.Text = "Clear physmap level tiles";
             this.clearLevelPhysmapTilesToolStripMenuItem.Click += new System.EventHandler(this.clearLevelPhysmapTilesToolStripMenuItem_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
+            this.saveFileDialog.RestoreDirectory = true;
+            // 
             // MainForm
             // 
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(977, 953);
+            this.ClientSize = new System.Drawing.Size(977, 741);
             this.Controls.Add(this.mainPanel);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
@@ -1679,11 +1669,9 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.flowLayoutPanel5.ResumeLayout(false);
-            this.flowLayoutPanel5.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.flowLayoutPanel4.ResumeLayout(false);
-            this.flowLayoutPanel4.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage_Tileset.ResumeLayout(false);
@@ -1742,9 +1730,7 @@
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_phystile)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
             this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_tilePalette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_tilemaptile)).EndInit();
             this.MainMenu.ResumeLayout(false);
