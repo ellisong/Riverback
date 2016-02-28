@@ -439,9 +439,32 @@ namespace Riverback
         private void button_applyindices_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
+				int[] tileOffsetList = new int[levelEditor.Level.TileIndexAmount];
+				List<int> removedTiles = new List<int>();
+				int offset = 0;
+				int tileNum = 0;
+				for (int i = 0; i < levelEditor.Level.TileIndex.Count; i++) {
+					if (levelEditor.Level.TileIndex[i] != selectedTileIndices[i]) {
+						if (selectedTileIndices[i]) {
+							offset++;
+						} else {
+							offset--;
+							removedTiles.Add(tileNum);
+						}
+					}
+					if (levelEditor.Level.TileIndex[i]) {
+						tileOffsetList[tileNum] = offset;
+						tileNum++;
+					}
+				}
+				levelEditor.removeInvalidTiles(removedTiles);
+				for (int i = 0; i < Level.LEVEL_TILE_AMOUNT; i++) {
+					int tileValue = levelEditor.Level.Tilemap[i].Bank * 256 + levelEditor.Level.Tilemap[i].Tile;
+					levelEditor.setTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
+				}
+
                 levelEditor.Level.TileIndex = selectedTileIndices.ToList();
                 levelEditor.updateLevelBank();
-                levelEditor.removeInvalidTiles();
                 currentTilesetTile = 0;
                 updateImages(true, true, true, false, false, true);
             }

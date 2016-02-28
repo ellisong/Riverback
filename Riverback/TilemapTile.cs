@@ -123,8 +123,8 @@ namespace Riverback
 
         public TilemapTile(int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
-            this.Bank = (byte)(tileValue / 256);
-            this.Tile = (byte)(tileValue % 256);
+			this.Bank = (byte)(tileValue / 256);
+			this.Tile = (byte)(tileValue % 256);
             this.VFlip = vflip;
             this.HFlip = hflip;
             this.Priority = priority;

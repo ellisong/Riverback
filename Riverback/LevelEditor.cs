@@ -77,10 +77,12 @@ namespace Riverback
             this.levelHeader = new LevelHeader(levelHeader);
         }
 
-        public void removeInvalidTiles()
+		public void removeInvalidTiles(List<int> removedTiles)
         {
+			int tileValue;
             for (int index = 0; index < Level.LEVEL_TILE_AMOUNT; index++) {
-                if ((level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile) >= LevelBank.tileAmount) {
+				tileValue = level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile;
+				if ((tileValue >= LevelBank.tileAmount) || (removedTiles.Contains(tileValue))) {
                     level.Tilemap[index].Bank = 0;
                     level.Tilemap[index].Tile = 0;
                 }
@@ -105,6 +107,15 @@ namespace Riverback
                 levelTile.Palette = tile.Palette;
             }
         }
+
+		public void setTileInTilemap(int tileNum, int tileValue)
+		{
+			if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+				TilemapTile tile = this.Level.Tilemap[tileNum];
+				tile.Bank = (byte)(tileValue / 256);
+				tile.Tile = (byte)(tileValue % 256);
+			}
+		}
 
         public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
