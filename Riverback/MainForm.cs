@@ -374,7 +374,7 @@ namespace Riverback
         {
             if (isLevelLoaded) {
                 bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                updateImages(false, true, true, false, false, false);
+                updateImages(false, true, true, false, false, true);
             }
         }
 
@@ -888,8 +888,9 @@ namespace Riverback
             if (tileIndexNum >= tileAmount)
                 i = 1;
             int tileNum = tileIndexNum - (i * tileAmount);
-            
-            Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, 15, TileDrawer.TILE_WIDTH);
+
+            byte bankPaletteNumber = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+            Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, bankPaletteNumber, TileDrawer.TILE_WIDTH);
             Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
             TileDrawer.clearTileOnCanvas(g, fillBrush, mouseCoords.X, mouseCoords.Y + (i * 1024), TILEMAP_SCALE);
             TileDrawer.drawTileOnCanvas(tileImg, g, mouseCoords.X, mouseCoords.Y + (i * 1024), false, false, TILEMAP_SCALE);
