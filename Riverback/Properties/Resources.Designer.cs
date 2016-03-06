@@ -73,6 +73,16 @@ namespace Riverback.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gridtile16_256x2048 {
+            get {
+                object obj = ResourceManager.GetObject("gridtile16_256x2048", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gridtile16_256x256 {
             get {
                 object obj = ResourceManager.GetObject("gridtile16_256x256", resourceCulture);
@@ -83,29 +93,9 @@ namespace Riverback.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gridtile16_256x512 {
-            get {
-                object obj = ResourceManager.GetObject("gridtile16_256x512", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap gridtile8 {
             get {
                 object obj = ResourceManager.GetObject("gridtile8", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap gridtile8_256x1024 {
-            get {
-                object obj = ResourceManager.GetObject("gridtile8_256x1024", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

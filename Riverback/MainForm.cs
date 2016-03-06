@@ -78,7 +78,7 @@ namespace Riverback
                                                             TileDrawer.TILE_WIDTH);
             coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, 
                                                               LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT, 
-                                                              TileDrawer.TILE_WIDTH);
+                                                              (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
 			tilemapTileSelector = new TileSelector(coordConverterLevel);
 			selectedTileIndices = new bool[2048];
             selectedLevelHeader = new LevelHeader();
@@ -105,9 +105,9 @@ namespace Riverback
             bitmapTileIndex = new Bitmap(pictureBox_indexTiles.Width, pictureBox_indexTiles.Height);
             bitmapTileIndex.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_indexTiles.Image = bitmapTileIndex;
-            bitmapPhysTileset = (Bitmap)Riverback.Properties.Resources.physmap;
+            bitmapPhysTileset = Riverback.Properties.Resources.physmap;
             bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            bitmapPhysTileset2 = (Bitmap)Riverback.Properties.Resources.physmap2;
+            bitmapPhysTileset2 = Riverback.Properties.Resources.physmap2;
             bitmapPhysTileset2.SetResolution(IMAGE_DPI, IMAGE_DPI);
             pictureBox_phystiles.Image = bitmapPhysTileset2;
             pictureBox_phystiles.Invalidate();
@@ -737,7 +737,10 @@ namespace Riverback
                         }
                     }
                     updateTextBox_IndexTiles();
-                    drawIndexTile(index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
+                    Graphics g = Graphics.FromImage(bitmapTileIndex);
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
+                    drawIndexTile(g, index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
                     Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
                     invalidateIndexTile(alignedMouseCoords);
                 }
@@ -868,61 +871,56 @@ namespace Riverback
             }
         }
 
-        private void drawIndexTiles(bool highlight = true, bool grid = false)
+        private void drawIndexTiles(Graphics g, bool highlight = true, bool grid = false)
         {
             int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
             int tileAmount = levelEditor.Banks[index].tileAmount;
             for (int tileIndexNum = 0; tileIndexNum < tileAmount * 2; tileIndexNum++) {
                 if (tileIndexNum == tileAmount)
                     index += 1;
-                drawIndexTile(index, tileIndexNum, tileAmount, highlight, grid);
+                drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
             }
         }
 
-        private void drawIndexTile(int bankIndex, int tileIndexNum, int tileAmount, bool highlight = true, bool grid = false)
+        private void drawIndexTile(Graphics g, int bankIndex, int tileIndexNum, int tileAmount, bool highlight = true, bool grid = false)
         {
             int i = 0;
             if (tileIndexNum >= tileAmount)
                 i = 1;
             int tileNum = tileIndexNum - (i * tileAmount);
             
-            Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, 15, coordConverterTileIndex.TileWidth);
+            Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, 15, TileDrawer.TILE_WIDTH);
             Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
-            using (Graphics g = Graphics.FromImage(bitmapTileIndex)) {
-                TileDrawer.clearTileOnCanvas(g, fillBrush, mouseCoords.X, mouseCoords.Y + (i * 512));
-                TileDrawer.drawTileOnCanvas(tileImg, g, mouseCoords.X, mouseCoords.Y + (i * 512), false, false);
-            }
+            TileDrawer.clearTileOnCanvas(g, fillBrush, mouseCoords.X, mouseCoords.Y + (i * 1024), TILEMAP_SCALE);
+            TileDrawer.drawTileOnCanvas(tileImg, g, mouseCoords.X, mouseCoords.Y + (i * 1024), false, false, TILEMAP_SCALE);
             if (highlight)
                 if (selectedTileIndices[tileIndexNum])
-                    highlightIndexTile(tileIndexNum);
+                    highlightIndexTile(g, tileIndexNum);
             if (grid)
-                drawGridTileOnIndexTile(tileIndexNum);
+                drawGridTileOnIndexTile(g, tileIndexNum);
         }
 
-        private void highlightIndexTile(int tileIndexNum)
+        private void highlightIndexTile(Graphics g, int tileIndexNum)
         {
             Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileIndexNum);
             int tileWidth = coordConverterTileIndex.TileWidth;
             Rectangle rect = new Rectangle(mouseCoords, new Size(tileWidth, tileWidth));
-            using (Graphics g = Graphics.FromImage(bitmapTileIndex)) {
-                Point point = new Point(rect.X, rect.Y);
-                g.FillRectangle(highlightBrush, rect);
-            }
+            Point point = new Point(rect.X, rect.Y);
+            g.FillRectangle(highlightBrush, rect);
         }
 
-        private void drawGridTileOnIndexTile(int tileIndexNum)
+        private void drawGridTileOnIndexTile(Graphics g, int tileIndexNum)
         {
             Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileIndexNum);
-            using (Graphics g = Graphics.FromImage(bitmapTileIndex))
-                TileDrawer.drawGridCellOnCanvas(g, mouseCoords.X, mouseCoords.Y);
+            TileDrawer.drawGridCellOnCanvas(g, mouseCoords.X, mouseCoords.Y, TILEMAP_SCALE);
         }
 
         private void invalidateIndexTile(Point alignedMouseCoords)
         {
             pictureBox_indexTiles.Invalidate(new Rectangle(alignedMouseCoords.X, 
                                                            alignedMouseCoords.Y, 
-                                                           TileDrawer.TILE_WIDTH, 
-                                                           TileDrawer.TILE_WIDTH));
+                                                           TileDrawer.TILE_WIDTH * (int)TILEMAP_SCALE, 
+                                                           TileDrawer.TILE_WIDTH * (int)TILEMAP_SCALE));
         }
 
         private void deselectTiles()
@@ -1072,7 +1070,7 @@ namespace Riverback
                                                     bankPaletteNum, 
                                                     TILEMAP_SCALE);
                     if (checkBox_grid_show.Checked)
-                        g.DrawImage(Riverback.Properties.Resources.gridtile16_256x512, 0, 0);
+                        g.DrawImage(Riverback.Properties.Resources.gridtile16_256x2048, 0, 0);
                     pictureBox_tileset.Invalidate();
                 }
             }
@@ -1104,9 +1102,12 @@ namespace Riverback
         private void updateImage_TileIndex()
         {
             if (isLevelLoaded) {
-                using (Graphics g = Graphics.FromImage(bitmapTileIndex))
+                using (Graphics g = Graphics.FromImage(bitmapTileIndex)) {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
-                drawIndexTiles(true, checkBox_grid_show.Checked);
+                    drawIndexTiles(g, true, checkBox_grid_show.Checked);
+                }
                 pictureBox_indexTiles.Invalidate();
             }
         }

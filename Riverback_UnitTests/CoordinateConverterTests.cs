@@ -17,7 +17,7 @@ namespace Riverback.Tests
         [ClassInitialize()]
         public static void initialize(TestContext tc)
         {
-            coordConverter = new CoordinateConverter(8, 8);
+            coordConverter = new CoordinateConverter(8, 8, 8);
         }
 
         [TestMethod()]

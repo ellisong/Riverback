@@ -81,9 +81,13 @@ namespace Riverback
 
         public static void drawGridCellOnCanvas(Graphics graphics, float x, float y, float scale = 1.0f)
         {
-            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH, TILE_WIDTH);
+            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH * scale, TILE_WIDTH * scale);
             RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
-            Image img = Riverback.Properties.Resources.gridtile8;
+            Image img;
+            if (scale == 2.0f)
+                img = Riverback.Properties.Resources.gridtile16;
+            else
+                img = Riverback.Properties.Resources.gridtile8;
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 

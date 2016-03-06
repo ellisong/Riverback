@@ -30,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainPanel = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
@@ -51,7 +50,6 @@
             this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
             this.tabPage_Indextiles = new System.Windows.Forms.TabPage();
             this.button_clearindices = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button_applyindices = new System.Windows.Forms.Button();
             this.textBox_tilesremaining = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -229,7 +227,7 @@
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(977, 741);
+            this.mainPanel.Size = new System.Drawing.Size(977, 693);
             this.mainPanel.TabIndex = 1;
             // 
             // groupBox2
@@ -360,7 +358,7 @@
             this.flowLayoutPanel1.Controls.Add(this.tabControl2);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 125);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(808, 550);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(825, 550);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // tabControl1
@@ -371,16 +369,17 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(270, 544);
+            this.tabControl1.Size = new System.Drawing.Size(287, 544);
             this.tabControl1.TabIndex = 13;
             // 
             // tabPage_Tileset
             // 
+            this.tabPage_Tileset.AutoScroll = true;
             this.tabPage_Tileset.Controls.Add(this.pictureBox_tileset);
             this.tabPage_Tileset.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Tileset.Name = "tabPage_Tileset";
             this.tabPage_Tileset.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Tileset.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Tileset.Size = new System.Drawing.Size(279, 518);
             this.tabPage_Tileset.TabIndex = 0;
             this.tabPage_Tileset.Text = "Field Tiles";
             this.tabPage_Tileset.UseVisualStyleBackColor = true;
@@ -392,7 +391,7 @@
             this.pictureBox_tileset.InitialImage = null;
             this.pictureBox_tileset.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_tileset.Name = "pictureBox_tileset";
-            this.pictureBox_tileset.Size = new System.Drawing.Size(256, 512);
+            this.pictureBox_tileset.Size = new System.Drawing.Size(256, 2048);
             this.pictureBox_tileset.TabIndex = 0;
             this.pictureBox_tileset.TabStop = false;
             this.pictureBox_tileset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_tileset_MouseClick);
@@ -404,7 +403,7 @@
             this.tabPage_Phystiles.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Phystiles.Name = "tabPage_Phystiles";
             this.tabPage_Phystiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Phystiles.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Phystiles.Size = new System.Drawing.Size(279, 518);
             this.tabPage_Phystiles.TabIndex = 1;
             this.tabPage_Phystiles.Text = "Physmap Tiles";
             // 
@@ -423,44 +422,33 @@
             // tabPage_Indextiles
             // 
             this.tabPage_Indextiles.Controls.Add(this.button_clearindices);
-            this.tabPage_Indextiles.Controls.Add(this.textBox1);
+            this.tabPage_Indextiles.Controls.Add(this.label4);
             this.tabPage_Indextiles.Controls.Add(this.button_applyindices);
             this.tabPage_Indextiles.Controls.Add(this.textBox_tilesremaining);
-            this.tabPage_Indextiles.Controls.Add(this.label4);
             this.tabPage_Indextiles.Controls.Add(this.panel1);
             this.tabPage_Indextiles.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Indextiles.Name = "tabPage_Indextiles";
             this.tabPage_Indextiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_Indextiles.Size = new System.Drawing.Size(262, 518);
+            this.tabPage_Indextiles.Size = new System.Drawing.Size(279, 518);
             this.tabPage_Indextiles.TabIndex = 2;
             this.tabPage_Indextiles.Text = "Index Tiles";
             this.tabPage_Indextiles.UseVisualStyleBackColor = true;
             // 
             // button_clearindices
             // 
-            this.button_clearindices.Location = new System.Drawing.Point(161, 89);
+            this.button_clearindices.Location = new System.Drawing.Point(6, 38);
             this.button_clearindices.Name = "button_clearindices";
-            this.button_clearindices.Size = new System.Drawing.Size(89, 23);
+            this.button_clearindices.Size = new System.Drawing.Size(80, 23);
             this.button_clearindices.TabIndex = 5;
             this.button_clearindices.Text = "Clear Indices";
             this.button_clearindices.UseVisualStyleBackColor = true;
             this.button_clearindices.Click += new System.EventHandler(this.button_clearindices_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(161, 216);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(89, 283);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.Text = resources.GetString("textBox1.Text");
-            // 
             // button_applyindices
             // 
-            this.button_applyindices.Location = new System.Drawing.Point(161, 59);
+            this.button_applyindices.Location = new System.Drawing.Point(89, 38);
             this.button_applyindices.Name = "button_applyindices";
-            this.button_applyindices.Size = new System.Drawing.Size(89, 23);
+            this.button_applyindices.Size = new System.Drawing.Size(80, 23);
             this.button_applyindices.TabIndex = 3;
             this.button_applyindices.Text = "Apply Indices";
             this.button_applyindices.UseVisualStyleBackColor = true;
@@ -469,17 +457,17 @@
             // textBox_tilesremaining
             // 
             this.textBox_tilesremaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_tilesremaining.Location = new System.Drawing.Point(173, 23);
+            this.textBox_tilesremaining.Location = new System.Drawing.Point(89, 3);
             this.textBox_tilesremaining.Name = "textBox_tilesremaining";
             this.textBox_tilesremaining.ReadOnly = true;
-            this.textBox_tilesremaining.Size = new System.Drawing.Size(77, 29);
+            this.textBox_tilesremaining.Size = new System.Drawing.Size(80, 29);
             this.textBox_tilesremaining.TabIndex = 2;
             this.textBox_tilesremaining.Text = "0";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(158, 7);
+            this.label4.Location = new System.Drawing.Point(6, 10);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 13);
             this.label4.TabIndex = 1;
@@ -490,9 +478,9 @@
             this.panel1.AutoScroll = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.pictureBox_indexTiles);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Location = new System.Drawing.Point(3, 67);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(148, 496);
+            this.panel1.Size = new System.Drawing.Size(273, 432);
             this.panel1.TabIndex = 0;
             // 
             // pictureBox_indexTiles
@@ -502,7 +490,7 @@
             this.pictureBox_indexTiles.InitialImage = null;
             this.pictureBox_indexTiles.Location = new System.Drawing.Point(0, 0);
             this.pictureBox_indexTiles.Name = "pictureBox_indexTiles";
-            this.pictureBox_indexTiles.Size = new System.Drawing.Size(128, 1024);
+            this.pictureBox_indexTiles.Size = new System.Drawing.Size(256, 2048);
             this.pictureBox_indexTiles.TabIndex = 0;
             this.pictureBox_indexTiles.TabStop = false;
             this.pictureBox_indexTiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseDown);
@@ -512,7 +500,7 @@
             // 
             this.tabControl2.Controls.Add(this.tabPage_Level);
             this.tabControl2.Controls.Add(this.tabPage1);
-            this.tabControl2.Location = new System.Drawing.Point(279, 3);
+            this.tabControl2.Location = new System.Drawing.Point(296, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(526, 544);
@@ -1658,7 +1646,7 @@
             // 
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(977, 741);
+            this.ClientSize = new System.Drawing.Size(977, 693);
             this.Controls.Add(this.mainPanel);
             this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
@@ -1791,7 +1779,6 @@
         private System.Windows.Forms.PictureBox pictureBox_indexTiles;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox_tilesremaining;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button_applyindices;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label5;
