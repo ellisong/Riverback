@@ -538,6 +538,12 @@ namespace Riverback
             setIndexTilesFromMouseClick(e);
         }
 
+        private void pictureBox_indexTiles_MouseUp(object sender, MouseEventArgs e)
+        {
+            if ((e.Button == MouseButtons.Left) || (e.Button == MouseButtons.Right))
+                lastIndexTileSelected = -1;
+        }
+
         private void pictureBox_level_MouseDown(object sender, MouseEventArgs e)
         {
             if (isLevelLoaded) {

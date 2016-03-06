@@ -50,9 +50,9 @@
             this.pictureBox_phystiles = new System.Windows.Forms.PictureBox();
             this.tabPage_Indextiles = new System.Windows.Forms.TabPage();
             this.button_clearindices = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.button_applyindices = new System.Windows.Forms.Button();
             this.textBox_tilesremaining = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox_indexTiles = new System.Windows.Forms.PictureBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -444,6 +444,15 @@
             this.button_clearindices.UseVisualStyleBackColor = true;
             this.button_clearindices.Click += new System.EventHandler(this.button_clearindices_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 10);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Tiles remaining:";
+            // 
             // button_applyindices
             // 
             this.button_applyindices.Location = new System.Drawing.Point(89, 38);
@@ -463,15 +472,6 @@
             this.textBox_tilesremaining.Size = new System.Drawing.Size(80, 29);
             this.textBox_tilesremaining.TabIndex = 2;
             this.textBox_tilesremaining.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 10);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Tiles remaining:";
             // 
             // panel1
             // 
@@ -495,6 +495,7 @@
             this.pictureBox_indexTiles.TabStop = false;
             this.pictureBox_indexTiles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseDown);
             this.pictureBox_indexTiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseMove);
+            this.pictureBox_indexTiles.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_indexTiles_MouseUp);
             // 
             // tabControl2
             // 
