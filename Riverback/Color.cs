@@ -14,10 +14,11 @@ namespace Riverback
             get { return red; }
             set
             {
-                if ((type == false) && (value > 31))
+                if ((type == false) && (value > 31)) {
                     red = 31;
-                else
+                } else {
                     red = value;
+                }
             }
         }
 
@@ -27,10 +28,11 @@ namespace Riverback
             get { return green; }
             set
             {
-                if ((type == false) && (value > 31))
+                if ((type == false) && (value > 31)) {
                     green = 31;
-                else
+                } else {
                     green = value;
+                }
             }
         }
 
@@ -40,10 +42,11 @@ namespace Riverback
             get { return blue; }
             set
             {
-                if ((type == false) && (value > 31))
+                if ((type == false) && (value > 31)) {
                     blue = 31;
-                else
+                } else {
                     blue = value;
+                }
             }
         }
 

@@ -27,17 +27,19 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1)
+                if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1) {
                     return true;
+                }
                 return false;
             }
             set
             {
                 this.Property = (byte)(Property & (0xFF - AND_TILE_VFLIP));
-                if (value)
+                if (value) {
                     this.Property = (byte)(Property + (1 << AND_TILE_VFLIP_SHIFT));
-                else
+                } else {
                     this.Property = (byte)(Property + (0 << AND_TILE_VFLIP_SHIFT));
+                }
             }
         }
 
@@ -45,17 +47,19 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1)
+                if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1) {
                     return true;
+                }
                 return false;
             }
             set
             {
                 this.Property = (byte)(Property & (0xFF - AND_TILE_HFLIP));
-                if (value)
+                if (value) {
                     this.Property = (byte)(Property + (1 << AND_TILE_HFLIP_SHIFT));
-                else
+                } else {
                     this.Property = (byte)(Property + (0 << AND_TILE_HFLIP_SHIFT));
+                }
             }
         }
         
@@ -63,17 +67,19 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1)
+                if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1) {
                     return true;
+                }
                 return false;
             }
             set
             {
                 this.Property = (byte)(Property & (0xFF - AND_TILE_PRIORITY));
-                if (value)
+                if (value) {
                     this.Property = (byte)(Property + (1 << AND_TILE_PRIORITY_SHIFT));
-                else
+                } else {
                     this.Property = (byte)(Property + (0 << AND_TILE_PRIORITY_SHIFT));
+                }
             }
         }
         
@@ -85,11 +91,11 @@ namespace Riverback
                 if ((value < 8) && (value >= 0)) {
                     this.Property = (byte)(Property & (0xFF - AND_TILE_PALETTE));
                     this.Property = (byte)(Property + (value << AND_TILE_PALETTE_SHIFT));
-                }
-                else
-                    throw new ArgumentOutOfRangeException("TilesetTile.Palette", 
-                                                          value, 
+                } else {
+                    throw new ArgumentOutOfRangeException("TilesetTile.Palette",
+                                                          value,
                                                           "The argument for TilesetTile.Palette is out of range");
+                }
             }
         }
         
@@ -102,11 +108,11 @@ namespace Riverback
                 if ((value < 2) && (value >= 0)) {
                     this.Property = (byte)(Property & (0xFF - AND_TILE_BANK));
                     this.Property = (byte)(Property + (value << AND_TILE_BANK_SHIFT));
-                }
-                else
-                    throw new ArgumentOutOfRangeException("TilesetTile.Bank", 
-                                                          value, 
+                } else {
+                    throw new ArgumentOutOfRangeException("TilesetTile.Bank",
+                                                          value,
                                                           "The argument for TilesetTile.Bank is out of range");
+                }
             }
         }
 
@@ -135,18 +141,21 @@ namespace Riverback
         {
             this.Tile = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2)];
             this.Property = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2) + 1];
-            if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1)
+            if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1) {
                 this.VFlip = true;
-            else
+            } else {
                 this.VFlip = false;
-            if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1)
+            }
+            if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1) {
                 this.HFlip = true;
-            else
+            } else {
                 this.HFlip = false;
-            if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1)
+            }
+            if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1) {
                 this.Priority = true;
-            else
+            } else {
                 this.Priority = false;
+            }
             this.Palette = (byte)((this.Property & AND_TILE_PALETTE) >> AND_TILE_PALETTE_SHIFT);
             this.Bank = (byte)((this.Property & AND_TILE_BANK) >> AND_TILE_BANK_SHIFT);
         }

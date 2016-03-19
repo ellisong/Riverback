@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -94,8 +91,9 @@ namespace Riverback
             List<byte> tiles = new List<byte>();
             int tileNumber = 0;
             for (int xx = 0; xx < tileAmount; xx++) {
-                if ((offset + xx) > tileIndex.Count)
+                if ((offset + xx) > tileIndex.Count) {
                     break;
+                }
                 bool bit = tileIndex[offset + xx];
                 if (bit) {
                     byte[] tile = getPlanarTileFromBankData(tileNumber);
@@ -149,9 +147,10 @@ namespace Riverback
                     byte G = (byte)(((data[pointer + 1] & 0x03) << 3) + ((data[pointer] & 0xE0) >> 5));
                     byte R = (byte)(data[pointer] & 0x1F);
                     Color col = new Color(R, G, B, 255, false);
-                    if (colorNum == 0)
+                    if (colorNum == 0) {
                         // Color 0 of a palette is assumed to be transparent for the game
                         col.Alpha = 0;
+                    }
                     pal.Colors.Add(col);
                     pointer += 2;
                 }

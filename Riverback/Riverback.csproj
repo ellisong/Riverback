@@ -80,6 +80,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RomWriter.cs" />
+    <Compile Include="TileIndex.cs" />
     <Compile Include="TilemapTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MainForm.cs">

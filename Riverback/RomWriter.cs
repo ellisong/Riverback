@@ -24,8 +24,9 @@ namespace Riverback
 
         public RomWriter(byte[] romdata)
         {
-            if (romdata == null)
+            if (romdata == null) {
                 throw new ArgumentNullException("The romdata argument is required for the RomWriter() class");
+            }
             this.romdata = romdata;
             root = XElement.Load(XML_FILENAME);
         }
@@ -33,8 +34,9 @@ namespace Riverback
         private bool checkEmptySpace(int pointer, int size)
         {
             for (int x = 0; x < size; x++) {
-                if (romdata[pointer + x] != CLEAR_BYTE)
+                if (romdata[pointer + x] != CLEAR_BYTE) {
                     return false;
+                }
             }
             return true;
         }

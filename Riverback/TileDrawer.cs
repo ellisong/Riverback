@@ -19,22 +19,23 @@ namespace Riverback
         const int AND_TILE_BANK = 0x03;
         const int AND_TILE_BANK_SHIFT = 0;
 
-        
 
-        public static void drawTileOnCanvas(Bitmap tileImg, 
-                                            Graphics graphics, 
-                                            float x, 
-                                            float y, 
-                                            bool vflip, 
-                                            bool hflip, 
+
+        public static void drawTileOnCanvas(Bitmap tileImg,
+                                            Graphics graphics,
+                                            float x,
+                                            float y,
+                                            bool vflip,
+                                            bool hflip,
                                             float scale = 1.0f)
         {
-            if ((hflip) && (vflip))
+            if ((hflip) && (vflip)) {
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
-            else if (hflip)
+            } else if (hflip) {
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
-            else if (vflip)
+            } else if (vflip) {
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            }
             drawTileOnCanvas(tileImg, graphics, x, y, scale);
         }
 
@@ -84,10 +85,11 @@ namespace Riverback
             RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH * scale, TILE_WIDTH * scale);
             RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
             Image img;
-            if (scale == 2.0f)
+            if (scale == 2.0f) {
                 img = Riverback.Properties.Resources.gridtile16;
-            else
+            } else {
                 img = Riverback.Properties.Resources.gridtile8;
+            }
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 

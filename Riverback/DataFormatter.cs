@@ -12,11 +12,13 @@ namespace Riverback
         {
             byte result = 0;
             int count = bitList.Count();
-            if (count > 8)
+            if (count > 8) {
                 count = 8;
+            }
             for (int x = 0; x < count; x++) {
-                if (bitList[x] == true)
+                if (bitList[x] == true) {
                     result += (byte)(0x80 >> x);
+                }
             }
             return result;
         }
@@ -25,11 +27,13 @@ namespace Riverback
         {
             byte result = 0;
             int count = bitList.Length;
-            if (count > 8)
+            if (count > 8) {
                 count = 8;
+            }
             for (int x = 0; x < count; x++) {
-                if (bitList[x] == true)
+                if (bitList[x] == true) {
                     result += (byte)(0x80 >> x);
+                }
             }
             return result;
         }
@@ -41,8 +45,9 @@ namespace Riverback
             for (int x = 0; x < 8; x++) {
                 byte bit = (byte)(value & andbyte);
                 bool boolBit = false;
-                if (bit > 0)
+                if (bit > 0) {
                     boolBit = true;
+                }
                 andbyte >>= 1;
                 bitList[x] = boolBit;
             }
@@ -54,8 +59,9 @@ namespace Riverback
             List<bool> bitList = new List<bool>();
             foreach (byte value in byteList) {
                 bool[] bits = byteIntoBits(value);
-                if (leftToRight == false)
+                if (leftToRight == false) {
                     Array.Reverse(bits);
+                }
                 bitList.AddRange(bits);
             }
             return bitList;
@@ -70,10 +76,12 @@ namespace Riverback
 
         public static int convertSnesPointerToRomPointer(byte bank, ushort pointer)
         {
-            if (bank < 0x80)
+            if (bank < 0x80) {
                 throw new ArgumentOutOfRangeException("bank must be greater or equal to 0x80");
-            if (pointer < 0x8000)
+            }
+            if (pointer < 0x8000) {
                 throw new ArgumentOutOfRangeException("pointer must be greater or equal to 0x8000");
+            }
             return ((int)bank - 0x80) * 0x8000 + ((int)pointer - 0x8000);
         }
 
@@ -88,8 +96,9 @@ namespace Riverback
         {
             byte[] snesPointer = new byte[3];
             snesPointer[2] = (byte)(pointer / 0x8000 + 0x80);
-            if (snesPointer[2] % 2 == 0)
+            if (snesPointer[2] % 2 == 0) {
                 pointer += 0x8000;
+            }
             snesPointer[1] = (byte)((pointer & 0x00FF00) >> 8);
             snesPointer[0] = (byte)(pointer & 0x0000FF);
             return snesPointer;

@@ -57,8 +57,9 @@ namespace Riverback
                         List<int> indexList = getIndicesForSublistInList(behind, front);
                         indexList.Sort();
                         indexList.Reverse();
-                        if (indexList.Count > 0)
+                        if (indexList.Count > 0) {
                             lengthCandidates.Add(new LengthCandidate(pos + 1, (int)(behind.Count - indexList[0])));
+                        }
                     }
                 }
 
@@ -70,8 +71,9 @@ namespace Riverback
                         List<byte> frontCandidate = front.GetRange(0, frontLengthCounter);
                         List<byte> behindCandidate = behind.GetRange(behind.Count - behindLength, behindLength);
                         while (frontLengthCounter < 0x10000) {
-                            if (pointer + frontLengthCounter >= data.Length)
+                            if (pointer + frontLengthCounter >= data.Length) {
                                 break;
+                            }
                             frontCandidate.Add(data[pointer + frontLengthCounter]);
                             if (checkSublistRepetitionInList(frontCandidate, behindCandidate)) {
                                 frontLengthCounter += 1;
@@ -143,8 +145,9 @@ namespace Riverback
                 posBitLength = 0;
             }
             posBitList[posBitLength++] = true;
-            while (posBitLength < 8)
+            while (posBitLength < 8) {
                 posBitList[posBitLength++] = false;
+            }
             posByteList.Add(DataFormatter.bitsIntoByte(posBitList));
             for (int x = 0; x < 4; x++) {
                 compressedData.Add(0);
@@ -157,8 +160,9 @@ namespace Riverback
         {
             int pointer = offset;
             List<byte> writtenData = new List<byte>(0x1000);
-            for (int x = 0; x < 16; x++)
+            for (int x = 0; x < 16; x++) {
                 writtenData.Add(0);
+            }
             bool endCondition = false;
 
             while (endCondition == false) {
@@ -168,8 +172,9 @@ namespace Riverback
                     currByte = data[pointer++];
                     if (posBit == false) {
                         writtenData.Add(currByte);
-                        if (endCondition)
+                        if (endCondition) {
                             break;
+                        }
                     } else {
                         int totalBytes = ((currByte & 0xF0) >> 4) + 1;
                         int bytesBehind = 0x10 - (currByte & 0x0F);
@@ -189,11 +194,13 @@ namespace Riverback
                         while (writtenBytes < totalBytes) {
                             foreach (byte behindByte in behindBuffer) {
                                 writtenData.Add(behindByte);
-                                if (endCondition)
+                                if (endCondition) {
                                     writtenBytes = totalBytes;
+                                }
                                 writtenBytes += 1;
-                                if (writtenBytes >= totalBytes)
+                                if (writtenBytes >= totalBytes) {
                                     break;
+                                }
                             }
                         }
                     }
@@ -217,8 +224,9 @@ namespace Riverback
                             pointer += 1;
                             if (data[pointer] == 0) {
                                 pointer += 1;
-                                if ((data[pointer] == 0) && (data[pointer + 1] == 0))
+                                if ((data[pointer] == 0) && (data[pointer + 1] == 0)) {
                                     return;
+                                }
                                 pointer += 1;
                             }
                         }
@@ -230,11 +238,13 @@ namespace Riverback
 
         private static bool checkSublistRepetitionInList(List<byte> list, List<byte> sublist)
         {
-            if (sublist.Count <= 0)
+            if (sublist.Count <= 0) {
                 return false;
+            }
             for (int xx = 0; xx < list.Count; xx++) {
-                if (list[xx] != sublist[xx % sublist.Count])
+                if (list[xx] != sublist[xx % sublist.Count]) {
                     return false;
+                }
             }
             return true;
         }
@@ -242,8 +252,9 @@ namespace Riverback
         private static List<int> getIndicesForSublistInList(List<byte> list, List<byte> sublist)
         {
             List<int> indexList = new List<int>();
-            if ((list.Count <= 0) || (sublist.Count <= 0))
+            if ((list.Count <= 0) || (sublist.Count <= 0)) {
                 return indexList;
+            }
             for (int xx = list.Count - sublist.Count; xx >= 0; xx--) {
                 int count = 0;
                 for (int yy = 0; yy < sublist.Count; yy++) {
@@ -253,8 +264,9 @@ namespace Riverback
                         break;
                     }
                 }
-                if (count == sublist.Count)
+                if (count == sublist.Count) {
                     indexList.Add((int)xx);
+                }
             }
             return indexList;
         }

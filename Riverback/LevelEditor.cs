@@ -48,12 +48,14 @@ namespace Riverback
                 int compressedSize;
                 byte[] bankData = DataCompressor.decompress(romdata, bankAddresses[bankNum], out compressedSize);
                 bool hasPalettes = true;
-                if ((bankNum % 2) == 1)
+                if ((bankNum % 2) == 1) {
                     hasPalettes = false;
+                }
                 GraphicBank bank = new GraphicBank(bankData, hasPalettes);
                 bank.CompressedDataSize = compressedSize;
-                if (hasPalettes == false)
+                if (hasPalettes == false) {
                     bank.palettes = banks[bankNum - 1].palettes;
+                }
                 banks.Add(bank);
             }
         }
@@ -91,8 +93,9 @@ namespace Riverback
 
         public void setTileInPhysmap(int tileNum, byte tile)
         {
-            if (tileNum < Level.LEVEL_TILE_AMOUNT)
+            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
                 Level.Physmap[tileNum] = tile;
+            }
         }
 
         public void setTileInTilemap(int tileNum, TilemapTile tile)

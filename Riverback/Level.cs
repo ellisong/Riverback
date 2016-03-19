@@ -52,8 +52,9 @@ namespace Riverback
         {
             int offset = LEVEL_TILE_AMOUNT * 3 + 2;
             List<byte> tileIndexBytes = new List<byte>();
-            for (int index = 0; index < LEVEL_TILE_INDEX_SIZE; index++)
+            for (int index = 0; index < LEVEL_TILE_INDEX_SIZE; index++) {
                 tileIndexBytes.Add(levelData[offset + index]);
+            }
             TileIndex = DataFormatter.byteListIntoBitList(tileIndexBytes, false);
         }
 
@@ -88,8 +89,9 @@ namespace Riverback
             while (tileIndexNumber < TileIndex.Count()) {
                 bitList.Clear();
                 for (int x = 0; x < 8; x++) {
-                    if (tileIndexNumber >= TileIndex.Count())
+                    if (tileIndexNumber >= TileIndex.Count()) {
                         break;
+                    }
                     bitList.Add(TileIndex[tileIndexNumber]);
                     tileIndexNumber += 1;
                 }
@@ -97,11 +99,13 @@ namespace Riverback
                 data.Add(DataFormatter.bitsIntoByte(bitList));
             }
 
-            for (int x = 2; x < 8; x++)
+            for (int x = 2; x < 8; x++) {
                 data.Add(PaletteIndex[x]);
+            }
 
-            if (compress)
+            if (compress) {
                 return DataCompressor.compress(data.ToArray());
+            }
             return data.ToArray();
         }
     }

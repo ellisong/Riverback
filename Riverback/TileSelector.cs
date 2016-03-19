@@ -77,10 +77,12 @@ namespace Riverback
         public bool isPointInSelection(Point tileCoord)
         {
             if (Selected) {
-                if ((tileCoord.X >= tileCoords.X) && (tileCoord.X < tileCoords.X + tileCoords.Width))
+                if ((tileCoord.X >= tileCoords.X) && (tileCoord.X < tileCoords.X + tileCoords.Width)) {
                     return true;
-                if ((tileCoord.Y >= tileCoords.Y) && (tileCoord.Y < tileCoords.Y + tileCoords.Height))
+                }
+                if ((tileCoord.Y >= tileCoords.Y) && (tileCoord.Y < tileCoords.Y + tileCoords.Height)) {
                     return true;
+                }
             }
             return false;
         }
