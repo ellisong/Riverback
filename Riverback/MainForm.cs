@@ -22,7 +22,7 @@ namespace Riverback
         private const float TILE_SELECTOR_SCALE = 4.0f;
         private const float TILEMAP_SCALE = 2.0f;
         private const int IMAGE_DPI = 72;
-        private const int INDEXTILES_MAX = 0x200;
+        private const int MAX_BANK_TILE_AMOUNT = 0x200;
 
         private System.Drawing.Color fillColor;
         private Brush fillBrush;
@@ -446,11 +446,11 @@ namespace Riverback
         private void button_applyindices_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
-				int[] tileOffsetList = new int[levelEditor.Level.TileIndexAmount];
+				int[] tileOffsetList = new int[levelEditor.Level.TileIndex.getBankTileIndexSize()];
 				List<int> removedTiles = new List<int>();
 				int offset = 0;
 				int tileNum = 0;
-				for (int i = 0; i < levelEditor.Level.TileIndex.Count; i++) {
+				for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
 					if (levelEditor.Level.TileIndex[i] != selectedTileIndices[i]) {
 						if (selectedTileIndices[i]) {
 							offset++;
@@ -470,7 +470,7 @@ namespace Riverback
 					levelEditor.setTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
 				}
 
-                levelEditor.Level.TileIndex = selectedTileIndices.ToList();
+                levelEditor.Level.TileIndex.setTileIndexList(selectedTileIndices.ToList());
                 levelEditor.updateLevelBank();
                 currentTilesetTile = 0;
                 updateImages(true, true, true, false, false, true);
@@ -484,7 +484,7 @@ namespace Riverback
                 for (int index = 1; index < selectedTileIndices.Length; index++) {
                     selectedTileIndices[index] = false;
                 }
-                indexTilesRemaining = INDEXTILES_MAX - 1;
+                indexTilesRemaining = MAX_BANK_TILE_AMOUNT - 1;
                 updateImages(false, false, false, false, false, true);
                 updateTextBox_IndexTiles();
             }
@@ -618,9 +618,12 @@ namespace Riverback
             }
             levelEditor.updateGraphicsBanks(romdata);
             levelEditor.updateLevelBank();
-            levelEditor.Level.TileIndex.CopyTo(selectedTileIndices);
+            for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
+                selectedTileIndices[i] = levelEditor.Level.TileIndex[i];
+            }
+            
             isLevelLoaded = true;
-            indexTilesRemaining = INDEXTILES_MAX - levelEditor.LevelBank.tileAmount;
+            indexTilesRemaining = MAX_BANK_TILE_AMOUNT - levelEditor.LevelBank.tileAmount;
             updateTextBox_IndexTiles();
             selectedLevelHeader = new LevelHeader(levelEditor.LevelHeader);
             selectedPaletteIndex = (byte[])levelEditor.Level.PaletteIndex.Clone();
@@ -743,7 +746,7 @@ namespace Riverback
                         index += 1;
                     }
                     if (e.Button == MouseButtons.Left) {
-                        if ((indexTilesRemaining < INDEXTILES_MAX - 1) && (selectedTileIndices[tileNum] == true)) {
+                        if ((indexTilesRemaining < MAX_BANK_TILE_AMOUNT - 1) && (selectedTileIndices[tileNum] == true)) {
                             selectedTileIndices[tileNum] = false;
                             indexTilesRemaining += 1;
                             lastIndexTileSelected = tileNum;

@@ -70,7 +70,7 @@ namespace Riverback
             PlanarTilesWithOffset pt2 = banks[index + 1].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
             levelBankData.AddRange(pt2.planarTiles);
             levelBank = new GraphicBank(levelBankData.ToArray(), false);
-            levelBank.tileAmount = level.TileIndexAmount;
+            levelBank.tileAmount = level.TileIndex.getBankTileIndexSize();
             levelBank.palettes = banks[index].palettes;
         }
 

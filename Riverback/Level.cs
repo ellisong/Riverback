@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Riverback
 {
@@ -12,21 +10,21 @@ namespace Riverback
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
         public const int LEVELDATA_SIZE = LEVEL_TILE_AMOUNT * 3 + LEVEL_TILE_INDEX_SIZE + LEVEL_PALETTE_INDEX_AMOUNT;
+        public const int INDEXTILES_MAX = 0x800;
 
         public int CompressedDataSize { get; set; }
         public LevelHeader LevelHeader { get; set; }
         public byte[] Physmap { get; set; }
         public TilemapTile[] Tilemap { get; set; }
-        public int TileIndexAmount { get { return TileIndex.Where(x => x == true).Count(); } }
-        public List<bool> TileIndex { get; set; }
+        public TileIndex TileIndex { get; set; }
         public byte[] PaletteIndex { get; set; }
 
         public Level(LevelHeader levelHeader)
         {
-            this.LevelHeader = levelHeader;
+            LevelHeader = levelHeader;
             Physmap = new byte[LEVEL_TILE_AMOUNT];
             Tilemap = new TilemapTile[LEVEL_TILE_AMOUNT];
-            TileIndex = new List<bool>();
+            TileIndex = new TileIndex(INDEXTILES_MAX);
             PaletteIndex = new byte[LEVEL_PALETTE_INDEX_AMOUNT];
         }
 
@@ -55,7 +53,7 @@ namespace Riverback
             for (int index = 0; index < LEVEL_TILE_INDEX_SIZE; index++) {
                 tileIndexBytes.Add(levelData[offset + index]);
             }
-            TileIndex = DataFormatter.byteListIntoBitList(tileIndexBytes, false);
+            TileIndex.setTileIndexList(DataFormatter.byteListIntoBitList(tileIndexBytes, false));
         }
 
         public void setPaletteIndex(byte[] levelData)
@@ -79,17 +77,16 @@ namespace Riverback
             }
 
             byte[] tileAmountBytes = new byte[2];
-            int tileAmount = TileIndex.Where(x => x == true).Count();
-            tileAmountBytes[0] = (byte)(tileAmount & 0x00FF);
-            tileAmountBytes[1] = (byte)(tileAmount >> 8);
+            tileAmountBytes[0] = (byte)(TileIndex.getBankTileIndexSize() & 0x00FF);
+            tileAmountBytes[1] = (byte)(TileIndex.getBankTileIndexSize() >> 8);
             data.AddRange(tileAmountBytes);
 
             int tileIndexNumber = 0;
             List<bool> bitList = new List<bool>();
-            while (tileIndexNumber < TileIndex.Count()) {
+            while (tileIndexNumber < TileIndex.MaxIndexAmount) {
                 bitList.Clear();
                 for (int x = 0; x < 8; x++) {
-                    if (tileIndexNumber >= TileIndex.Count()) {
+                    if (tileIndexNumber >= TileIndex.MaxIndexAmount) {
                         break;
                     }
                     bitList.Add(TileIndex[tileIndexNumber]);

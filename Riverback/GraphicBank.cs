@@ -86,12 +86,12 @@ namespace Riverback
             tileOffset = 0;
         }
 
-        public PlanarTilesWithOffset getPlanarTilesFromBankData(List<bool> tileIndex, int offset = 0)
+        public PlanarTilesWithOffset getPlanarTilesFromBankData(TileIndex tileIndex, int offset = 0)
         {
             List<byte> tiles = new List<byte>();
             int tileNumber = 0;
             for (int xx = 0; xx < tileAmount; xx++) {
-                if ((offset + xx) > tileIndex.Count) {
+                if ((offset + xx) > tileIndex.MaxIndexAmount) {
                     break;
                 }
                 bool bit = tileIndex[offset + xx];
