@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -10,14 +9,16 @@ namespace Riverback
 {
     class RomWriter
     {
-        private const String XML_FILENAME = "romwriterdata.xml";
+        private const string XML_FILENAME = "romwriterdata.xml";
         private const byte CLEAR_BYTE = 0xFF;
-        public const int ROM_ORIGINAL_SIZE = 0x100000;
-        public const int WRITE_LEVEL_ADDRESS = 0x100000;
-        public const int WRITE_LEVEL_SEARCH_SIZE = 0x200;
-        public const int EXPAND_ROM_SIZE = 0x200000;
-        public const int UMIKAWLEVEL_LENGTH = 11;
-        public const int IMPORTLEVEL_LENGTH = 12600;
+        private const int ROM_ORIGINAL_SIZE = 0x100000;
+        private const int WRITE_LEVEL_ADDRESS = 0x100000;
+        private const int WRITE_LEVEL_SEARCH_SIZE = 0x200;
+        private const byte LEVEL_HEADER_SIZE = 37;
+        private const int EXPAND_ROM_SIZE = 0x200000;
+        private const int UMIKAWLEVEL_LENGTH = 11;
+        private const int IMPORTLEVEL_LENGTH = 12600;
+        private const int LEVELDATA_SIZE = Level.LEVEL_TILE_AMOUNT * 3 + Level.LEVEL_TILE_INDEX_SIZE + Level.LEVEL_PALETTE_INDEX_AMOUNT;
 
         private XElement root;
         private byte[] romdata;
@@ -67,14 +68,14 @@ namespace Riverback
             Array.ConstrainedCopy(data, 
                                   0, 
                                   romdata, 
-                                  levelHeader.headerPointerAddress, 
-                                  LevelHeader.LEVEL_HEADER_POINTER_SIZE);
+                                  levelHeader.headerPointerAddress,
+                                  2);
         }
 
         private void writeLevelHeader(LevelHeader levelHeader)
         {
             byte[] data = levelHeader.serialize();
-            Array.ConstrainedCopy(data, 0, romdata, (int)levelHeader.headerAddress, (int)LevelHeader.LEVEL_HEADER_SIZE);
+            Array.ConstrainedCopy(data, 0, romdata, levelHeader.headerAddress, LEVEL_HEADER_SIZE);
         }
 
         public byte[] exportLevel(LevelHeader levelHeader, Level level)
@@ -110,14 +111,14 @@ namespace Riverback
             }
 
             offset += UMIKAWLEVEL_LENGTH;
-            byte[] header = new byte[LevelHeader.LEVEL_HEADER_SIZE];
-            Array.ConstrainedCopy(data, offset, header, 0, LevelHeader.LEVEL_HEADER_SIZE);
+            byte[] header = new byte[LEVEL_HEADER_SIZE];
+            Array.ConstrainedCopy(data, offset, header, 0, LEVEL_HEADER_SIZE);
             levelHeader.deserialize(header, 0);
 
-            offset += LevelHeader.LEVEL_HEADER_SIZE;
+            offset += LEVEL_HEADER_SIZE;
 
-            byte[] levelData = new byte[Level.LEVELDATA_SIZE];
-            Array.ConstrainedCopy(data, offset, levelData, 0, Level.LEVELDATA_SIZE);
+            byte[] levelData = new byte[LEVELDATA_SIZE];
+            Array.ConstrainedCopy(data, offset, levelData, 0, LEVELDATA_SIZE);
             level.update(levelData);
 
             return true;

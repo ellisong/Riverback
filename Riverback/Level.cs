@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Riverback
 {
@@ -9,8 +8,7 @@ namespace Riverback
         public const int LEVEL_TILE_AMOUNT = 4096;
         public const int LEVEL_TILE_INDEX_SIZE = 256;
         public const int LEVEL_PALETTE_INDEX_AMOUNT = 8;
-        public const int LEVELDATA_SIZE = LEVEL_TILE_AMOUNT * 3 + LEVEL_TILE_INDEX_SIZE + LEVEL_PALETTE_INDEX_AMOUNT;
-        public const int INDEXTILES_MAX = 0x800;
+        private const int INDEXTILES_MAX = 0x800;
 
         public int CompressedDataSize { get; set; }
         public LevelHeader LevelHeader { get; set; }

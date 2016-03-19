@@ -19,8 +19,8 @@ namespace Riverback
 
     public class GraphicBank
     {
-        public const int PALETTE_AMOUNT = 15;
-        public const int PALETTE_COLOR_AMOUNT = 16;
+        private const int PALETTE_AMOUNT = 15;
+        private const int PALETTE_COLOR_AMOUNT = 16;
         private Color[] COLORS_HARDCODED_1 =
             {new Color(25, 33, 16, 0, true), new Color(33, 41, 25, 255, true),
              new Color(41, 49, 33, 255, true), new Color(49, 58, 41, 255, true),

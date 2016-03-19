@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
 
 namespace Riverback
 {
@@ -7,20 +6,6 @@ namespace Riverback
     {
         public const int TILE_WIDTH = 8;
         
-        // shift and & constants
-        const int AND_TILE_VFLIP = 0x80;
-        const int AND_TILE_VFLIP_SHIFT = 7;
-        const int AND_TILE_HFLIP = 0x40;
-        const int AND_TILE_HFLIP_SHIFT = 6;
-        const int AND_TILE_PRIORITY = 0x20;
-        const int AND_TILE_PRIORITY_SHIFT = 5;
-        const int AND_TILE_PALETTE = 0x1C;
-        const int AND_TILE_PALETTE_SHIFT = 2;
-        const int AND_TILE_BANK = 0x03;
-        const int AND_TILE_BANK_SHIFT = 0;
-
-
-
         public static void drawTileOnCanvas(Bitmap tileImg,
                                             Graphics graphics,
                                             float x,
@@ -52,11 +37,11 @@ namespace Riverback
                                                      Point destPoint, 
                                                      float scale = 1.0f)
         {
-            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TileDrawer.TILE_WIDTH, TileDrawer.TILE_WIDTH);
+            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TILE_WIDTH, TILE_WIDTH);
             RectangleF destRect = new RectangleF(destPoint.X, 
                                                  destPoint.Y, 
-                                                 TileDrawer.TILE_WIDTH * scale, 
-                                                 TileDrawer.TILE_WIDTH * scale);
+                                                 TILE_WIDTH * scale, 
+                                                 TILE_WIDTH * scale);
             graphics.DrawImage(phystiles, destRect, srcRect, GraphicsUnit.Pixel);
         }
 
@@ -86,9 +71,9 @@ namespace Riverback
             RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
             Image img;
             if (scale == 2.0f) {
-                img = Riverback.Properties.Resources.gridtile16;
+                img = Properties.Resources.gridtile16;
             } else {
-                img = Riverback.Properties.Resources.gridtile8;
+                img = Properties.Resources.gridtile8;
             }
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
@@ -118,7 +103,7 @@ namespace Riverback
                         Point srcCoords = new Point(phys % 16 * TILE_WIDTH,
                                                     phys / 16 * TILE_WIDTH);
                         Point destCoords = new Point(x * TILE_WIDTH, y * TILE_WIDTH);
-                        TileDrawer.drawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
+                        drawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
                     }
                 }
             }

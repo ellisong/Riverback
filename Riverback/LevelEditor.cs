@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Riverback
 {
     public class LevelEditor
     {
-        public const int GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
-        public const int BANK_AMOUNT = 7;
-        public const int DEFAULT_BANK_PALETTE = 15;
+        private const int GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
+        private const int BANK_AMOUNT = 7;
+        private const int DEFAULT_BANK_PALETTE = 15;
 
         private LevelHeader levelHeader;
         public LevelHeader LevelHeader { get { return levelHeader; } }
