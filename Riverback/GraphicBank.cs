@@ -45,7 +45,7 @@ namespace Riverback
         private byte[] data;
         public int tileAmount;
         private int tileOffset;
-        public int TileOffset{ get { return tileOffset; } }
+        public int TileOffset { get { return tileOffset; } }
         public int CompressedDataSize { get; set; }
 
         public GraphicBank(byte[] data, bool bankHasPalettes = false)

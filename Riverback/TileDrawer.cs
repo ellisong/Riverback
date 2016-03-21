@@ -80,23 +80,22 @@ namespace Riverback
 
         public static void drawLevelOnCanvas(Graphics graphics, 
                                              Image imagePhysTileset, 
-                                             Level level, 
-                                             GraphicBank levelBank, 
+                                             LevelEditor levelEditor,
                                              int tileAmountWidth, 
                                              bool displayTilemapTiles = true, 
                                              bool displayPhysmapTiles = false)
         {
-            int tileNum = 0;
             for (int y = 0; y < tileAmountWidth; y++) {
                 for (int x = 0; x < tileAmountWidth; x++) {
-                    TilemapTile tile = level.Tilemap[y * tileAmountWidth + x];
-                    byte phys = level.Physmap[y * tileAmountWidth + x];
-                    byte tileValue = tile.Tile;
-                    tileNum += 1;
-                    if (((tileValue != 0) || (tile.Bank != 0)) && (displayTilemapTiles)) {
-                        Bitmap tileImg = levelBank.getTileImage(tile.Bank * 256 + tileValue,
-                                                               (byte)(level.PaletteIndex[tile.Palette] - 1),
-                                                               TILE_WIDTH);
+                    TilemapTile tile = levelEditor.Level.Tilemap[y * tileAmountWidth + x];
+                    byte phys = levelEditor.Level.Physmap[y * tileAmountWidth + x];
+                    int tileValue = levelEditor.Level.TileIndex.getBankIndexTile(tile.Bank * 256 + tile.Tile);
+                    if ((tileValue > 0) && (displayTilemapTiles)) {
+                        GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.graphicsBankIndex * 2 + (tileValue / 1024)];
+                        if (tileValue >= 1024) {
+                            tileValue -= 1024;
+                        }
+                        Bitmap tileImg = bank.getTileImage(tileValue, (byte)(levelEditor.Level.PaletteIndex[tile.Palette] - 1), TILE_WIDTH);
                         drawTileOnCanvas(tileImg, graphics, x * TILE_WIDTH, y * TILE_WIDTH, tile.VFlip, tile.HFlip);
                     }
                     if ((phys != 0) && (displayPhysmapTiles)) {

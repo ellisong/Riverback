@@ -13,7 +13,7 @@ namespace Riverback
     {
         private const int LEVEL_TILEAMOUNT_WIDTH = 64;
         private const int LEVEL_TILESET_TILEAMOUNT_WIDTH = 16;
-        private const int LEVEL_TILESET_TILEAMOUNT_HEIGHT = 32;
+        private const int LEVEL_TILESET_TILEAMOUNT_HEIGHT = 128;
         private const int LEVEL_PHYSMAP_TILEAMOUNT_WIDTH = 16;
         private const int LEVEL_TILEINDEX_TILEAMOUNT_WIDTH = 16;
         private const int LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT = 128;
@@ -39,7 +39,8 @@ namespace Riverback
         private CoordinateConverter coordConverterTileIndex;
 
         private TileSelector tilemapTileSelector;
-        private int currentTilesetTile;
+        private int currentTilesetTileIndex;
+        private int currentTilesetTileNum;
         private byte currentPhysmapTile;
         private int lastLevelTileSelected;
         private int lastIndexTileSelected;
@@ -74,13 +75,14 @@ namespace Riverback
             coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, 
                                                               LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT, 
                                                               (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
-			tilemapTileSelector = new TileSelector(coordConverterLevel);
-			selectedTileIndices = new bool[2048];
+            tilemapTileSelector = new TileSelector(coordConverterLevel);
+            selectedTileIndices = new bool[2048];
             selectedLevelHeader = new LevelHeader();
             selectedPaletteIndex = new byte[Level.LEVEL_PALETTE_INDEX_AMOUNT];
             lastLevelTileSelected = -1;
             lastIndexTileSelected = -1;
-            currentTilesetTile = 0;
+            currentTilesetTileIndex = 0;
+            currentTilesetTileNum = 0;
             currentPhysmapTile = 0;
         }
 
@@ -131,8 +133,8 @@ namespace Riverback
             } else if (keyData == Keys.Left) {
                 if (isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTile > 0) {
-                            currentTilesetTile -= 1;
+                        if (currentTilesetTileIndex > 0) {
+                            setCurrentTilesetTileByIndex(currentTilesetTileIndex - 1);
                             updateImages(false, false, true, false, false, false);
                         }
                     } else {
@@ -146,8 +148,8 @@ namespace Riverback
             } else if (keyData == Keys.Right) {
                 if (isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTile < levelEditor.LevelBank.tileAmount - 1) {
-                            currentTilesetTile += 1;
+                        if (currentTilesetTileIndex < levelEditor.Level.TileIndex.getBankTileIndexSize() - 1) {
+                            setCurrentTilesetTileByIndex(currentTilesetTileIndex + 1);
                             updateImages(false, false, true, false, false, false);
                         }
                     } else {
@@ -161,10 +163,8 @@ namespace Riverback
             } else if (keyData == Keys.Up) {
                 if (isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTile >= LEVEL_TILESET_TILEAMOUNT_WIDTH) {
-                            currentTilesetTile -= LEVEL_TILESET_TILEAMOUNT_WIDTH;
-                            updateImages(false, false, true, false, false, false);
-                        }
+                        setCurrentTilesetTileByNum(currentTilesetTileNum - LEVEL_TILESET_TILEAMOUNT_WIDTH);
+                        updateImages(false, false, true, false, false, false);
                     } else {
                         if (currentPhysmapTile >= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
                             currentPhysmapTile -= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
@@ -176,10 +176,8 @@ namespace Riverback
             } else if (keyData == Keys.Down) {
                 if (isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTile < levelEditor.LevelBank.tileAmount - LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
-                            currentTilesetTile += LEVEL_TILESET_TILEAMOUNT_WIDTH;
-                            updateImages(false, false, true, false, false, false);
-                        }
+                        setCurrentTilesetTileByNum(currentTilesetTileNum + LEVEL_TILESET_TILEAMOUNT_WIDTH);
+                        updateImages(false, false, true, false, false, false);
                     } else {
                         if (currentPhysmapTile < PHYSTILE_TILEAMOUNT - LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
                             currentPhysmapTile += LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
@@ -446,33 +444,32 @@ namespace Riverback
         private void button_applyindices_Click(object sender, EventArgs e)
         {
             if (isLevelLoaded) {
-				int[] tileOffsetList = new int[levelEditor.Level.TileIndex.getBankTileIndexSize()];
-				List<int> removedTiles = new List<int>();
-				int offset = 0;
-				int tileNum = 0;
-				for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
-					if (levelEditor.Level.TileIndex[i] != selectedTileIndices[i]) {
-						if (selectedTileIndices[i]) {
-							offset++;
-						} else {
-							offset--;
-							removedTiles.Add(tileNum);
-						}
-					}
-					if (levelEditor.Level.TileIndex[i]) {
-						tileOffsetList[tileNum] = offset;
-						tileNum++;
-					}
-				}
-				levelEditor.removeInvalidTiles(removedTiles);
-				for (int i = 0; i < Level.LEVEL_TILE_AMOUNT; i++) {
-					int tileValue = levelEditor.Level.Tilemap[i].Bank * 256 + levelEditor.Level.Tilemap[i].Tile;
-					levelEditor.setTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
-				}
+                int[] tileOffsetList = new int[levelEditor.Level.TileIndex.getBankTileIndexSize()];
+                List<int> removedTiles = new List<int>();
+                int offset = 0;
+                int tileNum = 0;
+                for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
+                    if (levelEditor.Level.TileIndex[i] != selectedTileIndices[i]) {
+                        if (selectedTileIndices[i]) {
+                            offset++;
+                        } else {
+                            offset--;
+                            removedTiles.Add(tileNum);
+                        }
+                    }
+                    if (levelEditor.Level.TileIndex[i]) {
+                        tileOffsetList[tileNum] = offset;
+                        tileNum++;
+                    }
+                }
+                levelEditor.removeInvalidTiles(removedTiles);
+                for (int i = 0; i < Level.LEVEL_TILE_AMOUNT; i++) {
+                    int tileValue = levelEditor.Level.Tilemap[i].Bank * 256 + levelEditor.Level.Tilemap[i].Tile;
+                    levelEditor.setTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
+                }
 
                 levelEditor.Level.TileIndex.setTileIndexList(selectedTileIndices.ToList());
-                levelEditor.updateLevelBank();
-                currentTilesetTile = 0;
+                currentTilesetTileIndex = 0;
                 updateImages(true, true, true, false, false, true);
             }
         }
@@ -495,8 +492,41 @@ namespace Riverback
             if (isLevelLoaded) {
                 updateLevelHeaderValues();
                 levelEditor.updateLevelHeader(selectedLevelHeader);
-                levelEditor.updateLevelBank();
                 updateImages(true, true, true, true, true, true);
+            }
+        }
+
+        private void setCurrentTilesetTileByNum(int tilesetTileNum)
+        {
+            currentTilesetTileNum = tilesetTileNum;
+            if (currentTilesetTileNum < 0) {
+                currentTilesetTileNum = 0;
+            } else if (currentTilesetTileNum >= levelEditor.Level.TileIndex.MaxIndexAmount) {
+                currentTilesetTileNum = levelEditor.Level.TileIndex.MaxIndexAmount - 1;
+            }
+
+            currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankIndex(currentTilesetTileNum);
+            if (currentTilesetTileIndex < 0) {
+                currentTilesetTileIndex = 0;
+            } else if (currentTilesetTileIndex >= levelEditor.Level.TileIndex.getBankTileIndexSize()) {
+                currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankTileIndexSize() - 1;
+            }
+        }
+
+        private void setCurrentTilesetTileByIndex(int tilesetTileIndex)
+        {
+            currentTilesetTileIndex = tilesetTileIndex;
+            if (currentTilesetTileIndex < 0) {
+                currentTilesetTileIndex = 0;
+            } else if (currentTilesetTileIndex >= levelEditor.Level.TileIndex.getBankTileIndexSize()) {
+                currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankTileIndexSize() - 1;
+            }
+
+            currentTilesetTileNum = levelEditor.Level.TileIndex.getBankIndexTile(tilesetTileIndex);
+            if (currentTilesetTileNum < 0) {
+                currentTilesetTileNum = 0;
+            } else if (currentTilesetTileNum >= levelEditor.Level.TileIndex.MaxIndexAmount) {
+                currentTilesetTileNum = levelEditor.Level.TileIndex.MaxIndexAmount - 1;
             }
         }
 
@@ -504,16 +534,13 @@ namespace Riverback
         {
             if (isLevelLoaded) {
                 Point mouseCoords = new Point(e.X, e.Y);
-                int tileNum = coordConverterTileset.getTileNumberFromMouseCoords(mouseCoords);
-                if (tileNum < levelEditor.LevelBank.tileAmount) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
-                    }
-                    currentTilesetTile = tileNum;
-                    radioButton_field_edit.Select();
-                    checkBox_field_show.Checked = true;
-                    updateImages(false, false, true, false, false, false);
+                setCurrentTilesetTileByNum(coordConverterTileset.getTileNumberFromMouseCoords(mouseCoords));
+                if (tilemapTileSelector.Selected) {
+                    deselectTiles();
                 }
+                radioButton_field_edit.Select();
+                checkBox_field_show.Checked = true;
+                updateImages(false, false, true, false, false, false);
             }
         }
 
@@ -617,19 +644,18 @@ namespace Riverback
                 }
             }
             levelEditor.updateGraphicsBanks(romdata);
-            levelEditor.updateLevelBank();
             for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
                 selectedTileIndices[i] = levelEditor.Level.TileIndex[i];
             }
             
             isLevelLoaded = true;
-            indexTilesRemaining = MAX_BANK_TILE_AMOUNT - levelEditor.LevelBank.tileAmount;
+            indexTilesRemaining = MAX_BANK_TILE_AMOUNT - levelEditor.Level.TileIndex.getBankTileIndexSize();
             updateTextBox_IndexTiles();
             selectedLevelHeader = new LevelHeader(levelEditor.LevelHeader);
             selectedPaletteIndex = (byte[])levelEditor.Level.PaletteIndex.Clone();
             bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
             updateLevelHeaderControls();
-            currentTilesetTile = 0;
+            currentTilesetTileIndex = 0;
             currentPhysmapTile = 0;
             updateImages(true, true, true, false, true, true);
         }
@@ -641,7 +667,7 @@ namespace Riverback
                 tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, LEVEL_TILEAMOUNT_WIDTH);
             } else {
                 tileList = new List<TileSelection<TilemapTile>>();
-                TilemapTile item = new TilemapTile(currentTilesetTile, 
+                TilemapTile item = new TilemapTile(currentTilesetTileIndex, 
                                                    checkBox_vflip.Checked, 
                                                    checkBox_hflip.Checked, 
                                                    checkBox_priority.Checked, 
@@ -782,13 +808,15 @@ namespace Riverback
                     int index = tempCoord.Y * LEVEL_TILEAMOUNT_WIDTH + tempCoord.X;
                     if (index < Level.LEVEL_TILE_AMOUNT) {
                         TilemapTile t = levelEditor.Level.Tilemap[index];
-                        int bankTileNum = t.Bank * 256 + t.Tile;
-                        if (bankTileNum > 0) {
+                        int tileValue = levelEditor.Level.TileIndex.getBankIndexTile(t.Bank * 256 + t.Tile);
+                        if (tileValue > 0) {
+                            GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.graphicsBankIndex * 2 + (tileValue / 1024)];
                             byte bankPaletteNumber = (byte)(levelEditor.Level.PaletteIndex[t.Palette] - 1);
                             TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
-                            Bitmap tileImg = levelEditor.LevelBank.getTileImage(bankTileNum,
-                                                                                bankPaletteNumber,
-                                                                                TileDrawer.TILE_WIDTH);
+                            if (tileValue >= 1024) {
+                                tileValue -= 1024;
+                            }
+                            Bitmap tileImg = bank.getTileImage(tileValue, bankPaletteNumber, TileDrawer.TILE_WIDTH);
                             TileDrawer.drawTileOnCanvas(tileImg,
                                                         g,
                                                         alignedCoords.X,
@@ -897,7 +925,7 @@ namespace Riverback
             }
         }
 
-        private void drawIndexTiles(Graphics g, bool highlight = true, bool grid = false)
+        private void drawIndexTiles(Graphics g, bool skipUnusedBankTiles, bool highlight = true, bool grid = false)
         {
             int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
             int tileAmount = levelEditor.Banks[index].tileAmount;
@@ -905,7 +933,13 @@ namespace Riverback
                 if (tileIndexNum == tileAmount) {
                     index += 1;
                 }
-                drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
+                if (skipUnusedBankTiles == false) {
+                    drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
+                } else {
+                    if (levelEditor.Level.TileIndex.getBankIndex(tileIndexNum) > 0) {
+                        drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
+                    }
+                }
             }
         }
 
@@ -1098,21 +1132,15 @@ namespace Riverback
 
         private void updateImage_Tileset()
         {
-            if (isLevelLoaded) {
-                using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
-                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                    g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.Clear(fillColor);
-                    TileDrawer.drawAllTilesOnCanvas(levelEditor.LevelBank, 
-                                                    g, 
-                                                    LEVEL_TILESET_TILEAMOUNT_WIDTH, 
-                                                    bankPaletteNum, 
-                                                    TILEMAP_SCALE);
-                    if (checkBox_grid_show.Checked) {
-                        g.DrawImage(Properties.Resources.gridtile16_256x2048, 0, 0);
-                    }
-                    pictureBox_tileset.Invalidate();
+            using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.PixelOffsetMode = PixelOffsetMode.Half;
+                g.Clear(fillColor);
+                drawIndexTiles(g, true, false, false);
+                if (checkBox_grid_show.Checked) {
+                    g.DrawImage(Properties.Resources.gridtile16_256x2048, 0, 0);
                 }
+                pictureBox_tileset.Invalidate();
             }
         }
 
@@ -1148,7 +1176,7 @@ namespace Riverback
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
-                    drawIndexTiles(g, true, checkBox_grid_show.Checked);
+                    drawIndexTiles(g, false, true, checkBox_grid_show.Checked);
                 }
                 pictureBox_indexTiles.Invalidate();
             }
@@ -1161,16 +1189,20 @@ namespace Riverback
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(fillColor);
-                    Bitmap tileImg = levelEditor.LevelBank.getTileImage(currentTilesetTile, 
-                                                                        bankPaletteNum, 
-                                                                        TileDrawer.TILE_WIDTH);
-                    TileDrawer.drawTileOnCanvas(tileImg, 
-                                                g, 
-                                                0, 
-                                                0, 
-                                                checkBox_vflip.Checked, 
-                                                checkBox_hflip.Checked, 
-                                                TILE_SELECTOR_SCALE);
+
+                    int i = 0;
+                    int tileNum = levelEditor.Level.TileIndex.getBankIndexTile(currentTilesetTileIndex);
+                    if (tileNum < 0) {
+                        tileNum = 0;
+                    }
+                    else if (tileNum >= 1024) {
+                        i = 1;
+                    }
+                    tileNum = tileNum - (i * 1024);
+
+                    int bankIndex = levelEditor.Level.LevelHeader.graphicsBankIndex * 2 + i;
+                    Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, bankPaletteNum, TileDrawer.TILE_WIDTH);
+                    TileDrawer.drawTileOnCanvas(tileImg, g,  0, 0, checkBox_vflip.Checked, checkBox_hflip.Checked, TILE_SELECTOR_SCALE);
                     pictureBox_tilemaptile.Invalidate();
                 }
             }
@@ -1201,8 +1233,7 @@ namespace Riverback
                     g.Clear(fillColor);
                     TileDrawer.drawLevelOnCanvas(g, 
                                                  bitmapPhysTileset, 
-                                                 levelEditor.Level, 
-                                                 levelEditor.LevelBank, 
+                                                 levelEditor, 
                                                  LEVEL_TILEAMOUNT_WIDTH, 
                                                  checkBox_field_show.Checked, 
                                                  checkBox_physmap_show.Checked);

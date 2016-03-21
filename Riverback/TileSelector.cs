@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Riverback
 {
@@ -31,11 +28,11 @@ namespace Riverback
         private bool selected;
         public bool Selected { get { return selected; } }
 
-		public TileSelector(CoordinateConverter coordConverter)
+        public TileSelector(CoordinateConverter coordConverter)
         {
             tileCoordsStart = new Point(UNUSED_COORD_NUMBER, UNUSED_COORD_NUMBER);
             tileCoords = new Rectangle();
-			this.coordConverter = coordConverter;
+            this.coordConverter = coordConverter;
         }
 
         public void selectStart(Point mouseCoords, int tileWidth, int tileScale = 1)

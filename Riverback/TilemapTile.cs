@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Riverback
 {
@@ -129,8 +125,8 @@ namespace Riverback
 
         public TilemapTile(int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
-			this.Bank = (byte)(tileValue / 256);
-			this.Tile = (byte)(tileValue % 256);
+            this.Bank = (byte)(tileValue / 256);
+            this.Tile = (byte)(tileValue % 256);
             this.VFlip = vflip;
             this.HFlip = hflip;
             this.Priority = priority;

@@ -12,13 +12,9 @@ namespace Riverback
         public LevelHeader LevelHeader { get { return levelHeader; } }
         private Level level;
         public Level Level { get { return level; } }
-        private GraphicBank levelBank;
-        public GraphicBank LevelBank { get { return levelBank; } }
         private List<GraphicBank> banks;
         public List<GraphicBank> Banks { get { return banks; } }
-        private int tileOffset;
-        public int TileOffset { get { return tileOffset; } }
-
+        
         public void openLevel(byte[] romdata, byte levelNumber)
         {
             levelHeader = new LevelHeader(levelNumber);
@@ -55,31 +51,27 @@ namespace Riverback
             }
         }
 
-        public void updateLevelBank()
-        {
-            int index = levelHeader.graphicsBankIndex * 2;
-            banks[index].resetTileOffset();
-            PlanarTilesWithOffset pt = banks[index].getPlanarTilesFromBankData(level.TileIndex, 0);
-            tileOffset = banks[index].TileOffset;
-            List<byte> levelBankData = pt.planarTiles;
-            PlanarTilesWithOffset pt2 = banks[index + 1].getPlanarTilesFromBankData(level.TileIndex, pt.offset);
-            levelBankData.AddRange(pt2.planarTiles);
-            levelBank = new GraphicBank(levelBankData.ToArray(), false);
-            levelBank.tileAmount = level.TileIndex.getBankTileIndexSize();
-            levelBank.palettes = banks[index].palettes;
-        }
-
         public void updateLevelHeader(LevelHeader levelHeader)
         {
             this.levelHeader = new LevelHeader(levelHeader);
         }
 
-		public void removeInvalidTiles(List<int> removedTiles)
+        public GraphicBank getBankFromTileNumber(int tileNum)
         {
-			int tileValue;
+            int bankIndex = LevelHeader.graphicsBankIndex * 2;
+            if (tileNum < Banks[bankIndex].tileAmount)
+                return Banks[bankIndex];
+            if (tileNum < Banks[bankIndex].tileAmount + Banks[bankIndex + 1].tileAmount)
+                return Banks[bankIndex + 1];
+            return null;
+        }
+
+        public void removeInvalidTiles(List<int> removedTiles)
+        {
+            int tileValue;
             for (int index = 0; index < Level.LEVEL_TILE_AMOUNT; index++) {
-				tileValue = level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile;
-				if ((tileValue >= LevelBank.tileAmount) || (removedTiles.Contains(tileValue))) {
+                tileValue = level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile;
+                if ((tileValue >= Level.TileIndex.getBankTileIndexSize()) || (removedTiles.Contains(tileValue))) {
                     level.Tilemap[index].Bank = 0;
                     level.Tilemap[index].Tile = 0;
                 }
@@ -96,7 +88,7 @@ namespace Riverback
         public void setTileInTilemap(int tileNum, TilemapTile tile)
         {
             if (tileNum < Level.LEVEL_TILE_AMOUNT) {
-                TilemapTile levelTile = this.Level.Tilemap[tileNum];
+                TilemapTile levelTile = Level.Tilemap[tileNum];
                 levelTile.Bank = tile.Bank;
                 levelTile.Tile = tile.Tile;
                 levelTile.VFlip = tile.VFlip;
@@ -106,19 +98,19 @@ namespace Riverback
             }
         }
 
-		public void setTileInTilemap(int tileNum, int tileValue)
-		{
-			if (tileNum < Level.LEVEL_TILE_AMOUNT) {
-				TilemapTile tile = this.Level.Tilemap[tileNum];
-				tile.Bank = (byte)(tileValue / 256);
-				tile.Tile = (byte)(tileValue % 256);
-			}
-		}
+        public void setTileInTilemap(int tileNum, int tileValue)
+        {
+            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+                TilemapTile tile = Level.Tilemap[tileNum];
+                tile.Bank = (byte)(tileValue / 256);
+                tile.Tile = (byte)(tileValue % 256);
+            }
+        }
 
         public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
             if (tileNum < Level.LEVEL_TILE_AMOUNT) {
-                TilemapTile tile = this.Level.Tilemap[tileNum];
+                TilemapTile tile = Level.Tilemap[tileNum];
                 tile.Bank = (byte)(tileValue / 256);
                 tile.Tile = (byte)(tileValue % 256);
                 tile.VFlip = vflip;
