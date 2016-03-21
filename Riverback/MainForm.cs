@@ -1132,15 +1132,17 @@ namespace Riverback
 
         private void updateImage_Tileset()
         {
-            using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
-                g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.PixelOffsetMode = PixelOffsetMode.Half;
-                g.Clear(fillColor);
-                drawIndexTiles(g, true, false, false);
-                if (checkBox_grid_show.Checked) {
-                    g.DrawImage(Properties.Resources.gridtile16_256x2048, 0, 0);
+            if (isLevelLoaded) {
+                using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
+                    g.Clear(fillColor);
+                    drawIndexTiles(g, true, false, false);
+                    if (checkBox_grid_show.Checked) {
+                        g.DrawImage(Properties.Resources.gridtile16_256x2048, 0, 0);
+                    }
+                    pictureBox_tileset.Invalidate();
                 }
-                pictureBox_tileset.Invalidate();
             }
         }
 
@@ -1148,15 +1150,15 @@ namespace Riverback
         {
             if (isLevelLoaded) {
                 if (checkBox_bytes_show.Checked) {
-                    bitmapPhysTileset = (Bitmap)Properties.Resources.physmap_bytes;
+                    bitmapPhysTileset = Properties.Resources.physmap_bytes;
                     bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-                    Bitmap bmp = (Bitmap)Properties.Resources.physmap_bytes2;
+                    Bitmap bmp = Properties.Resources.physmap_bytes2;
                     bmp.SetResolution(IMAGE_DPI, IMAGE_DPI);
                     pictureBox_phystiles.Image = bmp;
                 } else {
-                    bitmapPhysTileset = (Bitmap)Properties.Resources.physmap;
+                    bitmapPhysTileset = Properties.Resources.physmap;
                     bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-                    Bitmap bmp = (Bitmap)Properties.Resources.physmap2;
+                    Bitmap bmp = Properties.Resources.physmap2;
                     bmp.SetResolution(IMAGE_DPI, IMAGE_DPI);
                     pictureBox_phystiles.Image = bmp;
                 }
