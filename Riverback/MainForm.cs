@@ -184,16 +184,16 @@ namespace Riverback
                     }
                     return true;
                 }
-            } else if (keyData == Keys.D1) {
+            } else if (keyData == (Keys.D1 | Keys.Control)) {
                 checkBox_field_show.Checked = !checkBox_field_show.Checked;
                 return true;
-            } else if (keyData == Keys.D2) {
+            } else if (keyData == (Keys.D2 | Keys.Control)) {
                 checkBox_physmap_show.Checked = !checkBox_physmap_show.Checked;
                 return true;
-            } else if (keyData == Keys.D3) {
+            } else if (keyData == (Keys.D3 | Keys.Control)) {
                 checkBox_bytes_show.Checked = !checkBox_bytes_show.Checked;
                 return true;
-            } else if (keyData == Keys.D4) {
+            } else if (keyData == (Keys.D4 | Keys.Control)) {
                 checkBox_grid_show.Checked = !checkBox_grid_show.Checked;
                 return true;
             } else if (keyData == Keys.V) {
@@ -1219,11 +1219,6 @@ namespace Riverback
                 textBox_tilesremaining.Text = $"{_indexTilesRemaining}";
                 textBox_tilesremaining.Invalidate();
             }
-        }
-
-        private void numericUpDown_paletteindices1_ValueChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -885,7 +885,6 @@
             0,
             0,
             0});
-            this.numericUpDown_paletteindices1.ValueChanged += new System.EventHandler(this.numericUpDown_paletteindices1_ValueChanged);
             // 
             // label18
             // 
