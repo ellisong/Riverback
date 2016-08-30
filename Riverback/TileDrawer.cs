@@ -4,9 +4,9 @@ namespace Riverback
 {
     public static class TileDrawer
     {
-        public const int TILE_WIDTH = 8;
+        public const int TileWidth = 8;
         
-        public static void drawTileOnCanvas(Bitmap tileImg,
+        public static void DrawTileOnCanvas(Bitmap tileImg,
                                             Graphics graphics,
                                             float x,
                                             float y,
@@ -21,64 +21,59 @@ namespace Riverback
             } else if (vflip) {
                 tileImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
             }
-            drawTileOnCanvas(tileImg, graphics, x, y, scale);
+            DrawTileOnCanvas(tileImg, graphics, x, y, scale);
         }
 
-        private static void drawTileOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale)
+        private static void DrawTileOnCanvas(Bitmap tileImg, Graphics graphics, float x, float y, float scale)
         {
-            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH, TILE_WIDTH);
-            RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
+            RectangleF sourceRect = new RectangleF(0, 0, TileWidth, TileWidth);
+            RectangleF destinationRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
             graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawTileFromImageOnCanvas(Image phystiles, 
+        public static void DrawTileFromImageOnCanvas(Image phystiles, 
                                                      Graphics graphics, 
                                                      Point srcPoint, 
                                                      Point destPoint, 
                                                      float scale = 1.0f)
         {
-            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TILE_WIDTH, TILE_WIDTH);
+            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TileWidth, TileWidth);
             RectangleF destRect = new RectangleF(destPoint.X, 
                                                  destPoint.Y, 
-                                                 TILE_WIDTH * scale, 
-                                                 TILE_WIDTH * scale);
+                                                 TileWidth * scale, 
+                                                 TileWidth * scale);
             graphics.DrawImage(phystiles, destRect, srcRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawAllTilesOnCanvas(GraphicBank bank, 
+        public static void DrawAllTilesOnCanvas(GraphicBank bank, 
                                                 Graphics graphics, 
                                                 int tileAmountWidth, 
                                                 byte paletteNumber, 
                                                 float scale = 1.0f)
         {
-            for (int bankTileNumber = 0; bankTileNumber < bank.tileAmount; bankTileNumber++) {
-                Bitmap tileImg = bank.getTileImage(bankTileNumber, paletteNumber, TILE_WIDTH);
-                float x = TILE_WIDTH * (bankTileNumber % tileAmountWidth) * scale;
-                float y = TILE_WIDTH * (bankTileNumber / tileAmountWidth) * scale;
-                drawTileOnCanvas(tileImg, graphics, x, y, scale);
+            for (int bankTileNumber = 0; bankTileNumber < bank.TileAmount; bankTileNumber++) {
+                Bitmap tileImg = bank.GetTileImage(bankTileNumber, paletteNumber, TileWidth);
+                float x = TileWidth * (bankTileNumber % tileAmountWidth) * scale;
+                float y = TileWidth * (bankTileNumber / tileAmountWidth) * scale;
+                DrawTileOnCanvas(tileImg, graphics, x, y, scale);
             }
         }
 
-        public static void clearTileOnCanvas(Graphics graphics, Brush fillBrush, float x, float y, float scale = 1.0f)
+        public static void ClearTileOnCanvas(Graphics graphics, Brush fillBrush, float x, float y, float scale = 1.0f)
         {
-            RectangleF clearRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
+            RectangleF clearRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
             graphics.FillRectangle(fillBrush, clearRect);
         }
 
-        public static void drawGridCellOnCanvas(Graphics graphics, float x, float y, float scale = 1.0f)
+        public static void DrawGridCellOnCanvas(Graphics graphics, float x, float y, float scale = 1.0f)
         {
-            RectangleF sourceRect = new RectangleF(0, 0, TILE_WIDTH * scale, TILE_WIDTH * scale);
-            RectangleF destinationRect = new RectangleF(x, y, TILE_WIDTH * scale, TILE_WIDTH * scale);
-            Image img;
-            if (scale == 2.0f) {
-                img = Properties.Resources.gridtile16;
-            } else {
-                img = Properties.Resources.gridtile8;
-            }
+            RectangleF sourceRect = new RectangleF(0, 0, TileWidth * scale, TileWidth * scale);
+            RectangleF destinationRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
+            Image img = scale == 2.0f ? Properties.Resources.gridtile16 : Properties.Resources.gridtile8;
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
-        public static void drawLevelOnCanvas(Graphics graphics, 
+        public static void DrawLevelOnCanvas(Graphics graphics, 
                                              Image imagePhysTileset, 
                                              LevelEditor levelEditor,
                                              int tileAmountWidth, 
@@ -89,20 +84,20 @@ namespace Riverback
                 for (int x = 0; x < tileAmountWidth; x++) {
                     TilemapTile tile = levelEditor.Level.Tilemap[y * tileAmountWidth + x];
                     byte phys = levelEditor.Level.Physmap[y * tileAmountWidth + x];
-                    int tileValue = levelEditor.Level.TileIndex.getBankIndexTile(tile.Bank * 256 + tile.Tile);
+                    int tileValue = levelEditor.Level.TileIndex.GetBankIndexTile(tile.Bank * 256 + tile.Tile);
                     if ((tileValue > 0) && (displayTilemapTiles)) {
-                        GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.graphicsBankIndex * 2 + (tileValue / 1024)];
+                        GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.GraphicsBankIndex * 2 + (tileValue / 1024)];
                         if (tileValue >= 1024) {
                             tileValue -= 1024;
                         }
-                        Bitmap tileImg = bank.getTileImage(tileValue, (byte)(levelEditor.Level.PaletteIndex[tile.Palette] - 1), TILE_WIDTH);
-                        drawTileOnCanvas(tileImg, graphics, x * TILE_WIDTH, y * TILE_WIDTH, tile.VFlip, tile.HFlip);
+                        Bitmap tileImg = bank.GetTileImage(tileValue, (byte)(levelEditor.Level.PaletteIndex[tile.Palette] - 1), TileWidth);
+                        DrawTileOnCanvas(tileImg, graphics, x * TileWidth, y * TileWidth, tile.VFlip, tile.HFlip);
                     }
                     if ((phys != 0) && (displayPhysmapTiles)) {
-                        Point srcCoords = new Point(phys % 16 * TILE_WIDTH,
-                                                    phys / 16 * TILE_WIDTH);
-                        Point destCoords = new Point(x * TILE_WIDTH, y * TILE_WIDTH);
-                        drawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
+                        Point srcCoords = new Point(phys % 16 * TileWidth,
+                                                    phys / 16 * TileWidth);
+                        Point destCoords = new Point(x * TileWidth, y * TileWidth);
+                        DrawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
                     }
                 }
             }

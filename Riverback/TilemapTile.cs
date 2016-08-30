@@ -1,20 +1,21 @@
 ﻿using System;
+using Riverback.Properties;
 
 namespace Riverback
 {
     public class TilemapTile
     {
         // shift and & constants
-        const int AND_TILE_VFLIP = 0x80;
-        const int AND_TILE_VFLIP_SHIFT = 7;
-        const int AND_TILE_HFLIP = 0x40;
-        const int AND_TILE_HFLIP_SHIFT = 6;
-        const int AND_TILE_PRIORITY = 0x20;
-        const int AND_TILE_PRIORITY_SHIFT = 5;
-        const int AND_TILE_PALETTE = 0x1C;
-        const int AND_TILE_PALETTE_SHIFT = 2;
-        const int AND_TILE_BANK = 0x03;
-        const int AND_TILE_BANK_SHIFT = 0;
+        const int AndTileVflip = 0x80;
+        const int AndTileVflipShift = 7;
+        const int AndTileHflip = 0x40;
+        const int AndTileHflipShift = 6;
+        const int AndTilePriority = 0x20;
+        const int AndTilePriorityShift = 5;
+        const int AndTilePalette = 0x1C;
+        const int AndTilePaletteShift = 2;
+        const int AndTileBank = 0x03;
+        const int AndTileBankShift = 0;
 
         public byte Tile { get; set; }
         public byte Property { get; set; }
@@ -23,18 +24,18 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1) {
+                if (((Property & AndTileVflip) >> AndTileVflipShift) == 1) {
                     return true;
                 }
                 return false;
             }
             set
             {
-                this.Property = (byte)(Property & (0xFF - AND_TILE_VFLIP));
+                Property = (byte)(Property & (0xFF - AndTileVflip));
                 if (value) {
-                    this.Property = (byte)(Property + (1 << AND_TILE_VFLIP_SHIFT));
+                    Property = (byte)(Property + (1 << AndTileVflipShift));
                 } else {
-                    this.Property = (byte)(Property + (0 << AND_TILE_VFLIP_SHIFT));
+                    Property = (byte)(Property + (0 << AndTileVflipShift));
                 }
             }
         }
@@ -43,18 +44,18 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1) {
+                if (((Property & AndTileHflip) >> AndTileHflipShift) == 1) {
                     return true;
                 }
                 return false;
             }
             set
             {
-                this.Property = (byte)(Property & (0xFF - AND_TILE_HFLIP));
+                Property = (byte)(Property & (0xFF - AndTileHflip));
                 if (value) {
-                    this.Property = (byte)(Property + (1 << AND_TILE_HFLIP_SHIFT));
+                    Property = (byte)(Property + (1 << AndTileHflipShift));
                 } else {
-                    this.Property = (byte)(Property + (0 << AND_TILE_HFLIP_SHIFT));
+                    Property = (byte)(Property + (0 << AndTileHflipShift));
                 }
             }
         }
@@ -63,51 +64,51 @@ namespace Riverback
         {
             get
             {
-                if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1) {
+                if (((Property & AndTilePriority) >> AndTilePriorityShift) == 1) {
                     return true;
                 }
                 return false;
             }
             set
             {
-                this.Property = (byte)(Property & (0xFF - AND_TILE_PRIORITY));
+                Property = (byte)(Property & (0xFF - AndTilePriority));
                 if (value) {
-                    this.Property = (byte)(Property + (1 << AND_TILE_PRIORITY_SHIFT));
+                    Property = (byte)(Property + (1 << AndTilePriorityShift));
                 } else {
-                    this.Property = (byte)(Property + (0 << AND_TILE_PRIORITY_SHIFT));
+                    Property = (byte)(Property + (0 << AndTilePriorityShift));
                 }
             }
         }
         
         public byte Palette
         {
-            get { return (byte)((this.Property & AND_TILE_PALETTE) >> AND_TILE_PALETTE_SHIFT); }
+            get { return (byte)((Property & AndTilePalette) >> AndTilePaletteShift); }
             set
             {
-                if ((value < 8) && (value >= 0)) {
-                    this.Property = (byte)(Property & (0xFF - AND_TILE_PALETTE));
-                    this.Property = (byte)(Property + (value << AND_TILE_PALETTE_SHIFT));
+                if (value < 8) {
+                    Property = (byte)(Property & (0xFF - AndTilePalette));
+                    Property = (byte)(Property + (value << AndTilePaletteShift));
                 } else {
                     throw new ArgumentOutOfRangeException("TilesetTile.Palette",
                                                           value,
-                                                          "The argument for TilesetTile.Palette is out of range");
+                                                          Resources.TilemapTile_Palette_OutOfRangeException);
                 }
             }
         }
         
         public byte Bank
         {
-            get { return (byte)((this.Property & AND_TILE_BANK) >> AND_TILE_BANK_SHIFT); }
+            get { return (byte)((Property & AndTileBank) >> AndTileBankShift); }
             set
             {
                 // Can hold two bits, but banks 2 and 3 are never used in-game for the tilemaps
-                if ((value < 2) && (value >= 0)) {
-                    this.Property = (byte)(Property & (0xFF - AND_TILE_BANK));
-                    this.Property = (byte)(Property + (value << AND_TILE_BANK_SHIFT));
+                if (value < 2) {
+                    Property = (byte)(Property & (0xFF - AndTileBank));
+                    Property = (byte)(Property + (value << AndTileBankShift));
                 } else {
                     throw new ArgumentOutOfRangeException("TilesetTile.Bank",
                                                           value,
-                                                          "The argument for TilesetTile.Bank is out of range");
+                                                          Resources.TilemapTile_Bank_OutOfRangeException);
                 }
             }
         }
@@ -119,49 +120,37 @@ namespace Riverback
 
         public TilemapTile(TilemapTile tile)
         {
-            this.Tile = tile.Tile;
-            this.Property = tile.Property;
+            Tile = tile.Tile;
+            Property = tile.Property;
         }
 
         public TilemapTile(int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
-            this.Bank = (byte)(tileValue / 256);
-            this.Tile = (byte)(tileValue % 256);
-            this.VFlip = vflip;
-            this.HFlip = hflip;
-            this.Priority = priority;
-            this.Palette = palette;
+            Bank = (byte)(tileValue / 256);
+            Tile = (byte)(tileValue % 256);
+            VFlip = vflip;
+            HFlip = hflip;
+            Priority = priority;
+            Palette = palette;
         }
 
-        public void setTileFromLevelData(byte[] leveldata, int tileNumber)
+        public void SetTileFromLevelData(byte[] leveldata, int tileNumber)
         {
-            this.Tile = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2)];
-            this.Property = leveldata[Level.LEVEL_TILE_AMOUNT + (tileNumber * 2) + 1];
-            if (((this.Property & AND_TILE_VFLIP) >> AND_TILE_VFLIP_SHIFT) == 1) {
-                this.VFlip = true;
-            } else {
-                this.VFlip = false;
-            }
-            if (((this.Property & AND_TILE_HFLIP) >> AND_TILE_HFLIP_SHIFT) == 1) {
-                this.HFlip = true;
-            } else {
-                this.HFlip = false;
-            }
-            if (((this.Property & AND_TILE_PRIORITY) >> AND_TILE_PRIORITY_SHIFT) == 1) {
-                this.Priority = true;
-            } else {
-                this.Priority = false;
-            }
-            this.Palette = (byte)((this.Property & AND_TILE_PALETTE) >> AND_TILE_PALETTE_SHIFT);
-            this.Bank = (byte)((this.Property & AND_TILE_BANK) >> AND_TILE_BANK_SHIFT);
+            Tile = leveldata[Level.LevelTileAmount + (tileNumber * 2)];
+            Property = leveldata[Level.LevelTileAmount + (tileNumber * 2) + 1];
+            VFlip = (Property & AndTileVflip) >> AndTileVflipShift == 1;
+            HFlip = (Property & AndTileHflip) >> AndTileHflipShift == 1;
+            Priority = (Property & AndTilePriority) >> AndTilePriorityShift == 1;
+            Palette = (byte)((Property & AndTilePalette) >> AndTilePaletteShift);
+            Bank = (byte)((Property & AndTileBank) >> AndTileBankShift);
         }
 
-        public static TilemapTile[] getAllLevelTilesFromLevelData(byte[] leveldata)
+        public static TilemapTile[] GetAllLevelTilesFromLevelData(byte[] leveldata)
         {
-            TilemapTile[] tiles = new TilemapTile[Level.LEVEL_TILE_AMOUNT];
-            for (int tileNum = 0; tileNum < Level.LEVEL_TILE_AMOUNT; tileNum++) {
+            TilemapTile[] tiles = new TilemapTile[Level.LevelTileAmount];
+            for (int tileNum = 0; tileNum < Level.LevelTileAmount; tileNum++) {
                 TilemapTile tile = new TilemapTile();
-                tile.setTileFromLevelData(leveldata, tileNum);
+                tile.SetTileFromLevelData(leveldata, tileNum);
                 tiles[tileNum] = tile;
             }
             return tiles;

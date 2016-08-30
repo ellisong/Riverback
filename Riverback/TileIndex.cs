@@ -5,39 +5,38 @@ namespace Riverback
 {
     public class TileIndex
     {
-        private int maxIndexAmount;
-        public int MaxIndexAmount { get { return maxIndexAmount; } }
-        private bool[] tileIndex;
-        private List<int> bankTileIndex;
+        public int MaxIndexAmount { get; }
+        private readonly bool[] _tileIndex;
+        private readonly List<int> _bankTileIndex;
 
         public TileIndex(int maxIndexAmount)
         {
-            this.maxIndexAmount = maxIndexAmount;
-            tileIndex = new bool[maxIndexAmount];
-            bankTileIndex = new List<int>();
+            MaxIndexAmount = maxIndexAmount;
+            _tileIndex = new bool[maxIndexAmount];
+            _bankTileIndex = new List<int>();
         }
 
         public bool this[int index]
         {
             get
             {
-                return tileIndex[index];
+                return _tileIndex[index];
             }
             set
             {
-                setTileIndexValue(index, value);
-                sortBankTileIndex();
+                SetTileIndexValue(index, value);
+                SortBankTileIndex();
             }
         }
 
-        public void setTileIndexArray(bool[] tileIndex)
+        public void SetTileIndexArray(bool[] tileIndex)
         {
-            if (this.tileIndex.Length == tileIndex.Length) {
-                bankTileIndex.Clear();
+            if (_tileIndex.Length == tileIndex.Length) {
+                _bankTileIndex.Clear();
                 for (int i = 0; i < tileIndex.Length; i++) {
                     // This statement avoids an unneeded sort
                     this[i] = false;
-                    setTileIndexValue(i, tileIndex[i]);
+                    SetTileIndexValue(i, tileIndex[i]);
                 }
                 // Should be already sorted after copying
             } else {
@@ -45,14 +44,14 @@ namespace Riverback
             }
         }
 
-        public void setTileIndexList(List<bool> tileIndex)
+        public void SetTileIndexList(List<bool> tileIndex)
         {
-            if (this.tileIndex.Length == tileIndex.Count) {
-                bankTileIndex.Clear();
+            if (_tileIndex.Length == tileIndex.Count) {
+                _bankTileIndex.Clear();
                 for (int i = 0; i < tileIndex.Count; i++) {
                     // This statement avoids an unneeded sort
                     this[i] = false;
-                    setTileIndexValue(i, tileIndex[i]);
+                    SetTileIndexValue(i, tileIndex[i]);
                 }
                 // Should be already sorted after copying
             } else {
@@ -60,34 +59,34 @@ namespace Riverback
             }
         }
 
-        public int getBankTileIndexSize()
+        public int GetBankTileIndexSize()
         {
-            return bankTileIndex.Count;
+            return _bankTileIndex.Count;
         }
 
-        public int getBankIndex(int tileNum)
+        public int GetBankIndex(int tileNum)
         {
-            return bankTileIndex.FindIndex(x => x == tileNum);
+            return _bankTileIndex.FindIndex(x => x == tileNum);
         }
 
-        public int getBankIndexTile(int index)
+        public int GetBankIndexTile(int index)
         {
-            return bankTileIndex[index];
+            return _bankTileIndex[index];
         }
 
-        private void setTileIndexValue(int index, bool value)
+        private void SetTileIndexValue(int index, bool value)
         {
-            if ((!tileIndex[index]) && (value)) {
-                bankTileIndex.Add(index);
-            } else if ((tileIndex[index]) && (!value)) {
-                bankTileIndex.Remove(index);
+            if ((!_tileIndex[index]) && (value)) {
+                _bankTileIndex.Add(index);
+            } else if ((_tileIndex[index]) && (!value)) {
+                _bankTileIndex.Remove(index);
             }
-            tileIndex[index] = value;
+            _tileIndex[index] = value;
         }
 
-        private void sortBankTileIndex()
+        private void SortBankTileIndex()
         {
-            bankTileIndex.Sort();
+            _bankTileIndex.Sort();
         }
     }
 }

@@ -18,9 +18,9 @@
         {
             if (disposing && (components != null)) {
                 components.Dispose();
-                bitmapLevel.Dispose();
-                bitmapTilemapTile.Dispose();
-                bitmapTileset.Dispose();
+                _bitmapLevel.Dispose();
+                _bitmapTilemapTile.Dispose();
+                _bitmapTileset.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -885,6 +885,7 @@
             0,
             0,
             0});
+            this.numericUpDown_paletteindices1.ValueChanged += new System.EventHandler(this.numericUpDown_paletteindices1_ValueChanged);
             // 
             // label18
             // 

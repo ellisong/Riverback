@@ -1,17 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
+﻿using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Riverback;
 
-namespace Riverback.Tests
+namespace Riverback_UnitTests
 {
     [TestClass()]
     public sealed class CoordinateConverterTests
     {
-        private static CoordinateConverter coordConverter;
+        private static CoordinateConverter _coordConverter;
 
         [ClassInitialize()]
-        public static void initialize(TestContext tc)
+        public static void Initialize(TestContext tc)
         {
-            coordConverter = new CoordinateConverter(8, 8, 8);
+            _coordConverter = new CoordinateConverter(8, 8, 8);
         }
 
         [TestMethod()]
@@ -20,7 +21,7 @@ namespace Riverback.Tests
             Point input = new Point(55, 17);
             int expected = 22;
 
-            int actual = coordConverter.getTileNumberFromMouseCoords(input);
+            int actual = _coordConverter.GetTileNumberFromMouseCoords(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -31,7 +32,7 @@ namespace Riverback.Tests
             int input = 22;
             Point expected = new Point(48, 16);
 
-            Point actual = coordConverter.getMouseCoordsFromTileNumber(input);
+            Point actual = _coordConverter.GetMouseCoordsFromTileNumber(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -42,7 +43,7 @@ namespace Riverback.Tests
             Point input = new Point(55, 17);
             Point expected = new Point(6, 2);
 
-            Point actual = coordConverter.getTileCoordsFromMouseCoords(input);
+            Point actual = _coordConverter.GetTileCoordsFromMouseCoords(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -53,7 +54,7 @@ namespace Riverback.Tests
             Point input = new Point(6, 2);
             int expected = 22;
 
-            int actual = coordConverter.getTileNumberFromTileCoords(input);
+            int actual = _coordConverter.GetTileNumberFromTileCoords(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -64,7 +65,7 @@ namespace Riverback.Tests
             Point input = new Point(6, 2);
             Point expected = new Point(48, 16);
 
-            Point actual = coordConverter.getMouseCoordsFromTileCoords(input);
+            Point actual = _coordConverter.GetMouseCoordsFromTileCoords(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -75,7 +76,7 @@ namespace Riverback.Tests
             int input = 22;
             Point expected = new Point(6, 2);
 
-            Point actual = coordConverter.getTileCoordsFromTileNumber(input);
+            Point actual = _coordConverter.GetTileCoordsFromTileNumber(input);
 
             Assert.AreEqual(expected, actual);
         }

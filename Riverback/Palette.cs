@@ -7,15 +7,15 @@ namespace Riverback
         public List<Color> Colors { get; set; }
 
         // False = 15bit, True = 24bit
-        private bool type;
+        private bool _type;
         public bool Type
         {
-            get { return type; }
+            get { return _type; }
             set
             {
-                if (type != value) {
-                    this.type = value;
-                    switchType();
+                if (_type != value) {
+                    _type = value;
+                    SwitchType();
                 }
             }
         }
@@ -23,54 +23,50 @@ namespace Riverback
         public Palette(bool type = false)
         {
             Colors = new List<Color>();
-            this.type = type;
+            _type = type;
         }
 
         // Copy constructor
         public Palette(Palette pal)
         {
             Colors = pal.Colors;
-            type = pal.type;
+            _type = pal._type;
         }
 
-        public void append(Color col)
+        public void Append(Color col)
         {
             Colors.Add(new Color(col));
         }
 
-        public void switchType()
+        public void SwitchType()
         {
             foreach (Color col in Colors) {
-                if (type == true) {
-                    col.Type = true;
-                } else {
-                    col.Type = false;
-                }
+                col.Type = _type;
             }
         }
 
-        public List<int> get15BitColors()
+        public List<int> Get15BitColors()
         {
             List<int> colors15Bit = new List<int>();
             foreach (Color col in Colors) {
-                colors15Bit.Add(col.get15BitColor());
+                colors15Bit.Add(col.Get15BitColor());
             }
             return colors15Bit;
         }
 
-        public List<int> get24BitColors()
+        public List<int> Get24BitColors()
         {
             List<int> colors24Bit = new List<int>();
             foreach (Color col in Colors) {
-                colors24Bit.Add(col.get24BitColor());
+                colors24Bit.Add(col.Get24BitColor());
             }
             return colors24Bit;
         }
 
-        public List<byte> get15BitColorsAsByteList()
+        public List<byte> Get15BitColorsAsByteList()
         {
             List<byte> byteList = new List<byte>();
-            List<int> colors15Bit = get15BitColors();
+            List<int> colors15Bit = Get15BitColors();
             foreach (int col in colors15Bit) {
                 byteList.Add((byte)(col & 0xFF));
                 byteList.Add((byte)((col & 0xFF00) >> 8));

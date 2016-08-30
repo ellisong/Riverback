@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace Riverback
 {
     public class LengthCandidate {
-        public int frontLength;
-        public int behindLength;
+        public int FrontLength;
+        public int BehindLength;
 
         public LengthCandidate(int frontLength, int behindLength)
         {
-            this.frontLength = frontLength;
-            this.behindLength = behindLength;
+            FrontLength = frontLength;
+            BehindLength = behindLength;
         }
     }
 
     public static class DataCompressor
     {
-        public static byte[] compress(byte[] data)
+        public static byte[] Compress(byte[] data)
         {
             List<byte> compressedData = new List<byte>();
             int pointer = 0;
@@ -38,7 +34,7 @@ namespace Riverback
                 lengthCandidates.Clear();
                 lengthResults.Clear();
                 if (posBitLength >= 8) {
-                    posByteList.Add(DataFormatter.bitsIntoByte(posBitList));
+                    posByteList.Add(DataFormatter.BitsIntoByte(posBitList));
                     posBitLength = 0;
                 }
 
@@ -54,19 +50,19 @@ namespace Riverback
                 for (int pos = 0; pos < 16; pos++) {
                     if ((pointer + pos) < data.Length) {
                         front.Add(data[pointer + pos]);
-                        List<int> indexList = getIndicesForSublistInList(behind, front);
+                        List<int> indexList = GetIndicesForSublistInList(behind, front);
                         indexList.Sort();
                         indexList.Reverse();
                         if (indexList.Count > 0) {
-                            lengthCandidates.Add(new LengthCandidate(pos + 1, (int)(behind.Count - indexList[0])));
+                            lengthCandidates.Add(new LengthCandidate(pos + 1, behind.Count - indexList[0]));
                         }
                     }
                 }
 
                 if (lengthCandidates.Count > 0) {
                     foreach (LengthCandidate candidate in lengthCandidates) {
-                        int frontLength = candidate.frontLength;
-                        int behindLength = candidate.behindLength;
+                        int frontLength = candidate.FrontLength;
+                        int behindLength = candidate.BehindLength;
                         int frontLengthCounter = frontLength;
                         List<byte> frontCandidate = front.GetRange(0, frontLengthCounter);
                         List<byte> behindCandidate = behind.GetRange(behind.Count - behindLength, behindLength);
@@ -75,7 +71,7 @@ namespace Riverback
                                 break;
                             }
                             frontCandidate.Add(data[pointer + frontLengthCounter]);
-                            if (checkSublistRepetitionInList(frontCandidate, behindCandidate)) {
+                            if (CheckSublistRepetitionInList(frontCandidate, behindCandidate)) {
                                 frontLengthCounter += 1;
                             } else {
                                 break;
@@ -84,27 +80,27 @@ namespace Riverback
                         lengthResults.Add(new LengthCandidate(frontLengthCounter, behindLength));
                     }
                     var query1 = from candidate in lengthResults
-                                 orderby candidate.frontLength descending
+                                 orderby candidate.FrontLength descending
                                  select candidate;
                     foreach (LengthCandidate candidate in query1) {
-                        int frontLength = candidate.frontLength;
-                        int behindLength = candidate.behindLength;
+                        int frontLength = candidate.FrontLength;
+                        int behindLength = candidate.BehindLength;
                         if (frontLength <= 16) {
                             var query2 = from candidate2 in lengthResults
-                                         orderby ((100000 * candidate2.frontLength) - candidate2.behindLength) descending
+                                         orderby ((100000 * candidate2.FrontLength) - candidate2.BehindLength) descending
                                          select candidate2;
                             foreach (LengthCandidate candidate2 in query2) {
-                                frontLength = candidate2.frontLength;
-                                behindLength = candidate2.behindLength;
+                                frontLength = candidate2.FrontLength;
+                                behindLength = candidate2.BehindLength;
                                 break;
                             }
                         } else {
                             var query3 = from candidate3 in lengthResults
-                                         orderby ((100000 * candidate3.frontLength) + candidate3.behindLength) descending
+                                         orderby ((100000 * candidate3.FrontLength) + candidate3.BehindLength) descending
                                          select candidate3;
                             foreach (LengthCandidate candidate3 in query3) {
-                                frontLength = candidate3.frontLength;
-                                behindLength = candidate3.behindLength;
+                                frontLength = candidate3.FrontLength;
+                                behindLength = candidate3.BehindLength;
                                 break;
                             }
                         }
@@ -141,22 +137,22 @@ namespace Riverback
                 }
             }
             if (posBitLength >= 8) {
-                posByteList.Add(DataFormatter.bitsIntoByte(posBitList));
+                posByteList.Add(DataFormatter.BitsIntoByte(posBitList));
                 posBitLength = 0;
             }
             posBitList[posBitLength++] = true;
             while (posBitLength < 8) {
                 posBitList[posBitLength++] = false;
             }
-            posByteList.Add(DataFormatter.bitsIntoByte(posBitList));
+            posByteList.Add(DataFormatter.BitsIntoByte(posBitList));
             for (int x = 0; x < 4; x++) {
                 compressedData.Add(0);
             }
-            insertPosBytesIntoData(ref compressedData, posByteList);
+            InsertPosBytesIntoData(ref compressedData, posByteList);
             return compressedData.ToArray();
         }
 
-        public static byte[] decompress(byte[] data, int offset, out int compressedSize)
+        public static byte[] Decompress(byte[] data, int offset, out int compressedSize)
         {
             int pointer = offset;
             List<byte> writtenData = new List<byte>(0x1000);
@@ -167,14 +163,11 @@ namespace Riverback
 
             while (endCondition == false) {
                 byte currByte = data[pointer++];
-                bool[] posBitList = DataFormatter.byteIntoBits(currByte);
+                bool[] posBitList = DataFormatter.ByteIntoBits(currByte);
                 foreach (bool posBit in posBitList) {
                     currByte = data[pointer++];
                     if (posBit == false) {
                         writtenData.Add(currByte);
-                        if (endCondition) {
-                            break;
-                        }
                     } else {
                         int totalBytes = ((currByte & 0xF0) >> 4) + 1;
                         int bytesBehind = 0x10 - (currByte & 0x0F);
@@ -194,9 +187,6 @@ namespace Riverback
                         while (writtenBytes < totalBytes) {
                             foreach (byte behindByte in behindBuffer) {
                                 writtenData.Add(behindByte);
-                                if (endCondition) {
-                                    writtenBytes = totalBytes;
-                                }
                                 writtenBytes += 1;
                                 if (writtenBytes >= totalBytes) {
                                     break;
@@ -211,13 +201,13 @@ namespace Riverback
             return writtenData.ToArray<byte>();
         }
 
-        private static void insertPosBytesIntoData(ref List<byte> data, List<byte> posByteList)
+        private static void InsertPosBytesIntoData(ref List<byte> data, List<byte> posByteList)
         {
             int pointer = 0;
             foreach (byte posByte in posByteList) {
                 data.Insert(pointer, posByte);
                 pointer += 1;
-                bool[] posBitList = DataFormatter.byteIntoBits(posByte);
+                bool[] posBitList = DataFormatter.ByteIntoBits(posByte);
                 foreach (bool posBit in posBitList) {
                     if (posBit) {
                         if ((data[pointer] & 0xF0) == 0) {
@@ -236,7 +226,7 @@ namespace Riverback
             }
         }
 
-        private static bool checkSublistRepetitionInList(List<byte> list, List<byte> sublist)
+        private static bool CheckSublistRepetitionInList(List<byte> list, List<byte> sublist)
         {
             if (sublist.Count <= 0) {
                 return false;
@@ -249,7 +239,7 @@ namespace Riverback
             return true;
         }
 
-        private static List<int> getIndicesForSublistInList(List<byte> list, List<byte> sublist)
+        private static List<int> GetIndicesForSublistInList(List<byte> list, List<byte> sublist)
         {
             List<int> indexList = new List<int>();
             if ((list.Count <= 0) || (sublist.Count <= 0)) {
@@ -265,7 +255,7 @@ namespace Riverback
                     }
                 }
                 if (count == sublist.Count) {
-                    indexList.Add((int)xx);
+                    indexList.Add(xx);
                 }
             }
             return indexList;

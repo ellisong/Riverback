@@ -4,121 +4,121 @@ namespace Riverback
 {
     public class LevelHeader
     {
-        private const int LEVEL_HEADER_POINTER_ADDRESS = 0xF218;
-        private const byte LEVEL_HEADER_POINTER_AMOUNT = 64;
-        private const int LEVEL_HEADER_ADDRESS = 0xF298;
-        private const byte LEVEL_HEADER_AMOUNT = 48;
+        private const int LevelHeaderPointerAddress = 0xF218;
+        //private const byte LevelHeaderPointerAmount = 64;
+        //private const int LevelHeaderAddress = 0xF298;
+        //private const byte LevelHeaderAmount = 48;
 
-        public byte headerNumber;
-        public int headerPointerAddress;
-        public int headerAddress;
-        public int levelPointer;
-        public byte graphicsBankIndex;
-        public byte fieldNumber;
-        public byte musicSelect;
-        public byte[] enemyType;
-        public byte[] spawnRates;
-        public byte[] objectType;
-        public byte waterHeight;
-        public byte displayWater;
-        public byte waterType;
-        public byte alwaysE6;
-        public int levelTimer;
-        public byte[] doorExits;
+        public byte HeaderNumber;
+        public int HeaderPointerAddress;
+        public int HeaderAddress;
+        public int LevelPointer;
+        public byte GraphicsBankIndex;
+        public byte FieldNumber;
+        public byte MusicSelect;
+        public byte[] EnemyType;
+        public byte[] SpawnRates;
+        public byte[] ObjectType;
+        public byte WaterHeight;
+        public byte DisplayWater;
+        public byte WaterType;
+        public byte AlwaysE6;
+        public int LevelTimer;
+        public byte[] DoorExits;
 
         public LevelHeader(byte headerNumber = 0)
         {
-            this.headerNumber = headerNumber;
-            enemyType = new byte[6];
-            doorExits = new byte[4];
-            spawnRates = new byte[8];
-            objectType = new byte[7];
+            HeaderNumber = headerNumber;
+            EnemyType = new byte[6];
+            DoorExits = new byte[4];
+            SpawnRates = new byte[8];
+            ObjectType = new byte[7];
         }
 
         public LevelHeader(LevelHeader levelHeader)
         {
-            headerNumber = levelHeader.headerNumber;
-            headerPointerAddress = levelHeader.headerPointerAddress;
-            headerAddress = levelHeader.headerAddress;
-            levelPointer = levelHeader.levelPointer;
-            graphicsBankIndex = levelHeader.graphicsBankIndex;
-            fieldNumber = levelHeader.fieldNumber;
-            musicSelect = levelHeader.musicSelect;
-            enemyType = (byte[])levelHeader.enemyType.Clone();
-            spawnRates = (byte[])levelHeader.spawnRates.Clone();
-            objectType = (byte[])levelHeader.objectType.Clone();
-            waterHeight = levelHeader.waterHeight;
-            displayWater = levelHeader.displayWater;
-            waterType = levelHeader.waterType;
-            alwaysE6 = levelHeader.alwaysE6;
-            levelTimer = levelHeader.levelTimer;
-            doorExits = (byte[])levelHeader.doorExits.Clone();
+            HeaderNumber = levelHeader.HeaderNumber;
+            HeaderPointerAddress = levelHeader.HeaderPointerAddress;
+            HeaderAddress = levelHeader.HeaderAddress;
+            LevelPointer = levelHeader.LevelPointer;
+            GraphicsBankIndex = levelHeader.GraphicsBankIndex;
+            FieldNumber = levelHeader.FieldNumber;
+            MusicSelect = levelHeader.MusicSelect;
+            EnemyType = (byte[])levelHeader.EnemyType.Clone();
+            SpawnRates = (byte[])levelHeader.SpawnRates.Clone();
+            ObjectType = (byte[])levelHeader.ObjectType.Clone();
+            WaterHeight = levelHeader.WaterHeight;
+            DisplayWater = levelHeader.DisplayWater;
+            WaterType = levelHeader.WaterType;
+            AlwaysE6 = levelHeader.AlwaysE6;
+            LevelTimer = levelHeader.LevelTimer;
+            DoorExits = (byte[])levelHeader.DoorExits.Clone();
         }
 
-        public void update(byte[] romdata)
+        public void Update(byte[] romdata)
         {
-            headerPointerAddress = LEVEL_HEADER_POINTER_ADDRESS + headerNumber * 2;
-            headerAddress = DataFormatter.switchReadBytesIntoint16(romdata, headerPointerAddress);
-            deserialize(romdata, headerAddress);
+            HeaderPointerAddress = LevelHeaderPointerAddress + HeaderNumber * 2;
+            HeaderAddress = DataFormatter.SwitchReadBytesIntoint16(romdata, HeaderPointerAddress);
+            Deserialize(romdata, HeaderAddress);
         }
 
-        public byte[] serialize()
+        public byte[] Serialize()
         {
             List<byte> compressedData = new List<byte>();
-            compressedData.AddRange(DataFormatter.convertRomPointerToSnesPointer(levelPointer));
-            compressedData.Add(graphicsBankIndex);
-            compressedData.Add(fieldNumber);
-            compressedData.Add(musicSelect);
-            compressedData.AddRange(enemyType);
-            compressedData.AddRange(spawnRates);
-            compressedData.AddRange(objectType);
-            compressedData.Add(waterHeight);
-            compressedData.Add(displayWater);
-            compressedData.Add(waterType);
-            compressedData.Add(alwaysE6);
-            compressedData.Add((byte)(levelTimer & 0x00FF));
-            compressedData.Add((byte)((levelTimer & 0xFF00) >> 8));
-            compressedData.AddRange(doorExits);
+            compressedData.AddRange(DataFormatter.ConvertRomPointerToSnesPointer(LevelPointer));
+            compressedData.Add(GraphicsBankIndex);
+            compressedData.Add(FieldNumber);
+            compressedData.Add(MusicSelect);
+            compressedData.AddRange(EnemyType);
+            compressedData.AddRange(SpawnRates);
+            compressedData.AddRange(ObjectType);
+            compressedData.Add(WaterHeight);
+            compressedData.Add(DisplayWater);
+            compressedData.Add(WaterType);
+            compressedData.Add(AlwaysE6);
+            compressedData.Add((byte)(LevelTimer & 0x00FF));
+            compressedData.Add((byte)((LevelTimer & 0xFF00) >> 8));
+            compressedData.AddRange(DoorExits);
             return compressedData.ToArray();
         }
 
         // Requires headerPointerAddress and headerAddress to be set
-        public void deserialize(byte[] data, int offset)
+        public void Deserialize(byte[] data, int offset)
         {
-            levelPointer = DataFormatter.readSnesPointerToRomPointer(data, offset);
-            graphicsBankIndex = data[offset + 0x03];
-            fieldNumber = data[offset + 0x04];
-            musicSelect = data[offset + 0x05];
-            enemyType[0] = data[offset + 0x06];
-            enemyType[1] = data[offset + 0x07];
-            enemyType[2] = data[offset + 0x08];
-            enemyType[3] = data[offset + 0x09];
-            enemyType[4] = data[offset + 0x0A];
-            enemyType[5] = data[offset + 0x0B];
-            spawnRates[0] = data[offset + 0x0C];
-            spawnRates[1] = data[offset + 0x0D];
-            spawnRates[2] = data[offset + 0x0E];
-            spawnRates[3] = data[offset + 0x0F];
-            spawnRates[4] = data[offset + 0x10];
-            spawnRates[5] = data[offset + 0x11];
-            spawnRates[6] = data[offset + 0x12];
-            spawnRates[7] = data[offset + 0x13];
-            objectType[0] = data[offset + 0x14];
-            objectType[1] = data[offset + 0x15];
-            objectType[2] = data[offset + 0x16];
-            objectType[3] = data[offset + 0x17];
-            objectType[4] = data[offset + 0x18];
-            objectType[5] = data[offset + 0x19];
-            objectType[6] = data[offset + 0x1A];
-            waterHeight = data[offset + 0x1B];
-            displayWater = data[offset + 0x1C];
-            waterType = data[offset + 0x1D];
-            alwaysE6 = data[offset + 0x1E];
-            levelTimer = DataFormatter.switchReadBytesIntoint16(data, offset + 0x1F);
-            doorExits[0] = data[offset + 0x21];
-            doorExits[1] = data[offset + 0x22];
-            doorExits[2] = data[offset + 0x23];
-            doorExits[3] = data[offset + 0x24];
+            LevelPointer = DataFormatter.ReadSnesPointerToRomPointer(data, offset);
+            GraphicsBankIndex = data[offset + 0x03];
+            FieldNumber = data[offset + 0x04];
+            MusicSelect = data[offset + 0x05];
+            EnemyType[0] = data[offset + 0x06];
+            EnemyType[1] = data[offset + 0x07];
+            EnemyType[2] = data[offset + 0x08];
+            EnemyType[3] = data[offset + 0x09];
+            EnemyType[4] = data[offset + 0x0A];
+            EnemyType[5] = data[offset + 0x0B];
+            SpawnRates[0] = data[offset + 0x0C];
+            SpawnRates[1] = data[offset + 0x0D];
+            SpawnRates[2] = data[offset + 0x0E];
+            SpawnRates[3] = data[offset + 0x0F];
+            SpawnRates[4] = data[offset + 0x10];
+            SpawnRates[5] = data[offset + 0x11];
+            SpawnRates[6] = data[offset + 0x12];
+            SpawnRates[7] = data[offset + 0x13];
+            ObjectType[0] = data[offset + 0x14];
+            ObjectType[1] = data[offset + 0x15];
+            ObjectType[2] = data[offset + 0x16];
+            ObjectType[3] = data[offset + 0x17];
+            ObjectType[4] = data[offset + 0x18];
+            ObjectType[5] = data[offset + 0x19];
+            ObjectType[6] = data[offset + 0x1A];
+            WaterHeight = data[offset + 0x1B];
+            DisplayWater = data[offset + 0x1C];
+            WaterType = data[offset + 0x1D];
+            AlwaysE6 = data[offset + 0x1E];
+            LevelTimer = DataFormatter.SwitchReadBytesIntoint16(data, offset + 0x1F);
+            DoorExits[0] = data[offset + 0x21];
+            DoorExits[1] = data[offset + 0x22];
+            DoorExits[2] = data[offset + 0x23];
+            DoorExits[3] = data[offset + 0x24];
         }
     }
 }

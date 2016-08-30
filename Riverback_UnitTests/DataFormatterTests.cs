@@ -13,7 +13,7 @@ namespace Riverback_UnitTests
             byte expected = 0x25;
             bool[] input = { false, false, true, false, false, true, false, true };
 
-            byte actual = DataFormatter.bitsIntoByte(input);
+            byte actual = DataFormatter.BitsIntoByte(input);
 
             Assert.AreEqual(expected, actual);
         }
@@ -24,7 +24,7 @@ namespace Riverback_UnitTests
             bool[] expected = { false, false, true, false, false, true, false, true};
             byte input = 0x25;
 
-            bool[] actual = DataFormatter.byteIntoBits(input);
+            bool[] actual = DataFormatter.ByteIntoBits(input);
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -36,9 +36,8 @@ namespace Riverback_UnitTests
             List<bool> expected = new List<bool>(expectedArray);
             byte[] inputArray = { 0x25, 0xD8 };
             List<byte> input = new List<byte>(inputArray);
-            bool leftToRight = true;
 
-            List<bool> actual = DataFormatter.byteListIntoBitList(input, leftToRight);
+            List<bool> actual = DataFormatter.ByteListIntoBitList(input);
 
             CollectionAssert.AreEqual(expected, actual);
         }
@@ -50,7 +49,7 @@ namespace Riverback_UnitTests
             byte[] input = { 0xFF, 0x62, 0x49, 0x00 };
             int offset = 1;
 
-            ushort actual = DataFormatter.switchReadBytesIntoint16(input, offset);
+            ushort actual = DataFormatter.SwitchReadBytesIntoint16(input, offset);
 
             Assert.AreEqual(expected, actual);
         }
@@ -62,7 +61,7 @@ namespace Riverback_UnitTests
             byte bank = 0x92;
             ushort pointer = 0xAC74;
 
-            int actual = DataFormatter.convertSnesPointerToRomPointer(bank, pointer);
+            int actual = DataFormatter.ConvertSnesPointerToRomPointer(bank, pointer);
 
             Assert.AreEqual(expected, actual);
         }

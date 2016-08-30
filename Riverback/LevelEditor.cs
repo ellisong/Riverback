@@ -4,90 +4,87 @@ namespace Riverback
 {
     public class LevelEditor
     {
-        private const int GRAPHICS_BANK_HEADER_ADDRESS = 0x02E80;
-        private const int BANK_AMOUNT = 7;
-        private const int DEFAULT_BANK_PALETTE = 15;
+        private const int GraphicsBankHeaderAddress = 0x02E80;
+        private const int BankAmount = 7;
+        //private const int DefaultBankPalette = 15;
 
-        private LevelHeader levelHeader;
-        public LevelHeader LevelHeader { get { return levelHeader; } }
-        private Level level;
-        public Level Level { get { return level; } }
-        private List<GraphicBank> banks;
-        public List<GraphicBank> Banks { get { return banks; } }
-        
-        public void openLevel(byte[] romdata, byte levelNumber)
+        private LevelHeader _levelHeader;
+        public LevelHeader LevelHeader => _levelHeader;
+        private Level _level;
+        public Level Level => _level;
+        private List<GraphicBank> _banks;
+        public List<GraphicBank> Banks => _banks;
+
+        public void OpenLevel(byte[] romdata, byte levelNumber)
         {
-            levelHeader = new LevelHeader(levelNumber);
-            levelHeader.update(romdata);
+            _levelHeader = new LevelHeader(levelNumber);
+            _levelHeader.Update(romdata);
             int compressedSize;
-            byte[] levelData = DataCompressor.decompress(romdata, levelHeader.levelPointer, out compressedSize);
-            level = new Level(levelHeader);
-            level.CompressedDataSize = compressedSize;
-            level.update(levelData);
+            byte[] levelData = DataCompressor.Decompress(romdata, _levelHeader.LevelPointer, out compressedSize);
+            _level = new Level(_levelHeader);
+            _level.CompressedDataSize = compressedSize;
+            _level.Update(levelData);
         }
 
-        public void updateGraphicsBanks(byte[] romdata)
+        public void UpdateGraphicsBanks(byte[] romdata)
         {
-            banks = new List<GraphicBank>();
+            _banks = new List<GraphicBank>();
             List<int> bankAddresses = new List<int>();
-            for (int bankNum = 0; bankNum < BANK_AMOUNT; bankNum++) {
-                int bankPointer = GRAPHICS_BANK_HEADER_ADDRESS + bankNum * 8;
-                bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer));
-                bankAddresses.Add(DataFormatter.readSnesPointerToRomPointer(romdata, bankPointer + 3));
+            for (int bankNum = 0; bankNum < BankAmount; bankNum++) {
+                int bankPointer = GraphicsBankHeaderAddress + bankNum * 8;
+                bankAddresses.Add(DataFormatter.ReadSnesPointerToRomPointer(romdata, bankPointer));
+                bankAddresses.Add(DataFormatter.ReadSnesPointerToRomPointer(romdata, bankPointer + 3));
             }
-            for (int bankNum = 0; bankNum < BANK_AMOUNT * 2; bankNum++) {
+            for (int bankNum = 0; bankNum < BankAmount * 2; bankNum++) {
                 int compressedSize;
-                byte[] bankData = DataCompressor.decompress(romdata, bankAddresses[bankNum], out compressedSize);
-                bool hasPalettes = true;
-                if ((bankNum % 2) == 1) {
-                    hasPalettes = false;
-                }
+                byte[] bankData = DataCompressor.Decompress(romdata, bankAddresses[bankNum], out compressedSize);
+                var hasPalettes = bankNum % 2 != 1;
                 GraphicBank bank = new GraphicBank(bankData, hasPalettes);
                 bank.CompressedDataSize = compressedSize;
                 if (hasPalettes == false) {
-                    bank.palettes = banks[bankNum - 1].palettes;
+                    bank.Palettes = _banks[bankNum - 1].Palettes;
                 }
-                banks.Add(bank);
+                _banks.Add(bank);
             }
         }
 
-        public void updateLevelHeader(LevelHeader levelHeader)
+        public void UpdateLevelHeader(LevelHeader levelHeader)
         {
-            this.levelHeader = new LevelHeader(levelHeader);
+            _levelHeader = new LevelHeader(levelHeader);
         }
 
-        public GraphicBank getBankFromTileNumber(int tileNum)
+        public GraphicBank GetBankFromTileNumber(int tileNum)
         {
-            int bankIndex = LevelHeader.graphicsBankIndex * 2;
-            if (tileNum < Banks[bankIndex].tileAmount)
+            int bankIndex = LevelHeader.GraphicsBankIndex * 2;
+            if (tileNum < Banks[bankIndex].TileAmount)
                 return Banks[bankIndex];
-            if (tileNum < Banks[bankIndex].tileAmount + Banks[bankIndex + 1].tileAmount)
+            if (tileNum < Banks[bankIndex].TileAmount + Banks[bankIndex + 1].TileAmount)
                 return Banks[bankIndex + 1];
             return null;
         }
 
-        public void removeInvalidTiles(List<int> removedTiles)
+        public void RemoveInvalidTiles(List<int> removedTiles)
         {
-            int tileValue;
-            for (int index = 0; index < Level.LEVEL_TILE_AMOUNT; index++) {
-                tileValue = level.Tilemap[index].Bank * 256 + level.Tilemap[index].Tile;
-                if ((tileValue >= Level.TileIndex.getBankTileIndexSize()) || (removedTiles.Contains(tileValue))) {
-                    level.Tilemap[index].Bank = 0;
-                    level.Tilemap[index].Tile = 0;
+            for (int index = 0; index < Level.LevelTileAmount; index++)
+            {
+                var tileValue = _level.Tilemap[index].Bank * 256 + _level.Tilemap[index].Tile;
+                if ((tileValue >= Level.TileIndex.GetBankTileIndexSize()) || (removedTiles.Contains(tileValue))) {
+                    _level.Tilemap[index].Bank = 0;
+                    _level.Tilemap[index].Tile = 0;
                 }
             }
         }
 
-        public void setTileInPhysmap(int tileNum, byte tile)
+        public void SetTileInPhysmap(int tileNum, byte tile)
         {
-            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+            if (tileNum < Level.LevelTileAmount) {
                 Level.Physmap[tileNum] = tile;
             }
         }
 
-        public void setTileInTilemap(int tileNum, TilemapTile tile)
+        public void SetTileInTilemap(int tileNum, TilemapTile tile)
         {
-            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+            if (tileNum < Level.LevelTileAmount) {
                 TilemapTile levelTile = Level.Tilemap[tileNum];
                 levelTile.Bank = tile.Bank;
                 levelTile.Tile = tile.Tile;
@@ -98,18 +95,18 @@ namespace Riverback
             }
         }
 
-        public void setTileInTilemap(int tileNum, int tileValue)
+        public void SetTileInTilemap(int tileNum, int tileValue)
         {
-            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+            if (tileNum < Level.LevelTileAmount) {
                 TilemapTile tile = Level.Tilemap[tileNum];
                 tile.Bank = (byte)(tileValue / 256);
                 tile.Tile = (byte)(tileValue % 256);
             }
         }
 
-        public void setTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
+        public void SetTileInTilemap(int tileNum, int tileValue, bool vflip, bool hflip, bool priority, byte palette)
         {
-            if (tileNum < Level.LEVEL_TILE_AMOUNT) {
+            if (tileNum < Level.LevelTileAmount) {
                 TilemapTile tile = Level.Tilemap[tileNum];
                 tile.Bank = (byte)(tileValue / 256);
                 tile.Tile = (byte)(tileValue % 256);

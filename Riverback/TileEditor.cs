@@ -4,7 +4,7 @@ namespace Riverback
 {
     public static class TileEditor
     {
-        public static byte[] convertPlanarTileToLinearTile(byte[] tiledata)
+        public static byte[] ConvertPlanarTileToLinearTile(byte[] tiledata)
         {
             if (tiledata.Length != 32) {
                 return null;
@@ -48,16 +48,15 @@ namespace Riverback
             return lineardata;
         }
 
-        public static Color[] colorLinearTileWithPalette(byte[] tiledata, Palette palette)
+        public static Color[] ColorLinearTileWithPalette(byte[] tiledata, Palette palette)
         {
             if (tiledata.Length != 32) {
                 return null;
             }
             Color[] colors = new Color[64];
             int pointer = 0;
-            int tile;
             while (pointer < 32) {
-                tile = (tiledata[pointer] & 0xF0) >> 4;
+                var tile = (tiledata[pointer] & 0xF0) >> 4;
                 colors[pointer*2] = palette.Colors[tile];
                 tile = (tiledata[pointer] & 0x0F);
                 colors[pointer*2+1] = palette.Colors[tile];
@@ -66,7 +65,7 @@ namespace Riverback
             return colors;
         }
 
-        public static byte[] getARGBarrayFromColoredLinearTile(Color[] colordata)
+        public static byte[] GetArgbArrayFromColoredLinearTile(Color[] colordata)
         {
             byte[] argbArray = new byte[colordata.Length * 4];
             int pointer = 0;

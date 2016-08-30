@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Riverback;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Riverback.Tests
+namespace Riverback_UnitTests
 {
     [TestClass()]
     public sealed class TileEditorTests
@@ -23,7 +18,7 @@ namespace Riverback.Tests
                                 0x99, 0x94, 0x1F, 0xFF, 0x00, 0x4D, 0xA1, 0x00,
                                 0x04, 0x6A, 0xD2, 0x10, 0x46, 0x6A, 0xD2, 0x21 };
 
-            byte[] actual = TileEditor.convertPlanarTileToLinearTile(input);
+            byte[] actual = TileEditor.ConvertPlanarTileToLinearTile(input);
 
             CollectionAssert.AreEqual(expected, actual);
         }

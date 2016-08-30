@@ -1,18 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Riverback;
 
-namespace Riverback.Tests
+namespace Riverback_UnitTests
 {
     [TestClass]
     public class TileIndexTests
     {
-        private static TileIndex tileIndex;
-        private const int SIZE = 8;
+        private static TileIndex _tileIndex;
+        private const int Size = 8;
 
         [ClassInitialize()]
-        public static void initialize(TestContext tc)
+        public static void Initialize(TestContext tc)
         {
-            tileIndex = new TileIndex(SIZE);
+            _tileIndex = new TileIndex(Size);
         }
 
         [TestMethod()]
@@ -21,15 +22,15 @@ namespace Riverback.Tests
             bool[] input = { false, false, true, false, false, false, true, false };
             int expected = 2;
 
-            tileIndex.setTileIndexArray(input);
+            _tileIndex.SetTileIndexArray(input);
 
-            Assert.AreEqual(expected, tileIndex.getBankTileIndexSize());
-            Assert.AreEqual(2, tileIndex.getBankIndexTile(0));
-            Assert.AreEqual(-1, tileIndex.getBankIndex(4));
-            Assert.AreEqual(6, tileIndex.getBankIndexTile(1));
-            Assert.AreEqual(1, tileIndex.getBankIndex(6));
-            for (int i = 0; i < SIZE; i++) {
-                Assert.AreEqual(input[i], tileIndex[i]);
+            Assert.AreEqual(expected, _tileIndex.GetBankTileIndexSize());
+            Assert.AreEqual(2, _tileIndex.GetBankIndexTile(0));
+            Assert.AreEqual(-1, _tileIndex.GetBankIndex(4));
+            Assert.AreEqual(6, _tileIndex.GetBankIndexTile(1));
+            Assert.AreEqual(1, _tileIndex.GetBankIndex(6));
+            for (int i = 0; i < Size; i++) {
+                Assert.AreEqual(input[i], _tileIndex[i]);
             }
         }
 
@@ -41,15 +42,15 @@ namespace Riverback.Tests
             input.AddRange(inputData);
             int expected = 2;
 
-            tileIndex.setTileIndexList(input);
+            _tileIndex.SetTileIndexList(input);
 
-            Assert.AreEqual(expected, tileIndex.getBankTileIndexSize());
-            Assert.AreEqual(2, tileIndex.getBankIndexTile(0));
-            Assert.AreEqual(-1, tileIndex.getBankIndex(4));
-            Assert.AreEqual(6, tileIndex.getBankIndexTile(1));
-            Assert.AreEqual(1, tileIndex.getBankIndex(6));
-            for (int i = 0; i < SIZE; i++) {
-                Assert.AreEqual(input[i], tileIndex[i]);
+            Assert.AreEqual(expected, _tileIndex.GetBankTileIndexSize());
+            Assert.AreEqual(2, _tileIndex.GetBankIndexTile(0));
+            Assert.AreEqual(-1, _tileIndex.GetBankIndex(4));
+            Assert.AreEqual(6, _tileIndex.GetBankIndexTile(1));
+            Assert.AreEqual(1, _tileIndex.GetBankIndex(6));
+            for (int i = 0; i < Size; i++) {
+                Assert.AreEqual(input[i], _tileIndex[i]);
             }
         }
     }

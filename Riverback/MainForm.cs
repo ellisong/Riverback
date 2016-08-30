@@ -6,114 +6,112 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using Riverback.Properties;
 
 namespace Riverback
 {
     public partial class MainForm : Form
     {
-        private const int LEVEL_TILEAMOUNT_WIDTH = 64;
-        private const int LEVEL_TILESET_TILEAMOUNT_WIDTH = 16;
-        private const int LEVEL_TILESET_TILEAMOUNT_HEIGHT = 128;
-        private const int LEVEL_PHYSMAP_TILEAMOUNT_WIDTH = 16;
-        private const int LEVEL_TILEINDEX_TILEAMOUNT_WIDTH = 16;
-        private const int LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT = 128;
-        private const int PHYSTILE_TILEAMOUNT_WIDTH = 16;
-        private const int PHYSTILE_TILEAMOUNT = 256;
-        private const float TILE_SELECTOR_SCALE = 4.0f;
-        private const float TILEMAP_SCALE = 2.0f;
-        private const int IMAGE_DPI = 72;
-        private const int MAX_BANK_TILE_AMOUNT = 0x200;
+        private const int LevelTileamountWidth = 64;
+        private const int LevelTilesetTileAmountWidth = 16;
+        private const int LevelTilesetTileAmountHeight = 128;
+        private const int LevelPhysmapTileAmountWidth = 16;
+        private const int LevelTileindexTileAmountWidth = 16;
+        private const int LevelTileindexTileAmountHeight = 128;
+        private const int PhystileTileAmount = 256;
+        private const float TileSelectorScale = 4.0f;
+        private const float TilemapScale = 2.0f;
+        private const int ImageDpi = 72;
+        private const int MaxBankTileAmount = 0x200;
 
-        private System.Drawing.Color fillColor;
-        private Brush fillBrush;
-        private System.Drawing.Color highlightColor;
-        private Brush highlightBrush;
+        private System.Drawing.Color _fillColor;
+        private Brush _fillBrush;
+        private System.Drawing.Color _highlightColor;
+        private Brush _highlightBrush;
 
-        private LevelEditor levelEditor;
-        private bool isLevelLoaded;
-        private byte[] romdata;
+        private readonly LevelEditor _levelEditor;
+        private bool _isLevelLoaded;
+        private byte[] _romdata;
 
-        private CoordinateConverter coordConverterLevel;
-        private CoordinateConverter coordConverterTileset;
-        private CoordinateConverter coordConverterPhysmap;
-        private CoordinateConverter coordConverterTileIndex;
+        private readonly CoordinateConverter _coordConverterLevel;
+        private readonly CoordinateConverter _coordConverterTileset;
+        private readonly CoordinateConverter _coordConverterPhysmap;
+        private readonly CoordinateConverter _coordConverterTileIndex;
 
-        private TileSelector tilemapTileSelector;
-        private int currentTilesetTileIndex;
-        private int currentTilesetTileNum;
-        private byte currentPhysmapTile;
-        private int lastLevelTileSelected;
-        private int lastIndexTileSelected;
-        private byte bankPaletteNum;
-        private bool[] selectedTileIndices;
-        private LevelHeader selectedLevelHeader;
-        private byte[] selectedPaletteIndex;
+        private readonly TileSelector _tilemapTileSelector;
+        private int _currentTilesetTileIndex;
+        private int _currentTilesetTileNum;
+        private byte _currentPhysmapTile;
+        private int _lastLevelTileSelected;
+        private int _lastIndexTileSelected;
+        private byte _bankPaletteNum;
+        private readonly bool[] _selectedTileIndices;
+        private LevelHeader _selectedLevelHeader;
 
-        private Bitmap bitmapTileset;
-        private Bitmap bitmapTilemapTile;
-        private Bitmap bitmapTileIndex;
-        private Bitmap bitmapPhysTileset;
-        private Bitmap bitmapPhysTileset2;
-        private Bitmap bitmapPhysTile;
-        private Bitmap bitmapLevel;
+        private Bitmap _bitmapTileset;
+        private Bitmap _bitmapTilemapTile;
+        private Bitmap _bitmapTileIndex;
+        private Bitmap _bitmapPhysTileset;
+        private Bitmap _bitmapPhysTileset2;
+        private Bitmap _bitmapPhysTile;
+        private Bitmap _bitmapLevel;
 
-        int indexTilesRemaining = 0;
+        int _indexTilesRemaining;
 
         public MainForm()
         {
             InitializeComponent();
-            levelEditor = new LevelEditor();
-            coordConverterLevel = new CoordinateConverter(LEVEL_TILEAMOUNT_WIDTH, 
-                                                          LEVEL_TILEAMOUNT_WIDTH, 
-                                                          TileDrawer.TILE_WIDTH);
-            coordConverterTileset = new CoordinateConverter(LEVEL_TILESET_TILEAMOUNT_WIDTH, 
-                                                            LEVEL_TILESET_TILEAMOUNT_HEIGHT, 
-                                                            (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
-            coordConverterPhysmap = new CoordinateConverter(LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, 
-                                                            LEVEL_PHYSMAP_TILEAMOUNT_WIDTH, 
-                                                            TileDrawer.TILE_WIDTH);
-            coordConverterTileIndex = new CoordinateConverter(LEVEL_TILEINDEX_TILEAMOUNT_WIDTH, 
-                                                              LEVEL_TILEINDEX_TILEAMOUNT_HEIGHT, 
-                                                              (int)TILEMAP_SCALE * TileDrawer.TILE_WIDTH);
-            tilemapTileSelector = new TileSelector(coordConverterLevel);
-            selectedTileIndices = new bool[2048];
-            selectedLevelHeader = new LevelHeader();
-            selectedPaletteIndex = new byte[Level.LEVEL_PALETTE_INDEX_AMOUNT];
-            lastLevelTileSelected = -1;
-            lastIndexTileSelected = -1;
-            currentTilesetTileIndex = 0;
-            currentTilesetTileNum = 0;
-            currentPhysmapTile = 0;
+            _levelEditor = new LevelEditor();
+            _coordConverterLevel = new CoordinateConverter(LevelTileamountWidth, 
+                                                          LevelTileamountWidth, 
+                                                          TileDrawer.TileWidth);
+            _coordConverterTileset = new CoordinateConverter(LevelTilesetTileAmountWidth, 
+                                                            LevelTilesetTileAmountHeight, 
+                                                            (int)TilemapScale * TileDrawer.TileWidth);
+            _coordConverterPhysmap = new CoordinateConverter(LevelPhysmapTileAmountWidth, 
+                                                            LevelPhysmapTileAmountWidth, 
+                                                            TileDrawer.TileWidth);
+            _coordConverterTileIndex = new CoordinateConverter(LevelTileindexTileAmountWidth, 
+                                                              LevelTileindexTileAmountHeight, 
+                                                              (int)TilemapScale * TileDrawer.TileWidth);
+            _tilemapTileSelector = new TileSelector(_coordConverterLevel);
+            _selectedTileIndices = new bool[2048];
+            _selectedLevelHeader = new LevelHeader();
+            _lastLevelTileSelected = -1;
+            _lastIndexTileSelected = -1;
+            _currentTilesetTileIndex = 0;
+            _currentTilesetTileNum = 0;
+            _currentPhysmapTile = 0;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            fillColor = System.Drawing.Color.DarkGray;
-            fillBrush = Brushes.DarkGray;
-            highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
-            highlightBrush = new SolidBrush(highlightColor);
+            _fillColor = System.Drawing.Color.DarkGray;
+            _fillBrush = Brushes.DarkGray;
+            _highlightColor = System.Drawing.Color.FromArgb(192, System.Drawing.Color.FloralWhite);
+            _highlightBrush = new SolidBrush(_highlightColor);
 
-            bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
-            bitmapTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_tileset.Image = bitmapTileset;
-            bitmapTilemapTile = new Bitmap(pictureBox_tilemaptile.Width, pictureBox_tilemaptile.Height);
-            bitmapTilemapTile.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_tilemaptile.Image = bitmapTilemapTile;
-            bitmapTileIndex = new Bitmap(pictureBox_indexTiles.Width, pictureBox_indexTiles.Height);
-            bitmapTileIndex.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_indexTiles.Image = bitmapTileIndex;
-            bitmapPhysTileset = Properties.Resources.physmap;
-            bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            bitmapPhysTileset2 = Properties.Resources.physmap2;
-            bitmapPhysTileset2.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_phystiles.Image = bitmapPhysTileset2;
+            _bitmapTileset = new Bitmap(pictureBox_tileset.Width, pictureBox_tileset.Height);
+            _bitmapTileset.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_tileset.Image = _bitmapTileset;
+            _bitmapTilemapTile = new Bitmap(pictureBox_tilemaptile.Width, pictureBox_tilemaptile.Height);
+            _bitmapTilemapTile.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_tilemaptile.Image = _bitmapTilemapTile;
+            _bitmapTileIndex = new Bitmap(pictureBox_indexTiles.Width, pictureBox_indexTiles.Height);
+            _bitmapTileIndex.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_indexTiles.Image = _bitmapTileIndex;
+            _bitmapPhysTileset = Resources.physmap;
+            _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
+            _bitmapPhysTileset2 = Resources.physmap2;
+            _bitmapPhysTileset2.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_phystiles.Image = _bitmapPhysTileset2;
             pictureBox_phystiles.Invalidate();
-            bitmapPhysTile = new Bitmap(pictureBox_phystile.Width, pictureBox_phystile.Height);
-            bitmapPhysTile.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_phystile.Image = bitmapPhysTile;
-            bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
-            bitmapLevel.SetResolution(IMAGE_DPI, IMAGE_DPI);
-            pictureBox_level.Image = bitmapLevel;
+            _bitmapPhysTile = new Bitmap(pictureBox_phystile.Width, pictureBox_phystile.Height);
+            _bitmapPhysTile.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_phystile.Image = _bitmapPhysTile;
+            _bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
+            _bitmapLevel.SetResolution(ImageDpi, ImageDpi);
+            pictureBox_level.Image = _bitmapLevel;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -131,114 +129,86 @@ namespace Riverback
                     return true;
                 }
             } else if (keyData == Keys.Left) {
-                if (isLevelLoaded) {
+                if (_isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTileIndex > 0) {
-                            setCurrentTilesetTileByIndex(currentTilesetTileIndex - 1);
-                            updateImages(false, false, true, false, false, false);
+                        if (_currentTilesetTileIndex > 0) {
+                            SetCurrentTilesetTileByIndex(_currentTilesetTileIndex - 1);
+                            UpdateImages(false, false, true, false, false, false);
                         }
                     } else {
-                        if (currentPhysmapTile > 0) {
-                            currentPhysmapTile -= 1;
-                            updateImages(false, false, false, false, true, false);
+                        if (_currentPhysmapTile > 0) {
+                            _currentPhysmapTile -= 1;
+                            UpdateImages(false, false, false, false, true, false);
                         }
                     }
                     return true;
                 }
             } else if (keyData == Keys.Right) {
-                if (isLevelLoaded) {
+                if (_isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        if (currentTilesetTileIndex < levelEditor.Level.TileIndex.getBankTileIndexSize() - 1) {
-                            setCurrentTilesetTileByIndex(currentTilesetTileIndex + 1);
-                            updateImages(false, false, true, false, false, false);
+                        if (_currentTilesetTileIndex < _levelEditor.Level.TileIndex.GetBankTileIndexSize() - 1) {
+                            SetCurrentTilesetTileByIndex(_currentTilesetTileIndex + 1);
+                            UpdateImages(false, false, true, false, false, false);
                         }
                     } else {
-                        if (currentPhysmapTile < PHYSTILE_TILEAMOUNT - 1) {
-                            currentPhysmapTile += 1;
-                            updateImages(false, false, false, false, true, false);
+                        if (_currentPhysmapTile < PhystileTileAmount - 1) {
+                            _currentPhysmapTile += 1;
+                            UpdateImages(false, false, false, false, true, false);
                         }
                     }
                     return true;
                 }
             } else if (keyData == Keys.Up) {
-                if (isLevelLoaded) {
+                if (_isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        setCurrentTilesetTileByNum(currentTilesetTileNum - LEVEL_TILESET_TILEAMOUNT_WIDTH);
-                        updateImages(false, false, true, false, false, false);
+                        SetCurrentTilesetTileByNum(_currentTilesetTileNum - LevelTilesetTileAmountWidth);
+                        UpdateImages(false, false, true, false, false, false);
                     } else {
-                        if (currentPhysmapTile >= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
-                            currentPhysmapTile -= LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
-                            updateImages(false, false, false, false, true, false);
+                        if (_currentPhysmapTile >= LevelPhysmapTileAmountWidth) {
+                            _currentPhysmapTile -= LevelPhysmapTileAmountWidth;
+                            UpdateImages(false, false, false, false, true, false);
                         }
                     }
                     return true;
                 }
             } else if (keyData == Keys.Down) {
-                if (isLevelLoaded) {
+                if (_isLevelLoaded) {
                     if (radioButton_field_edit.Checked) {
-                        setCurrentTilesetTileByNum(currentTilesetTileNum + LEVEL_TILESET_TILEAMOUNT_WIDTH);
-                        updateImages(false, false, true, false, false, false);
+                        SetCurrentTilesetTileByNum(_currentTilesetTileNum + LevelTilesetTileAmountWidth);
+                        UpdateImages(false, false, true, false, false, false);
                     } else {
-                        if (currentPhysmapTile < PHYSTILE_TILEAMOUNT - LEVEL_PHYSMAP_TILEAMOUNT_WIDTH) {
-                            currentPhysmapTile += LEVEL_PHYSMAP_TILEAMOUNT_WIDTH;
-                            updateImages(false, false, false, false, true, false);
+                        if (_currentPhysmapTile < PhystileTileAmount - LevelPhysmapTileAmountWidth) {
+                            _currentPhysmapTile += LevelPhysmapTileAmountWidth;
+                            UpdateImages(false, false, false, false, true, false);
                         }
                     }
                     return true;
                 }
             } else if (keyData == Keys.D1) {
-                if (checkBox_field_show.Checked) {
-                    checkBox_field_show.Checked = false;
-                } else {
-                    checkBox_field_show.Checked = true;
-                }
+                checkBox_field_show.Checked = !checkBox_field_show.Checked;
                 return true;
             } else if (keyData == Keys.D2) {
-                if (checkBox_physmap_show.Checked) {
-                    checkBox_physmap_show.Checked = false;
-                } else {
-                    checkBox_physmap_show.Checked = true;
-                }
+                checkBox_physmap_show.Checked = !checkBox_physmap_show.Checked;
                 return true;
             } else if (keyData == Keys.D3) {
-                if (checkBox_bytes_show.Checked) {
-                    checkBox_bytes_show.Checked = false;
-                } else {
-                    checkBox_bytes_show.Checked = true;
-                }
+                checkBox_bytes_show.Checked = !checkBox_bytes_show.Checked;
                 return true;
             } else if (keyData == Keys.D4) {
-                if (checkBox_grid_show.Checked) {
-                    checkBox_grid_show.Checked = false;
-                } else {
-                    checkBox_grid_show.Checked = true;
-                }
+                checkBox_grid_show.Checked = !checkBox_grid_show.Checked;
                 return true;
             } else if (keyData == Keys.V) {
-                if (checkBox_vflip.Checked) {
-                    checkBox_vflip.Checked = false;
-                } else {
-                    checkBox_vflip.Checked = true;
-                }
+                checkBox_vflip.Checked = !checkBox_vflip.Checked;
                 return true;
             } else if (keyData == Keys.H) {
-                if (checkBox_hflip.Checked) {
-                    checkBox_hflip.Checked = false;
-                } else {
-                    checkBox_hflip.Checked = true;
-                }
+                checkBox_hflip.Checked = !checkBox_hflip.Checked;
                 return true;
             } else if (keyData == Keys.O) {
-                if (checkBox_priority.Checked) {
-                    checkBox_priority.Checked = false;
-                } else {
-                    checkBox_priority.Checked = true;
-                }
+                checkBox_priority.Checked = !checkBox_priority.Checked;
                 return true;
             } else if (keyData == Keys.D) {
-                if (isLevelLoaded) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
+                if (_isLevelLoaded) {
+                    if (_tilemapTileSelector.Selected) {
+                        DeselectTiles();
                         return true;
                     }
                 }
@@ -258,7 +228,7 @@ namespace Riverback
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 if (openFileDialog.CheckFileExists) {
-                    isLevelLoaded = false;
+                    _isLevelLoaded = false;
                     byte[] openedData = File.ReadAllBytes(openFileDialog.FileName);
 
                     if (openedData.Length >= 0x8000) {
@@ -266,25 +236,25 @@ namespace Riverback
                         byte[] checksum = new byte[str.Length];
                         Array.ConstrainedCopy(openedData, 0x7FC0, checksum, 0, str.Length);
                         if (str.SequenceEqual(checksum) == false) {
-                            MessageBox.Show("The file you opened is not a valid headerless Umihara Kawase ROM.", 
-                                            "Error", 
+                            MessageBox.Show(Resources.MainForm_MainMenu_FileOpen_Click_InvalidRom, 
+                                            Resources.MainForm_MainMenu_FileOpen_Click_Error, 
                                             MessageBoxButtons.OK, 
                                             MessageBoxIcon.Exclamation);
                             return;
                         }
                     } else {
-                        MessageBox.Show("The file you opened is not a valid headerless Umihara Kawase ROM.",
-                                            "Error",
+                        MessageBox.Show(Resources.MainForm_MainMenu_FileOpen_Click_InvalidRom,
+                                            Resources.MainForm_MainMenu_FileOpen_Click_Error,
                                             MessageBoxButtons.OK,
                                             MessageBoxIcon.Exclamation);
                         return;
                     }
 
-                    romdata = RomWriter.expandRom(openedData);
-                    if (romdata != null) {
-                        deselectTiles();
-                        openLevel();
-                        isLevelLoaded = true;
+                    _romdata = RomWriter.ExpandRom(openedData);
+                    if (_romdata != null) {
+                        DeselectTiles();
+                        OpenLevel();
+                        _isLevelLoaded = true;
                     }
                 }
             }
@@ -292,15 +262,15 @@ namespace Riverback
 
         private void MainMenu_SaveLevel_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                     string fileName;
                     if ((fileName = saveFileDialog.FileName) != "") {
-                        isLevelLoaded = false;
-                        RomWriter writer = new RomWriter(romdata);
-                        writer.writeLevel(levelEditor.Level, levelEditor.LevelHeader);
-                        File.WriteAllBytes(fileName, romdata);
-                        isLevelLoaded = true;
+                        _isLevelLoaded = false;
+                        RomWriter writer = new RomWriter(_romdata);
+                        writer.WriteLevel(_levelEditor.Level, _levelEditor.LevelHeader);
+                        File.WriteAllBytes(fileName, _romdata);
+                        _isLevelLoaded = true;
                     }
                 }
             }
@@ -308,15 +278,15 @@ namespace Riverback
 
         private void exportLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                     string fileName;
                     if ((fileName = saveFileDialog.FileName) != "") {
-                        isLevelLoaded = false;
-                        RomWriter writer = new RomWriter(romdata);
-                        byte[] data = writer.exportLevel(levelEditor.LevelHeader, levelEditor.Level);
+                        _isLevelLoaded = false;
+                        RomWriter writer = new RomWriter(_romdata);
+                        byte[] data = writer.ExportLevel(_levelEditor.LevelHeader, _levelEditor.Level);
                         File.WriteAllBytes(fileName, data);
-                        isLevelLoaded = true;
+                        _isLevelLoaded = true;
                     }
                 }
             }
@@ -324,10 +294,10 @@ namespace Riverback
 
         private void importLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (openFileDialog.ShowDialog() == DialogResult.OK) {
                     if (openFileDialog.CheckFileExists) {
-                        openLevel(openFileDialog.FileName);
+                        OpenLevel(openFileDialog.FileName);
                     }
                 }
             }
@@ -341,41 +311,41 @@ namespace Riverback
 
         private void clearLevelTilemapTilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                for (int tileNum = 0; tileNum < Level.LEVEL_TILE_AMOUNT; tileNum++ ) {
-                    levelEditor.setTileInTilemap(tileNum, 0, false, false, false, 0);
+            if (_isLevelLoaded) {
+                for (int tileNum = 0; tileNum < Level.LevelTileAmount; tileNum++ ) {
+                    _levelEditor.SetTileInTilemap(tileNum, 0, false, false, false, 0);
                 }
-                updateImages(true, false, false, false, false, false);
+                UpdateImages(true, false, false, false, false, false);
             }
         }
 
         private void clearLevelPhysmapTilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                for (int tileNum = 0; tileNum < Level.LEVEL_TILE_AMOUNT; tileNum++) {
-                    levelEditor.setTileInPhysmap(tileNum, 0);
+            if (_isLevelLoaded) {
+                for (int tileNum = 0; tileNum < Level.LevelTileAmount; tileNum++) {
+                    _levelEditor.SetTileInPhysmap(tileNum, 0);
                 }
-                updateImages(true, false, false, false, false, false);
+                UpdateImages(true, false, false, false, false, false);
             }
         }
 
         private void numericUpDown_levelSelector_ValueChanged(object sender, EventArgs e)
         {
-            if (romdata != null) {
-                if (isLevelLoaded) {
-                    isLevelLoaded = false;
-                    deselectTiles();
-                    openLevel();
-                    isLevelLoaded = true;
+            if (_romdata != null) {
+                if (_isLevelLoaded) {
+                    _isLevelLoaded = false;
+                    DeselectTiles();
+                    OpenLevel();
+                    _isLevelLoaded = true;
                 }
             }
         }
 
         private void numericUpDown_tilePalette_ValueChanged(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-                updateImages(false, true, true, false, false, true);
+            if (_isLevelLoaded) {
+                _bankPaletteNum = (byte)(_levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+                UpdateImages(false, true, true, false, false, true);
             }
         }
 
@@ -395,15 +365,15 @@ namespace Riverback
 
         private void checkBox_vflip_CheckedChanged(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                updateImages(false, false, true, false, false, false);
+            if (_isLevelLoaded) {
+                UpdateImages(false, false, true, false, false, false);
             }
         }
 
         private void checkBox_hflip_CheckedChanged(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                updateImages(false, false, true, false, false, false);
+            if (_isLevelLoaded) {
+                UpdateImages(false, false, true, false, false, false);
             }
         }
 
@@ -414,189 +384,188 @@ namespace Riverback
 
         private void checkBox_field_show_CheckedChanged(object sender, EventArgs e)
         {
-            updateImages(true, false, false, false, false, false);
+            UpdateImages(true, false, false, false, false, false);
         }
 
         private void checkBox_physmap_show_CheckedChanged(object sender, EventArgs e)
         {
-            updateImages(true, false, false, false, false, false);
+            UpdateImages(true, false, false, false, false, false);
         }
 
         private void checkBox_bytes_CheckedChanged(object sender, EventArgs e)
         {
-            updateImages(true, false, false, true, true, false);
+            UpdateImages(true, false, false, true, true, false);
         }
 
         private void checkBox_grid_show_CheckedChanged(object sender, EventArgs e)
         {
-            updateImages(true, true, false, true, true, true);
+            UpdateImages(true, true, false, true, true, true);
         }
 
         private void button_deselect_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                if (tilemapTileSelector.Selected) {
-                    deselectTiles();
+            if (_isLevelLoaded) {
+                if (_tilemapTileSelector.Selected) {
+                    DeselectTiles();
                 }
             }
         }
 
         private void button_applyindices_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                int[] tileOffsetList = new int[levelEditor.Level.TileIndex.getBankTileIndexSize()];
+            if (_isLevelLoaded) {
+                int[] tileOffsetList = new int[_levelEditor.Level.TileIndex.GetBankTileIndexSize()];
                 List<int> removedTiles = new List<int>();
                 int offset = 0;
                 int tileNum = 0;
-                for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
-                    if (levelEditor.Level.TileIndex[i] != selectedTileIndices[i]) {
-                        if (selectedTileIndices[i]) {
+                for (int i = 0; i < _levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
+                    if (_levelEditor.Level.TileIndex[i] != _selectedTileIndices[i]) {
+                        if (_selectedTileIndices[i]) {
                             offset++;
                         } else {
                             offset--;
                             removedTiles.Add(tileNum);
                         }
                     }
-                    if (levelEditor.Level.TileIndex[i]) {
+                    if (_levelEditor.Level.TileIndex[i]) {
                         tileOffsetList[tileNum] = offset;
                         tileNum++;
                     }
                 }
-                levelEditor.removeInvalidTiles(removedTiles);
-                for (int i = 0; i < Level.LEVEL_TILE_AMOUNT; i++) {
-                    int tileValue = levelEditor.Level.Tilemap[i].Bank * 256 + levelEditor.Level.Tilemap[i].Tile;
-                    levelEditor.setTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
+                _levelEditor.RemoveInvalidTiles(removedTiles);
+                for (int i = 0; i < Level.LevelTileAmount; i++) {
+                    int tileValue = _levelEditor.Level.Tilemap[i].Bank * 256 + _levelEditor.Level.Tilemap[i].Tile;
+                    _levelEditor.SetTileInTilemap(i, tileValue + tileOffsetList[tileValue]);
                 }
 
-                levelEditor.Level.TileIndex.setTileIndexList(selectedTileIndices.ToList());
-                currentTilesetTileIndex = 0;
-                updateImages(true, true, true, false, false, true);
+                _levelEditor.Level.TileIndex.SetTileIndexList(_selectedTileIndices.ToList());
+                _currentTilesetTileIndex = 0;
+                UpdateImages(true, true, true, false, false, true);
             }
         }
 
         private void button_clearindices_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                selectedTileIndices[0] = true;
-                for (int index = 1; index < selectedTileIndices.Length; index++) {
-                    selectedTileIndices[index] = false;
+            if (_isLevelLoaded) {
+                _selectedTileIndices[0] = true;
+                for (int index = 1; index < _selectedTileIndices.Length; index++) {
+                    _selectedTileIndices[index] = false;
                 }
-                indexTilesRemaining = MAX_BANK_TILE_AMOUNT - 1;
-                updateImages(false, false, false, false, false, true);
+                _indexTilesRemaining = MaxBankTileAmount - 1;
+                UpdateImages(false, false, false, false, false, true);
                 updateTextBox_IndexTiles();
             }
         }
 
         private void button_applyheader_Click(object sender, EventArgs e)
         {
-            if (isLevelLoaded) {
-                updateLevelHeaderValues();
-                levelEditor.updateLevelHeader(selectedLevelHeader);
-                updateImages(true, true, true, true, true, true);
+            if (_isLevelLoaded) {
+                UpdateLevelHeaderValues();
+                _levelEditor.UpdateLevelHeader(_selectedLevelHeader);
+                UpdateImages(true, true, true, true, true, true);
             }
         }
 
-        private void setCurrentTilesetTileByNum(int tilesetTileNum)
+        private void SetCurrentTilesetTileByNum(int tilesetTileNum)
         {
-            currentTilesetTileNum = tilesetTileNum;
-            if (currentTilesetTileNum < 0) {
-                currentTilesetTileNum = 0;
-            } else if (currentTilesetTileNum >= levelEditor.Level.TileIndex.MaxIndexAmount) {
-                currentTilesetTileNum = levelEditor.Level.TileIndex.MaxIndexAmount - 1;
+            _currentTilesetTileNum = tilesetTileNum;
+            if (_currentTilesetTileNum < 0) {
+                _currentTilesetTileNum = 0;
+            } else if (_currentTilesetTileNum >= _levelEditor.Level.TileIndex.MaxIndexAmount) {
+                _currentTilesetTileNum = _levelEditor.Level.TileIndex.MaxIndexAmount - 1;
             }
 
-            currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankIndex(currentTilesetTileNum);
-            if (currentTilesetTileIndex < 0) {
-                currentTilesetTileIndex = 0;
-            } else if (currentTilesetTileIndex >= levelEditor.Level.TileIndex.getBankTileIndexSize()) {
-                currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankTileIndexSize() - 1;
+            _currentTilesetTileIndex = _levelEditor.Level.TileIndex.GetBankIndex(_currentTilesetTileNum);
+            if (_currentTilesetTileIndex < 0) {
+                _currentTilesetTileIndex = 0;
+            } else if (_currentTilesetTileIndex >= _levelEditor.Level.TileIndex.GetBankTileIndexSize()) {
+                _currentTilesetTileIndex = _levelEditor.Level.TileIndex.GetBankTileIndexSize() - 1;
             }
         }
 
-        private void setCurrentTilesetTileByIndex(int tilesetTileIndex)
+        private void SetCurrentTilesetTileByIndex(int tilesetTileIndex)
         {
-            currentTilesetTileIndex = tilesetTileIndex;
-            if (currentTilesetTileIndex < 0) {
-                currentTilesetTileIndex = 0;
-            } else if (currentTilesetTileIndex >= levelEditor.Level.TileIndex.getBankTileIndexSize()) {
-                currentTilesetTileIndex = levelEditor.Level.TileIndex.getBankTileIndexSize() - 1;
+            _currentTilesetTileIndex = tilesetTileIndex;
+            if (_currentTilesetTileIndex < 0) {
+                _currentTilesetTileIndex = 0;
+            } else if (_currentTilesetTileIndex >= _levelEditor.Level.TileIndex.GetBankTileIndexSize()) {
+                _currentTilesetTileIndex = _levelEditor.Level.TileIndex.GetBankTileIndexSize() - 1;
             }
 
-            currentTilesetTileNum = levelEditor.Level.TileIndex.getBankIndexTile(tilesetTileIndex);
-            if (currentTilesetTileNum < 0) {
-                currentTilesetTileNum = 0;
-            } else if (currentTilesetTileNum >= levelEditor.Level.TileIndex.MaxIndexAmount) {
-                currentTilesetTileNum = levelEditor.Level.TileIndex.MaxIndexAmount - 1;
+            _currentTilesetTileNum = _levelEditor.Level.TileIndex.GetBankIndexTile(tilesetTileIndex);
+            if (_currentTilesetTileNum < 0) {
+                _currentTilesetTileNum = 0;
+            } else if (_currentTilesetTileNum >= _levelEditor.Level.TileIndex.MaxIndexAmount) {
+                _currentTilesetTileNum = _levelEditor.Level.TileIndex.MaxIndexAmount - 1;
             }
         }
 
         private void pictureBox_tileset_MouseClick(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 Point mouseCoords = new Point(e.X, e.Y);
-                setCurrentTilesetTileByNum(coordConverterTileset.getTileNumberFromMouseCoords(mouseCoords));
-                if (tilemapTileSelector.Selected) {
-                    deselectTiles();
+                SetCurrentTilesetTileByNum(_coordConverterTileset.GetTileNumberFromMouseCoords(mouseCoords));
+                if (_tilemapTileSelector.Selected) {
+                    DeselectTiles();
                 }
                 radioButton_field_edit.Select();
                 checkBox_field_show.Checked = true;
-                updateImages(false, false, true, false, false, false);
+                UpdateImages(false, false, true, false, false, false);
             }
         }
 
         private void pictureBox_phystiles_MouseClick(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 Point mouseCoords = new Point(e.X, e.Y);
-                int tileNum = coordConverterTileset.getTileNumberFromMouseCoords(mouseCoords);
-                Point alignedMouseCoords = coordConverterTileset.getMouseCoordsFromTileNumber(tileNum);
-                if (tileNum < PHYSTILE_TILEAMOUNT) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
+                int tileNum = _coordConverterTileset.GetTileNumberFromMouseCoords(mouseCoords);
+                if (tileNum < PhystileTileAmount) {
+                    if (_tilemapTileSelector.Selected) {
+                        DeselectTiles();
                     }
-                    currentPhysmapTile = (byte)tileNum;
+                    _currentPhysmapTile = (byte)tileNum;
                     radioButton_physmap_edit.Select();
                     checkBox_physmap_show.Checked = true;
-                    updateImages(false, false, false, false, true, false);
+                    UpdateImages(false, false, false, false, true, false);
                 }
             }
         }
 
         private void pictureBox_indexTiles_MouseDown(object sender, MouseEventArgs e)
         {
-            setIndexTilesFromMouseClick(e);
+            SetIndexTilesFromMouseClick(e);
         }
 
         private void pictureBox_indexTiles_MouseMove(object sender, MouseEventArgs e)
         {
-            setIndexTilesFromMouseClick(e);
+            SetIndexTilesFromMouseClick(e);
         }
 
         private void pictureBox_indexTiles_MouseUp(object sender, MouseEventArgs e)
         {
             if ((e.Button == MouseButtons.Left) || (e.Button == MouseButtons.Right)) {
-                lastIndexTileSelected = -1;
+                _lastIndexTileSelected = -1;
             }
         }
 
         private void pictureBox_level_MouseDown(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
+                    if (_tilemapTileSelector.Selected) {
+                        DeselectTiles();
                     }
-                    tilemapTileSelector.selectStart(new Point(e.X, e.Y), TileDrawer.TILE_WIDTH);
+                    _tilemapTileSelector.SelectStart(new Point(e.X, e.Y), TileDrawer.TileWidth);
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
-                    drawAndSetTiles(mouseCoords);
-                    if (tilemapTileSelector.Selected == false) {
-                        int tileNum = coordConverterLevel.getTileNumberFromMouseCoords(new Point(e.X, e.Y));
-                        lastLevelTileSelected = tileNum;
+                    DrawAndSetTiles(mouseCoords);
+                    if (_tilemapTileSelector.Selected == false) {
+                        int tileNum = _coordConverterLevel.GetTileNumberFromMouseCoords(new Point(e.X, e.Y));
+                        _lastLevelTileSelected = tileNum;
                     }
                 } else if (e.Button == MouseButtons.Middle) {
-                    if (tilemapTileSelector.Selected) {
-                        deselectTiles();
+                    if (_tilemapTileSelector.Selected) {
+                        DeselectTiles();
                     }
                 }
             }
@@ -604,16 +573,16 @@ namespace Riverback
 
         private void pictureBox_level_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
-                    Point mouseCoords = new Point(e.X, e.Y);
+                    // Point mouseCoords = new Point(e.X, e.Y);
                     // Do rectangle drawing here
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
-                    int tileNum = coordConverterLevel.getTileNumberFromMouseCoords(mouseCoords);
-                    if ((tileNum != lastLevelTileSelected) && (tilemapTileSelector.Selected == false)) {
-                        drawAndSetTiles(mouseCoords);
-                        lastLevelTileSelected = tileNum;
+                    int tileNum = _coordConverterLevel.GetTileNumberFromMouseCoords(mouseCoords);
+                    if ((tileNum != _lastLevelTileSelected) && (_tilemapTileSelector.Selected == false)) {
+                        DrawAndSetTiles(mouseCoords);
+                        _lastLevelTileSelected = tileNum;
                     }
                 }
             }
@@ -621,53 +590,52 @@ namespace Riverback
 
         private void pictureBox_level_MouseUp(object sender, MouseEventArgs e)
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
                     Point mouseCoords = new Point(e.X, e.Y);
-                    tilemapTileSelector.selectEnd(mouseCoords, TileDrawer.TILE_WIDTH);
-                    highlightSelectedTilesInLevelEditor(true);
+                    _tilemapTileSelector.SelectEnd(mouseCoords, TileDrawer.TileWidth);
+                    HighlightSelectedTilesInLevelEditor(true);
                 }
             }
         }
 
-        private void openLevel(string importFileName = "")
+        private void OpenLevel(string importFileName = "")
         {
-            isLevelLoaded = false;
+            _isLevelLoaded = false;
             if (importFileName == "") {
-                levelEditor.openLevel(romdata, (byte)numericUpDown_levelSelector.Value);
+                _levelEditor.OpenLevel(_romdata, (byte)numericUpDown_levelSelector.Value);
             } else {
                 byte[] openedData = File.ReadAllBytes(importFileName);
-                RomWriter writer = new RomWriter(romdata);
-                if (writer.importLevel(openedData, levelEditor.Level, levelEditor.LevelHeader) == false) {
-                    isLevelLoaded = true;
+                RomWriter writer = new RomWriter(_romdata);
+                if (writer.ImportLevel(openedData, _levelEditor.Level, _levelEditor.LevelHeader) == false) {
+                    _isLevelLoaded = true;
                     return;
                 }
             }
-            levelEditor.updateGraphicsBanks(romdata);
-            for (int i = 0; i < levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
-                selectedTileIndices[i] = levelEditor.Level.TileIndex[i];
+            _levelEditor.UpdateGraphicsBanks(_romdata);
+            for (int i = 0; i < _levelEditor.Level.TileIndex.MaxIndexAmount; i++) {
+                _selectedTileIndices[i] = _levelEditor.Level.TileIndex[i];
             }
             
-            isLevelLoaded = true;
-            indexTilesRemaining = MAX_BANK_TILE_AMOUNT - levelEditor.Level.TileIndex.getBankTileIndexSize();
+            _isLevelLoaded = true;
+            _indexTilesRemaining = MaxBankTileAmount - _levelEditor.Level.TileIndex.GetBankTileIndexSize();
             updateTextBox_IndexTiles();
-            selectedLevelHeader = new LevelHeader(levelEditor.LevelHeader);
-            selectedPaletteIndex = (byte[])levelEditor.Level.PaletteIndex.Clone();
-            bankPaletteNum = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-            updateLevelHeaderControls();
-            currentTilesetTileIndex = 0;
-            currentPhysmapTile = 0;
-            updateImages(true, true, true, false, true, true);
+            _selectedLevelHeader = new LevelHeader(_levelEditor.LevelHeader);
+            _bankPaletteNum = (byte)(_levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+            UpdateLevelHeaderControls();
+            _currentTilesetTileIndex = 0;
+            _currentPhysmapTile = 0;
+            UpdateImages(true, true, true, false, true, true);
         }
 
-        private List<TileSelection<TilemapTile>> getSelectedTilemapTiles()
+        private List<TileSelection<TilemapTile>> GetSelectedTilemapTiles()
         {
             List<TileSelection<TilemapTile>> tileList;
-            if (tilemapTileSelector.Selected) {
-                tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Tilemap, LEVEL_TILEAMOUNT_WIDTH);
+            if (_tilemapTileSelector.Selected) {
+                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Tilemap, LevelTileamountWidth);
             } else {
                 tileList = new List<TileSelection<TilemapTile>>();
-                TilemapTile item = new TilemapTile(currentTilesetTileIndex, 
+                TilemapTile item = new TilemapTile(_currentTilesetTileIndex, 
                                                    checkBox_vflip.Checked, 
                                                    checkBox_hflip.Checked, 
                                                    checkBox_priority.Checked, 
@@ -677,147 +645,147 @@ namespace Riverback
             return tileList;
         }
 
-        private List<TileSelection<byte>> getSelectedPhysmapTiles()
+        private List<TileSelection<byte>> GetSelectedPhysmapTiles()
         {
             List<TileSelection<byte>> tileList;
-            if (tilemapTileSelector.Selected) {
-                tileList = tilemapTileSelector.getTilesFromSelection(levelEditor.Level.Physmap, LEVEL_TILEAMOUNT_WIDTH);
+            if (_tilemapTileSelector.Selected) {
+                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Physmap, LevelTileamountWidth);
             } else {
                 tileList = new List<TileSelection<byte>>();
-                byte item = currentPhysmapTile;
+                byte item = _currentPhysmapTile;
                 tileList.Add(new TileSelection<byte>(new Point(0, 0), item));
             }
             return tileList;
         }
 
-        private void drawAndSetTiles(Point mouseCoords, bool drawHighlight = true)
+        private void DrawAndSetTiles(Point mouseCoords, bool drawHighlight = true)
         {
             if ((mouseCoords.X >= 0) && (mouseCoords.Y >= 0)) {
-                clearSelectedAreaInLevelEditor(mouseCoords);
+                ClearSelectedAreaInLevelEditor(mouseCoords);
                 if (checkBox_field_show.Checked) {
                     if (radioButton_field_edit.Checked) {
-                        setTilemapTilesInLevelEditor(mouseCoords);
+                        SetTilemapTilesInLevelEditor(mouseCoords);
                     }
-                    drawTilemapTilesInLevelEditor(mouseCoords);
+                    DrawTilemapTilesInLevelEditor(mouseCoords);
                 }
                 if (checkBox_physmap_show.Checked) {
                     if (radioButton_physmap_edit.Checked) {
-                        setPhysmapTilesInLevelEditor(mouseCoords);
+                        SetPhysmapTilesInLevelEditor(mouseCoords);
                     }
-                    drawPhysmapTilesInLevelEditor(mouseCoords);
+                    DrawPhysmapTilesInLevelEditor(mouseCoords);
                 }
 
                 if (checkBox_grid_show.Checked) {
-                    drawGridTilesInLevelEditor(mouseCoords);
+                    DrawGridTilesInLevelEditor(mouseCoords);
                 }
-                if ((tilemapTileSelector.Selected) && (drawHighlight)) {
-                    highlightSelectedTilesInLevelEditor();
+                if ((_tilemapTileSelector.Selected) && (drawHighlight)) {
+                    HighlightSelectedTilesInLevelEditor();
                 }
-                invalidateTilesInLevelEditor(mouseCoords);
+                InvalidateTilesInLevelEditor(mouseCoords);
             }
         }
 
-        private void setTilemapTilesInLevelEditor(Point mouseCoords)
+        private void SetTilemapTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedTilemapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
+            var tileList = GetSelectedTilemapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
             Point placementCoords = new Point();
             foreach (var item in tileList) {
-                placementCoords.X = tileCoords.X + item.tileCoords.X;
-                placementCoords.Y = tileCoords.Y + item.tileCoords.Y;
-                if ((placementCoords.X < LEVEL_TILEAMOUNT_WIDTH) && (placementCoords.Y < LEVEL_TILEAMOUNT_WIDTH)) {
-                    int tileNum = coordConverterLevel.getTileNumberFromTileCoords(placementCoords);
-                    if ((item.tile.Bank > 0) || (item.tile.Tile > 0)) {
-                        levelEditor.setTileInTilemap(tileNum, item.tile);
+                placementCoords.X = tileCoords.X + item.TileCoords.X;
+                placementCoords.Y = tileCoords.Y + item.TileCoords.Y;
+                if ((placementCoords.X < LevelTileamountWidth) && (placementCoords.Y < LevelTileamountWidth)) {
+                    int tileNum = _coordConverterLevel.GetTileNumberFromTileCoords(placementCoords);
+                    if ((item.Tile.Bank > 0) || (item.Tile.Tile > 0)) {
+                        _levelEditor.SetTileInTilemap(tileNum, item.Tile);
                     } else {
-                        if (tilemapTileSelector.Selected == false) {
+                        if (_tilemapTileSelector.Selected == false) {
                             TilemapTile tile = new TilemapTile();
-                            levelEditor.setTileInTilemap(tileNum, tile);
+                            _levelEditor.SetTileInTilemap(tileNum, tile);
                         }
                     }
                 }
             }
         }
 
-        private void setPhysmapTilesInLevelEditor(Point mouseCoords)
+        private void SetPhysmapTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedPhysmapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
+            var tileList = GetSelectedPhysmapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
             Point placementCoords = new Point();
             foreach (var item in tileList) {
-                placementCoords.X = tileCoords.X + item.tileCoords.X;
-                placementCoords.Y = tileCoords.Y + item.tileCoords.Y;
-                if ((placementCoords.X < LEVEL_TILEAMOUNT_WIDTH) && (placementCoords.Y < LEVEL_TILEAMOUNT_WIDTH)) {
-                    int tileNum = coordConverterLevel.getTileNumberFromTileCoords(placementCoords);
-                    if (item.tile > 0) {
-                        levelEditor.setTileInPhysmap(tileNum, item.tile);
+                placementCoords.X = tileCoords.X + item.TileCoords.X;
+                placementCoords.Y = tileCoords.Y + item.TileCoords.Y;
+                if ((placementCoords.X < LevelTileamountWidth) && (placementCoords.Y < LevelTileamountWidth)) {
+                    int tileNum = _coordConverterLevel.GetTileNumberFromTileCoords(placementCoords);
+                    if (item.Tile > 0) {
+                        _levelEditor.SetTileInPhysmap(tileNum, item.Tile);
                     } else {
-                        if (tilemapTileSelector.Selected == false) {
-                            levelEditor.setTileInPhysmap(tileNum, 0);
+                        if (_tilemapTileSelector.Selected == false) {
+                            _levelEditor.SetTileInPhysmap(tileNum, 0);
                         }
                     }
                 }
             }
         }
 
-        private void setIndexTilesFromMouseClick(MouseEventArgs e)
+        private void SetIndexTilesFromMouseClick(MouseEventArgs e)
         {
-            if (((e.Button == MouseButtons.Left) || (e.Button == MouseButtons.Right)) && (isLevelLoaded)) {
+            if (((e.Button == MouseButtons.Left) || (e.Button == MouseButtons.Right)) && (_isLevelLoaded)) {
                 Point mouseCoords = new Point(e.X, e.Y);
-                int tileNum = coordConverterTileIndex.getTileNumberFromMouseCoords(mouseCoords);
-                if ((tileNum > 0) && (tileNum != lastIndexTileSelected)) {
-                    int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
-                    int tileAmount = levelEditor.Banks[index].tileAmount;
+                int tileNum = _coordConverterTileIndex.GetTileNumberFromMouseCoords(mouseCoords);
+                if ((tileNum > 0) && (tileNum != _lastIndexTileSelected)) {
+                    int index = _levelEditor.LevelHeader.GraphicsBankIndex * 2;
+                    int tileAmount = _levelEditor.Banks[index].TileAmount;
                     if (tileNum > tileAmount) {
                         index += 1;
                     }
                     if (e.Button == MouseButtons.Left) {
-                        if ((indexTilesRemaining < MAX_BANK_TILE_AMOUNT - 1) && (selectedTileIndices[tileNum] == true)) {
-                            selectedTileIndices[tileNum] = false;
-                            indexTilesRemaining += 1;
-                            lastIndexTileSelected = tileNum;
+                        if ((_indexTilesRemaining < MaxBankTileAmount - 1) && (_selectedTileIndices[tileNum])) {
+                            _selectedTileIndices[tileNum] = false;
+                            _indexTilesRemaining += 1;
+                            _lastIndexTileSelected = tileNum;
                         }
                     } else {
-                        if ((indexTilesRemaining > 0) && (selectedTileIndices[tileNum] == false)) {
-                            selectedTileIndices[tileNum] = true;
-                            indexTilesRemaining -= 1;
-                            lastIndexTileSelected = tileNum;
+                        if ((_indexTilesRemaining > 0) && (_selectedTileIndices[tileNum] == false)) {
+                            _selectedTileIndices[tileNum] = true;
+                            _indexTilesRemaining -= 1;
+                            _lastIndexTileSelected = tileNum;
                         }
                     }
                     updateTextBox_IndexTiles();
-                    Graphics g = Graphics.FromImage(bitmapTileIndex);
+                    Graphics g = Graphics.FromImage(_bitmapTileIndex);
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
-                    drawIndexTile(g, index, tileNum, tileAmount, selectedTileIndices[tileNum], checkBox_grid_show.Checked);
-                    Point alignedMouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
-                    invalidateIndexTile(alignedMouseCoords);
+                    DrawIndexTile(g, index, tileNum, tileAmount, _selectedTileIndices[tileNum], checkBox_grid_show.Checked);
+                    Point alignedMouseCoords = _coordConverterTileIndex.GetMouseCoordsFromTileNumber(tileNum);
+                    InvalidateIndexTile(alignedMouseCoords);
                 }
             }
         }
 
-        private void drawTilemapTilesInLevelEditor(Point mouseCoords)
+        private void DrawTilemapTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedTilemapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
-            using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+            var tileList = GetSelectedTilemapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
+            using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
                 Point tempCoord = new Point();
                 foreach (var item in tileList) {
-                    tempCoord.X = tileCoords.X + item.tileCoords.X;
-                    tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                    Point alignedCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LEVEL_TILEAMOUNT_WIDTH + tempCoord.X;
-                    if (index < Level.LEVEL_TILE_AMOUNT) {
-                        TilemapTile t = levelEditor.Level.Tilemap[index];
-                        int tileValue = levelEditor.Level.TileIndex.getBankIndexTile(t.Bank * 256 + t.Tile);
+                    tempCoord.X = tileCoords.X + item.TileCoords.X;
+                    tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
+                    Point alignedCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
+                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    if (index < Level.LevelTileAmount) {
+                        TilemapTile t = _levelEditor.Level.Tilemap[index];
+                        int tileValue = _levelEditor.Level.TileIndex.GetBankIndexTile(t.Bank * 256 + t.Tile);
                         if (tileValue > 0) {
-                            GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.graphicsBankIndex * 2 + (tileValue / 1024)];
-                            byte bankPaletteNumber = (byte)(levelEditor.Level.PaletteIndex[t.Palette] - 1);
-                            TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
+                            GraphicBank bank = _levelEditor.Banks[_levelEditor.LevelHeader.GraphicsBankIndex * 2 + (tileValue / 1024)];
+                            byte bankPaletteNumber = (byte)(_levelEditor.Level.PaletteIndex[t.Palette] - 1);
+                            TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y);
                             if (tileValue >= 1024) {
                                 tileValue -= 1024;
                             }
-                            Bitmap tileImg = bank.getTileImage(tileValue, bankPaletteNumber, TileDrawer.TILE_WIDTH);
-                            TileDrawer.drawTileOnCanvas(tileImg,
+                            Bitmap tileImg = bank.GetTileImage(tileValue, bankPaletteNumber, TileDrawer.TileWidth);
+                            TileDrawer.DrawTileOnCanvas(tileImg,
                                                         g,
                                                         alignedCoords.X,
                                                         alignedCoords.Y,
@@ -829,58 +797,58 @@ namespace Riverback
             }
         }
 
-        private void drawPhysmapTilesInLevelEditor(Point mouseCoords)
+        private void DrawPhysmapTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedPhysmapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
-            using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+            var tileList = GetSelectedPhysmapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
+            using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
                 Point tempCoord = new Point();
                 foreach (var item in tileList) {
-                    tempCoord.X = tileCoords.X + item.tileCoords.X;
-                    tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                    Point destCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LEVEL_TILEAMOUNT_WIDTH + tempCoord.X;
-                    if (index < Level.LEVEL_TILE_AMOUNT) {
-                        byte tileNum = levelEditor.Level.Physmap[index];
+                    tempCoord.X = tileCoords.X + item.TileCoords.X;
+                    tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
+                    Point destCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
+                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    if (index < Level.LevelTileAmount) {
+                        byte tileNum = _levelEditor.Level.Physmap[index];
                         if (tileNum > 0) {
-                            Point srcCoords = coordConverterPhysmap.getMouseCoordsFromTileNumber(tileNum);
+                            Point srcCoords = _coordConverterPhysmap.GetMouseCoordsFromTileNumber(tileNum);
                             if (checkBox_field_show.Checked == false)
-                                TileDrawer.clearTileOnCanvas(g, fillBrush, destCoords.X, destCoords.Y);
-                            TileDrawer.drawTileFromImageOnCanvas(bitmapPhysTileset, g, srcCoords, destCoords);
+                                TileDrawer.ClearTileOnCanvas(g, _fillBrush, destCoords.X, destCoords.Y);
+                            TileDrawer.DrawTileFromImageOnCanvas(_bitmapPhysTileset, g, srcCoords, destCoords);
                         }
                     }
                 }
             }
         }
 
-        private void drawGridTilesInLevelEditor(Point mouseCoords)
+        private void DrawGridTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedTilemapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
-            using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+            var tileList = GetSelectedTilemapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
+            using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
                 Point tempCoord = new Point();
                 foreach (var item in tileList) {
-                    tempCoord.X = tileCoords.X + item.tileCoords.X;
-                    tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                    Point destCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LEVEL_TILEAMOUNT_WIDTH + tempCoord.X;
-                    if (index < Level.LEVEL_TILE_AMOUNT) {
-                        TileDrawer.drawGridCellOnCanvas(g, destCoords.X, destCoords.Y);
+                    tempCoord.X = tileCoords.X + item.TileCoords.X;
+                    tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
+                    Point destCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
+                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    if (index < Level.LevelTileAmount) {
+                        TileDrawer.DrawGridCellOnCanvas(g, destCoords.X, destCoords.Y);
                     }
                 }
             }
         }
 
-        private void invalidateTilesInLevelEditor(Point mouseCoords)
+        private void InvalidateTilesInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedTilemapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
+            var tileList = GetSelectedTilemapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
             Point tempCoord = new Point();
             Point invalidateBottomRightPoint = new Point();
             foreach (var item in tileList) {
-                tempCoord.X = tileCoords.X + item.tileCoords.X;
-                tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                Point alignedCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
+                tempCoord.X = tileCoords.X + item.TileCoords.X;
+                tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
+                Point alignedCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
                 if (invalidateBottomRightPoint.X < alignedCoords.X) {
                     invalidateBottomRightPoint.X = alignedCoords.X;
                 }
@@ -889,61 +857,61 @@ namespace Riverback
                 }
             }
             if ((invalidateBottomRightPoint.X >= 0) && (invalidateBottomRightPoint.Y >= 0)) {
-                Point topLeft = coordConverterLevel.getMouseCoordsFromTileCoords(tileCoords);
-                int width = invalidateBottomRightPoint.X - topLeft.X + TileDrawer.TILE_WIDTH;
-                int height = invalidateBottomRightPoint.Y - topLeft.Y + TileDrawer.TILE_WIDTH;
+                Point topLeft = _coordConverterLevel.GetMouseCoordsFromTileCoords(tileCoords);
+                int width = invalidateBottomRightPoint.X - topLeft.X + TileDrawer.TileWidth;
+                int height = invalidateBottomRightPoint.Y - topLeft.Y + TileDrawer.TileWidth;
                 pictureBox_level.Invalidate(new Rectangle(topLeft.X, topLeft.Y, width, height));
             }
         }
 
-        private void highlightSelectedTilesInLevelEditor(bool invalidate = false)
+        private void HighlightSelectedTilesInLevelEditor(bool invalidate = false)
         {
-            if (tilemapTileSelector.Selected) {
-                Rectangle rect = coordConverterLevel.getMouseCoordsFromRectCoords(tilemapTileSelector.TileCoords);
-                using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+            if (_tilemapTileSelector.Selected) {
+                Rectangle rect = _coordConverterLevel.GetMouseCoordsFromRectCoords(_tilemapTileSelector.TileCoords);
+                using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
                     Point point = new Point(rect.X, rect.Y);
-                    g.FillRectangle(highlightBrush, rect);
+                    g.FillRectangle(_highlightBrush, rect);
                     if (invalidate) {
-                        invalidateTilesInLevelEditor(point);
+                        InvalidateTilesInLevelEditor(point);
                     }
                 }
             }
         }
 
-        private void clearSelectedAreaInLevelEditor(Point mouseCoords)
+        private void ClearSelectedAreaInLevelEditor(Point mouseCoords)
         {
-            var tileList = getSelectedTilemapTiles();
-            Point tileCoords = coordConverterLevel.getTileCoordsFromMouseCoords(mouseCoords);
-            using (Graphics g = Graphics.FromImage(bitmapLevel)) {
+            var tileList = GetSelectedTilemapTiles();
+            Point tileCoords = _coordConverterLevel.GetTileCoordsFromMouseCoords(mouseCoords);
+            using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
                 Point tempCoord = new Point();
                 foreach (var item in tileList) {
-                    tempCoord.X = tileCoords.X + item.tileCoords.X;
-                    tempCoord.Y = tileCoords.Y + item.tileCoords.Y;
-                    Point alignedCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tempCoord);
-                    TileDrawer.clearTileOnCanvas(g, fillBrush, alignedCoords.X, alignedCoords.Y);
+                    tempCoord.X = tileCoords.X + item.TileCoords.X;
+                    tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
+                    Point alignedCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
+                    TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y);
                 }
             }
         }
 
-        private void drawIndexTiles(Graphics g, bool skipUnusedBankTiles, bool highlight = true, bool grid = false)
+        private void DrawIndexTiles(Graphics g, bool skipUnusedBankTiles, bool highlight = true, bool grid = false)
         {
-            int index = levelEditor.LevelHeader.graphicsBankIndex * 2;
-            int tileAmount = levelEditor.Banks[index].tileAmount;
+            int index = _levelEditor.LevelHeader.GraphicsBankIndex * 2;
+            int tileAmount = _levelEditor.Banks[index].TileAmount;
             for (int tileIndexNum = 0; tileIndexNum < tileAmount * 2; tileIndexNum++) {
                 if (tileIndexNum == tileAmount) {
                     index += 1;
                 }
                 if (skipUnusedBankTiles == false) {
-                    drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
+                    DrawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
                 } else {
-                    if (levelEditor.Level.TileIndex.getBankIndex(tileIndexNum) > 0) {
-                        drawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
+                    if (_levelEditor.Level.TileIndex.GetBankIndex(tileIndexNum) > 0) {
+                        DrawIndexTile(g, index, tileIndexNum, tileAmount, highlight, grid);
                     }
                 }
             }
         }
 
-        private void drawIndexTile(Graphics g, int bankIndex, int tileIndexNum, int tileAmount, bool highlight = true, bool grid = false)
+        private void DrawIndexTile(Graphics g, int bankIndex, int tileIndexNum, int tileAmount, bool highlight = true, bool grid = false)
         {
             int i = 0;
             if (tileIndexNum >= tileAmount) {
@@ -951,164 +919,159 @@ namespace Riverback
             }
             int tileNum = tileIndexNum - (i * tileAmount);
 
-            byte bankPaletteNumber = (byte)(levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
-            Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, bankPaletteNumber, TileDrawer.TILE_WIDTH);
-            Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileNum);
-            TileDrawer.clearTileOnCanvas(g, fillBrush, mouseCoords.X, mouseCoords.Y + (i * 1024), TILEMAP_SCALE);
-            TileDrawer.drawTileOnCanvas(tileImg, g, mouseCoords.X, mouseCoords.Y + (i * 1024), false, false, TILEMAP_SCALE);
+            byte bankPaletteNumber = (byte)(_levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
+            Bitmap tileImg = _levelEditor.Banks[bankIndex].GetTileImage(tileNum, bankPaletteNumber, TileDrawer.TileWidth);
+            Point mouseCoords = _coordConverterTileIndex.GetMouseCoordsFromTileNumber(tileNum);
+            TileDrawer.ClearTileOnCanvas(g, _fillBrush, mouseCoords.X, mouseCoords.Y + (i * 1024), TilemapScale);
+            TileDrawer.DrawTileOnCanvas(tileImg, g, mouseCoords.X, mouseCoords.Y + (i * 1024), false, false, TilemapScale);
             if (highlight) {
-                if (selectedTileIndices[tileIndexNum]) {
-                    highlightIndexTile(g, tileIndexNum);
+                if (_selectedTileIndices[tileIndexNum]) {
+                    HighlightIndexTile(g, tileIndexNum);
                 }
             }
             if (grid) {
-                drawGridTileOnIndexTile(g, tileIndexNum);
+                DrawGridTileOnIndexTile(g, tileIndexNum);
             }
         }
 
-        private void highlightIndexTile(Graphics g, int tileIndexNum)
+        private void HighlightIndexTile(Graphics g, int tileIndexNum)
         {
-            Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileIndexNum);
-            int tileWidth = coordConverterTileIndex.TileWidth;
+            Point mouseCoords = _coordConverterTileIndex.GetMouseCoordsFromTileNumber(tileIndexNum);
+            int tileWidth = _coordConverterTileIndex.TileWidth;
             Rectangle rect = new Rectangle(mouseCoords, new Size(tileWidth, tileWidth));
-            Point point = new Point(rect.X, rect.Y);
-            g.FillRectangle(highlightBrush, rect);
+            g.FillRectangle(_highlightBrush, rect);
         }
 
-        private void drawGridTileOnIndexTile(Graphics g, int tileIndexNum)
+        private void DrawGridTileOnIndexTile(Graphics g, int tileIndexNum)
         {
-            Point mouseCoords = coordConverterTileIndex.getMouseCoordsFromTileNumber(tileIndexNum);
-            TileDrawer.drawGridCellOnCanvas(g, mouseCoords.X, mouseCoords.Y, TILEMAP_SCALE);
+            Point mouseCoords = _coordConverterTileIndex.GetMouseCoordsFromTileNumber(tileIndexNum);
+            TileDrawer.DrawGridCellOnCanvas(g, mouseCoords.X, mouseCoords.Y, TilemapScale);
         }
 
-        private void invalidateIndexTile(Point alignedMouseCoords)
+        private void InvalidateIndexTile(Point alignedMouseCoords)
         {
             pictureBox_indexTiles.Invalidate(new Rectangle(alignedMouseCoords.X, 
                                                            alignedMouseCoords.Y, 
-                                                           TileDrawer.TILE_WIDTH * (int)TILEMAP_SCALE, 
-                                                           TileDrawer.TILE_WIDTH * (int)TILEMAP_SCALE));
+                                                           TileDrawer.TileWidth * (int)TilemapScale, 
+                                                           TileDrawer.TileWidth * (int)TilemapScale));
         }
 
-        private void deselectTiles()
+        private void DeselectTiles()
         {
-            if (tilemapTileSelector.Selected) {
-                Point tileCoords = new Point(tilemapTileSelector.TileCoords.X, tilemapTileSelector.TileCoords.Y);
-                Point mouseCoords = coordConverterLevel.getMouseCoordsFromTileCoords(tileCoords);
-                clearSelectedAreaInLevelEditor(mouseCoords);
-                drawAndSetTiles(mouseCoords, false);
+            if (_tilemapTileSelector.Selected) {
+                Point tileCoords = new Point(_tilemapTileSelector.TileCoords.X, _tilemapTileSelector.TileCoords.Y);
+                Point mouseCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tileCoords);
+                ClearSelectedAreaInLevelEditor(mouseCoords);
+                DrawAndSetTiles(mouseCoords, false);
             }
-            tilemapTileSelector.clearSelection();
-            lastLevelTileSelected = -1;
+            _tilemapTileSelector.ClearSelection();
+            _lastLevelTileSelected = -1;
         }
 
-        private void updateLevelHeaderValues()
+        private void UpdateLevelHeaderValues()
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 //selectedLevelHeader.headerNumber = (byte)numericUpDown_headernumber.Value;
                 //selectedLevelHeader.headerPointerAddress = (int)numericUpDown_headerpointer.Value;
                 //selectedLevelHeader.headerAddress = (int)numericUpDown_headeraddress.Value;
                 //selectedLevelHeader.levelPointer = (int)numericUpDown_levelpointer.Value;
-                selectedLevelHeader.graphicsBankIndex = (byte)numericUpDown_graphicsbankindex.Value;
-                selectedLevelHeader.fieldNumber = (byte)numericUpDown_fieldnumber.Value;
-                selectedLevelHeader.musicSelect = (byte)numericUpDown_musicselect.Value;
-                selectedLevelHeader.enemyType[0] = (byte)numericUpDown_enemytype1.Value;
-                selectedLevelHeader.enemyType[1] = (byte)numericUpDown_enemytype2.Value;
-                selectedLevelHeader.enemyType[2] = (byte)numericUpDown_enemytype3.Value;
-                selectedLevelHeader.enemyType[3] = (byte)numericUpDown_enemytype4.Value;
-                selectedLevelHeader.enemyType[4] = (byte)numericUpDown_enemytype5.Value;
-                selectedLevelHeader.enemyType[5] = (byte)numericUpDown_enemytype6.Value;
-                selectedLevelHeader.spawnRates[0] = (byte)numericUpDown_spawnrate1.Value;
-                selectedLevelHeader.spawnRates[1] = (byte)numericUpDown_spawnrate2.Value;
-                selectedLevelHeader.spawnRates[2] = (byte)numericUpDown_spawnrate3.Value;
-                selectedLevelHeader.spawnRates[3] = (byte)numericUpDown_spawnrate4.Value;
-                selectedLevelHeader.spawnRates[4] = (byte)numericUpDown_spawnrate5.Value;
-                selectedLevelHeader.spawnRates[5] = (byte)numericUpDown_spawnrate6.Value;
-                selectedLevelHeader.spawnRates[6] = (byte)numericUpDown_spawnrate7.Value;
-                selectedLevelHeader.spawnRates[7] = (byte)numericUpDown_spawnrate8.Value;
-                selectedLevelHeader.objectType[0] = (byte)numericUpDown_objecttype1.Value;
-                selectedLevelHeader.objectType[1] = (byte)numericUpDown_objecttype2.Value;
-                selectedLevelHeader.objectType[2] = (byte)numericUpDown_objecttype3.Value;
-                selectedLevelHeader.objectType[3] = (byte)numericUpDown_objecttype4.Value;
-                selectedLevelHeader.objectType[4] = (byte)numericUpDown_objecttype5.Value;
-                selectedLevelHeader.objectType[5] = (byte)numericUpDown_objecttype6.Value;
-                selectedLevelHeader.objectType[6] = (byte)numericUpDown_objecttype7.Value;
-                selectedLevelHeader.waterHeight = (byte)numericUpDown_waterheight.Value;
+                _selectedLevelHeader.GraphicsBankIndex = (byte)numericUpDown_graphicsbankindex.Value;
+                _selectedLevelHeader.FieldNumber = (byte)numericUpDown_fieldnumber.Value;
+                _selectedLevelHeader.MusicSelect = (byte)numericUpDown_musicselect.Value;
+                _selectedLevelHeader.EnemyType[0] = (byte)numericUpDown_enemytype1.Value;
+                _selectedLevelHeader.EnemyType[1] = (byte)numericUpDown_enemytype2.Value;
+                _selectedLevelHeader.EnemyType[2] = (byte)numericUpDown_enemytype3.Value;
+                _selectedLevelHeader.EnemyType[3] = (byte)numericUpDown_enemytype4.Value;
+                _selectedLevelHeader.EnemyType[4] = (byte)numericUpDown_enemytype5.Value;
+                _selectedLevelHeader.EnemyType[5] = (byte)numericUpDown_enemytype6.Value;
+                _selectedLevelHeader.SpawnRates[0] = (byte)numericUpDown_spawnrate1.Value;
+                _selectedLevelHeader.SpawnRates[1] = (byte)numericUpDown_spawnrate2.Value;
+                _selectedLevelHeader.SpawnRates[2] = (byte)numericUpDown_spawnrate3.Value;
+                _selectedLevelHeader.SpawnRates[3] = (byte)numericUpDown_spawnrate4.Value;
+                _selectedLevelHeader.SpawnRates[4] = (byte)numericUpDown_spawnrate5.Value;
+                _selectedLevelHeader.SpawnRates[5] = (byte)numericUpDown_spawnrate6.Value;
+                _selectedLevelHeader.SpawnRates[6] = (byte)numericUpDown_spawnrate7.Value;
+                _selectedLevelHeader.SpawnRates[7] = (byte)numericUpDown_spawnrate8.Value;
+                _selectedLevelHeader.ObjectType[0] = (byte)numericUpDown_objecttype1.Value;
+                _selectedLevelHeader.ObjectType[1] = (byte)numericUpDown_objecttype2.Value;
+                _selectedLevelHeader.ObjectType[2] = (byte)numericUpDown_objecttype3.Value;
+                _selectedLevelHeader.ObjectType[3] = (byte)numericUpDown_objecttype4.Value;
+                _selectedLevelHeader.ObjectType[4] = (byte)numericUpDown_objecttype5.Value;
+                _selectedLevelHeader.ObjectType[5] = (byte)numericUpDown_objecttype6.Value;
+                _selectedLevelHeader.ObjectType[6] = (byte)numericUpDown_objecttype7.Value;
+                _selectedLevelHeader.WaterHeight = (byte)numericUpDown_waterheight.Value;
 
-                selectedLevelHeader.waterType = 2;
+                _selectedLevelHeader.WaterType = 2;
                 if (checkBox_wavywater.Checked) {
-                    selectedLevelHeader.waterType = 3;
+                    _selectedLevelHeader.WaterType = 3;
                 }
                 
-                selectedLevelHeader.levelTimer = (int)numericUpDown_leveltimer.Value;
-                selectedLevelHeader.doorExits[0] = (byte)numericUpDown_doorexit1.Value;
-                selectedLevelHeader.doorExits[1] = (byte)numericUpDown_doorexit2.Value;
-                selectedLevelHeader.doorExits[2] = (byte)numericUpDown_doorexit3.Value;
-                selectedLevelHeader.doorExits[3] = (byte)numericUpDown_doorexit4.Value;
-                levelEditor.Level.PaletteIndex[2] = (byte)numericUpDown_paletteindices1.Value;
-                levelEditor.Level.PaletteIndex[3] = (byte)numericUpDown_paletteindices2.Value;
-                levelEditor.Level.PaletteIndex[4] = (byte)numericUpDown_paletteindices3.Value;
-                levelEditor.Level.PaletteIndex[5] = (byte)numericUpDown_paletteindices4.Value;
-                levelEditor.Level.PaletteIndex[6] = (byte)numericUpDown_paletteindices5.Value;
-                levelEditor.Level.PaletteIndex[7] = (byte)numericUpDown_paletteindices6.Value;
+                _selectedLevelHeader.LevelTimer = (int)numericUpDown_leveltimer.Value;
+                _selectedLevelHeader.DoorExits[0] = (byte)numericUpDown_doorexit1.Value;
+                _selectedLevelHeader.DoorExits[1] = (byte)numericUpDown_doorexit2.Value;
+                _selectedLevelHeader.DoorExits[2] = (byte)numericUpDown_doorexit3.Value;
+                _selectedLevelHeader.DoorExits[3] = (byte)numericUpDown_doorexit4.Value;
+                _levelEditor.Level.PaletteIndex[2] = (byte)numericUpDown_paletteindices1.Value;
+                _levelEditor.Level.PaletteIndex[3] = (byte)numericUpDown_paletteindices2.Value;
+                _levelEditor.Level.PaletteIndex[4] = (byte)numericUpDown_paletteindices3.Value;
+                _levelEditor.Level.PaletteIndex[5] = (byte)numericUpDown_paletteindices4.Value;
+                _levelEditor.Level.PaletteIndex[6] = (byte)numericUpDown_paletteindices5.Value;
+                _levelEditor.Level.PaletteIndex[7] = (byte)numericUpDown_paletteindices6.Value;
             }
         }
 
-        private void updateLevelHeaderControls()
+        private void UpdateLevelHeaderControls()
         {
-            if (isLevelLoaded) {
-                textBox_headernumber.Text = string.Format("{0}", selectedLevelHeader.headerNumber);
+            if (_isLevelLoaded) {
+                textBox_headernumber.Text = $"{_selectedLevelHeader.HeaderNumber}";
                 textBox_headernumber.Invalidate();
-                textBox_headerpointer.Text = string.Format("{0:X}", selectedLevelHeader.headerPointerAddress);
+                textBox_headerpointer.Text = $"{_selectedLevelHeader.HeaderPointerAddress:X}";
                 textBox_headerpointer.Invalidate();
-                textBox_headeraddress.Text = string.Format("{0:X}", selectedLevelHeader.headerAddress);
+                textBox_headeraddress.Text = $"{_selectedLevelHeader.HeaderAddress:X}";
                 textBox_headeraddress.Invalidate();
-                textBox_levelpointer.Text = string.Format("{0:X}", selectedLevelHeader.levelPointer);
+                textBox_levelpointer.Text = $"{_selectedLevelHeader.LevelPointer:X}";
                 textBox_levelpointer.Invalidate();
-                numericUpDown_graphicsbankindex.Value = selectedLevelHeader.graphicsBankIndex;
-                numericUpDown_fieldnumber.Value = selectedLevelHeader.fieldNumber;
-                numericUpDown_musicselect.Value = selectedLevelHeader.musicSelect;
-                numericUpDown_enemytype1.Value = selectedLevelHeader.enemyType[0];
-                numericUpDown_enemytype2.Value = selectedLevelHeader.enemyType[1];
-                numericUpDown_enemytype3.Value = selectedLevelHeader.enemyType[2];
-                numericUpDown_enemytype4.Value = selectedLevelHeader.enemyType[3];
-                numericUpDown_enemytype5.Value = selectedLevelHeader.enemyType[4];
-                numericUpDown_enemytype6.Value = selectedLevelHeader.enemyType[5];
-                numericUpDown_spawnrate1.Value = selectedLevelHeader.spawnRates[0];
-                numericUpDown_spawnrate2.Value = selectedLevelHeader.spawnRates[1];
-                numericUpDown_spawnrate3.Value = selectedLevelHeader.spawnRates[2];
-                numericUpDown_spawnrate4.Value = selectedLevelHeader.spawnRates[3];
-                numericUpDown_spawnrate5.Value = selectedLevelHeader.spawnRates[4];
-                numericUpDown_spawnrate6.Value = selectedLevelHeader.spawnRates[5];
-                numericUpDown_spawnrate7.Value = selectedLevelHeader.spawnRates[6];
-                numericUpDown_spawnrate8.Value = selectedLevelHeader.spawnRates[7];
-                numericUpDown_objecttype1.Value = selectedLevelHeader.objectType[0];
-                numericUpDown_objecttype2.Value = selectedLevelHeader.objectType[1];
-                numericUpDown_objecttype3.Value = selectedLevelHeader.objectType[2];
-                numericUpDown_objecttype4.Value = selectedLevelHeader.objectType[3];
-                numericUpDown_objecttype5.Value = selectedLevelHeader.objectType[4];
-                numericUpDown_objecttype6.Value = selectedLevelHeader.objectType[5];
-                numericUpDown_objecttype7.Value = selectedLevelHeader.objectType[6];
-                numericUpDown_waterheight.Value = selectedLevelHeader.waterHeight;
-
-                checkBox_wavywater.Checked = false;
-                if (selectedLevelHeader.waterType == 3)
-                    checkBox_wavywater.Checked = true;
-                
-                numericUpDown_leveltimer.Value = selectedLevelHeader.levelTimer;
-                numericUpDown_doorexit1.Value = selectedLevelHeader.doorExits[0];
-                numericUpDown_doorexit2.Value = selectedLevelHeader.doorExits[1];
-                numericUpDown_doorexit3.Value = selectedLevelHeader.doorExits[2];
-                numericUpDown_doorexit4.Value = selectedLevelHeader.doorExits[3];
-                numericUpDown_paletteindices1.Value = levelEditor.Level.PaletteIndex[2];
-                numericUpDown_paletteindices2.Value = levelEditor.Level.PaletteIndex[3];
-                numericUpDown_paletteindices3.Value = levelEditor.Level.PaletteIndex[4];
-                numericUpDown_paletteindices4.Value = levelEditor.Level.PaletteIndex[5];
-                numericUpDown_paletteindices5.Value = levelEditor.Level.PaletteIndex[6];
-                numericUpDown_paletteindices6.Value = levelEditor.Level.PaletteIndex[7];
+                numericUpDown_graphicsbankindex.Value = _selectedLevelHeader.GraphicsBankIndex;
+                numericUpDown_fieldnumber.Value = _selectedLevelHeader.FieldNumber;
+                numericUpDown_musicselect.Value = _selectedLevelHeader.MusicSelect;
+                numericUpDown_enemytype1.Value = _selectedLevelHeader.EnemyType[0];
+                numericUpDown_enemytype2.Value = _selectedLevelHeader.EnemyType[1];
+                numericUpDown_enemytype3.Value = _selectedLevelHeader.EnemyType[2];
+                numericUpDown_enemytype4.Value = _selectedLevelHeader.EnemyType[3];
+                numericUpDown_enemytype5.Value = _selectedLevelHeader.EnemyType[4];
+                numericUpDown_enemytype6.Value = _selectedLevelHeader.EnemyType[5];
+                numericUpDown_spawnrate1.Value = _selectedLevelHeader.SpawnRates[0];
+                numericUpDown_spawnrate2.Value = _selectedLevelHeader.SpawnRates[1];
+                numericUpDown_spawnrate3.Value = _selectedLevelHeader.SpawnRates[2];
+                numericUpDown_spawnrate4.Value = _selectedLevelHeader.SpawnRates[3];
+                numericUpDown_spawnrate5.Value = _selectedLevelHeader.SpawnRates[4];
+                numericUpDown_spawnrate6.Value = _selectedLevelHeader.SpawnRates[5];
+                numericUpDown_spawnrate7.Value = _selectedLevelHeader.SpawnRates[6];
+                numericUpDown_spawnrate8.Value = _selectedLevelHeader.SpawnRates[7];
+                numericUpDown_objecttype1.Value = _selectedLevelHeader.ObjectType[0];
+                numericUpDown_objecttype2.Value = _selectedLevelHeader.ObjectType[1];
+                numericUpDown_objecttype3.Value = _selectedLevelHeader.ObjectType[2];
+                numericUpDown_objecttype4.Value = _selectedLevelHeader.ObjectType[3];
+                numericUpDown_objecttype5.Value = _selectedLevelHeader.ObjectType[4];
+                numericUpDown_objecttype6.Value = _selectedLevelHeader.ObjectType[5];
+                numericUpDown_objecttype7.Value = _selectedLevelHeader.ObjectType[6];
+                numericUpDown_waterheight.Value = _selectedLevelHeader.WaterHeight;
+                checkBox_wavywater.Checked = _selectedLevelHeader.WaterType == 3;
+                numericUpDown_leveltimer.Value = _selectedLevelHeader.LevelTimer;
+                numericUpDown_doorexit1.Value = _selectedLevelHeader.DoorExits[0];
+                numericUpDown_doorexit2.Value = _selectedLevelHeader.DoorExits[1];
+                numericUpDown_doorexit3.Value = _selectedLevelHeader.DoorExits[2];
+                numericUpDown_doorexit4.Value = _selectedLevelHeader.DoorExits[3];
+                numericUpDown_paletteindices1.Value = _levelEditor.Level.PaletteIndex[2];
+                numericUpDown_paletteindices2.Value = _levelEditor.Level.PaletteIndex[3];
+                numericUpDown_paletteindices3.Value = _levelEditor.Level.PaletteIndex[4];
+                numericUpDown_paletteindices4.Value = _levelEditor.Level.PaletteIndex[5];
+                numericUpDown_paletteindices5.Value = _levelEditor.Level.PaletteIndex[6];
+                numericUpDown_paletteindices6.Value = _levelEditor.Level.PaletteIndex[7];
             }
         }
 
-        private void updateImages(bool level, bool tileset, bool tilesetTile, bool physmap, bool physmapTile, bool tileIndex)
+        private void UpdateImages(bool level, bool tileset, bool tilesetTile, bool physmap, bool physmapTile, bool tileIndex)
         {
             if (tileIndex) {
                 updateImage_TileIndex();
@@ -1132,14 +1095,14 @@ namespace Riverback
 
         private void updateImage_Tileset()
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 using (Graphics g = Graphics.FromImage(pictureBox_tileset.Image)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.Clear(fillColor);
-                    drawIndexTiles(g, true, false, false);
+                    g.Clear(_fillColor);
+                    DrawIndexTiles(g, true, false);
                     if (checkBox_grid_show.Checked) {
-                        g.DrawImage(Properties.Resources.gridtile16_256x2048, 0, 0);
+                        g.DrawImage(Resources.gridtile16_256x2048, 0, 0);
                     }
                     pictureBox_tileset.Invalidate();
                 }
@@ -1148,23 +1111,23 @@ namespace Riverback
 
         private void updateImage_Physmap()
         {
-            if (isLevelLoaded) {
+            if (_isLevelLoaded) {
                 if (checkBox_bytes_show.Checked) {
-                    bitmapPhysTileset = Properties.Resources.physmap_bytes;
-                    bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-                    Bitmap bmp = Properties.Resources.physmap_bytes2;
-                    bmp.SetResolution(IMAGE_DPI, IMAGE_DPI);
+                    _bitmapPhysTileset = Resources.physmap_bytes;
+                    _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
+                    Bitmap bmp = Resources.physmap_bytes2;
+                    bmp.SetResolution(ImageDpi, ImageDpi);
                     pictureBox_phystiles.Image = bmp;
                 } else {
-                    bitmapPhysTileset = Properties.Resources.physmap;
-                    bitmapPhysTileset.SetResolution(IMAGE_DPI, IMAGE_DPI);
-                    Bitmap bmp = Properties.Resources.physmap2;
-                    bmp.SetResolution(IMAGE_DPI, IMAGE_DPI);
+                    _bitmapPhysTileset = Resources.physmap;
+                    _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
+                    Bitmap bmp = Resources.physmap2;
+                    bmp.SetResolution(ImageDpi, ImageDpi);
                     pictureBox_phystiles.Image = bmp;
                 }
                 if (checkBox_grid_show.Checked) {
                     using (Graphics g = Graphics.FromImage(pictureBox_phystiles.Image)) {
-                        g.DrawImage(Properties.Resources.gridtile16_256x256, 0, 0);
+                        g.DrawImage(Resources.gridtile16_256x256, 0, 0);
                     }
                 }
                 pictureBox_phystiles.Invalidate();
@@ -1173,12 +1136,12 @@ namespace Riverback
 
         private void updateImage_TileIndex()
         {
-            if (isLevelLoaded) {
-                using (Graphics g = Graphics.FromImage(bitmapTileIndex)) {
+            if (_isLevelLoaded) {
+                using (Graphics g = Graphics.FromImage(_bitmapTileIndex)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.Clear(fillColor);
-                    drawIndexTiles(g, false, true, checkBox_grid_show.Checked);
+                    g.Clear(_fillColor);
+                    DrawIndexTiles(g, false, true, checkBox_grid_show.Checked);
                 }
                 pictureBox_indexTiles.Invalidate();
             }
@@ -1186,14 +1149,14 @@ namespace Riverback
 
         private void updateImage_TilemapTile()
         {
-            if (isLevelLoaded) {
-                using (Graphics g = Graphics.FromImage(bitmapTilemapTile)) {
+            if (_isLevelLoaded) {
+                using (Graphics g = Graphics.FromImage(_bitmapTilemapTile)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.Clear(fillColor);
+                    g.Clear(_fillColor);
 
                     int i = 0;
-                    int tileNum = levelEditor.Level.TileIndex.getBankIndexTile(currentTilesetTileIndex);
+                    int tileNum = _levelEditor.Level.TileIndex.GetBankIndexTile(_currentTilesetTileIndex);
                     if (tileNum < 0) {
                         tileNum = 0;
                     }
@@ -1202,9 +1165,9 @@ namespace Riverback
                     }
                     tileNum = tileNum - (i * 1024);
 
-                    int bankIndex = levelEditor.Level.LevelHeader.graphicsBankIndex * 2 + i;
-                    Bitmap tileImg = levelEditor.Banks[bankIndex].getTileImage(tileNum, bankPaletteNum, TileDrawer.TILE_WIDTH);
-                    TileDrawer.drawTileOnCanvas(tileImg, g,  0, 0, checkBox_vflip.Checked, checkBox_hflip.Checked, TILE_SELECTOR_SCALE);
+                    int bankIndex = _levelEditor.Level.LevelHeader.GraphicsBankIndex * 2 + i;
+                    Bitmap tileImg = _levelEditor.Banks[bankIndex].GetTileImage(tileNum, _bankPaletteNum, TileDrawer.TileWidth);
+                    TileDrawer.DrawTileOnCanvas(tileImg, g,  0, 0, checkBox_vflip.Checked, checkBox_hflip.Checked, TileSelectorScale);
                     pictureBox_tilemaptile.Invalidate();
                 }
             }
@@ -1212,17 +1175,17 @@ namespace Riverback
 
         private void updateImage_PhysmapTile()
         {
-            if (isLevelLoaded) {
-                Point alignedMouseCoords = coordConverterPhysmap.getMouseCoordsFromTileNumber(currentPhysmapTile);
-                using (Graphics g = Graphics.FromImage(bitmapPhysTile)) {
+            if (_isLevelLoaded) {
+                Point alignedMouseCoords = _coordConverterPhysmap.GetMouseCoordsFromTileNumber(_currentPhysmapTile);
+                using (Graphics g = Graphics.FromImage(_bitmapPhysTile)) {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.PixelOffsetMode = PixelOffsetMode.Half;
-                    g.Clear(fillColor);
-                    TileDrawer.drawTileFromImageOnCanvas(bitmapPhysTileset,
+                    g.Clear(_fillColor);
+                    TileDrawer.DrawTileFromImageOnCanvas(_bitmapPhysTileset,
                                                          g,
                                                          alignedMouseCoords,
                                                          new Point(0, 0),
-                                                         TILE_SELECTOR_SCALE);
+                                                         TileSelectorScale);
                     pictureBox_phystile.Invalidate();
                 }
             }
@@ -1230,20 +1193,20 @@ namespace Riverback
 
         private void updateImage_Level()
         {
-            if (isLevelLoaded) {
-                using (Graphics g = Graphics.FromImage(bitmapLevel)) {
-                    g.Clear(fillColor);
-                    TileDrawer.drawLevelOnCanvas(g, 
-                                                 bitmapPhysTileset, 
-                                                 levelEditor, 
-                                                 LEVEL_TILEAMOUNT_WIDTH, 
+            if (_isLevelLoaded) {
+                using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
+                    g.Clear(_fillColor);
+                    TileDrawer.DrawLevelOnCanvas(g, 
+                                                 _bitmapPhysTileset, 
+                                                 _levelEditor, 
+                                                 LevelTileamountWidth, 
                                                  checkBox_field_show.Checked, 
                                                  checkBox_physmap_show.Checked);
                     if (checkBox_grid_show.Checked) {
-                        g.DrawImage(Properties.Resources.gridtile8_512x512, 0, 0);
+                        g.DrawImage(Resources.gridtile8_512x512, 0, 0);
                     }
-                    if (tilemapTileSelector.Selected) {
-                        highlightSelectedTilesInLevelEditor();
+                    if (_tilemapTileSelector.Selected) {
+                        HighlightSelectedTilesInLevelEditor();
                     }
                     pictureBox_level.Invalidate();
                 }
@@ -1252,10 +1215,15 @@ namespace Riverback
 
         private void updateTextBox_IndexTiles()
         {
-            if (isLevelLoaded) {
-                textBox_tilesremaining.Text = string.Format("{0}", indexTilesRemaining);
+            if (_isLevelLoaded) {
+                textBox_tilesremaining.Text = $"{_indexTilesRemaining}";
                 textBox_tilesremaining.Invalidate();
             }
+        }
+
+        private void numericUpDown_paletteindices1_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

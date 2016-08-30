@@ -111,6 +111,24 @@ namespace Riverback.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string MainForm_MainMenu_FileOpen_Click_Error {
+            get {
+                return ResourceManager.GetString("MainForm_MainMenu_FileOpen_Click_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file you opened is not a valid headerless Umihara Kawase ROM..
+        /// </summary>
+        internal static string MainForm_MainMenu_FileOpen_Click_InvalidRom {
+            get {
+                return ResourceManager.GetString("MainForm_MainMenu_FileOpen_Click_InvalidRom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap physmap {
@@ -147,6 +165,42 @@ namespace Riverback.Properties {
             get {
                 object obj = ResourceManager.GetObject("physmap2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string RomWriter_ImportLevel_Error {
+            get {
+                return ResourceManager.GetString("RomWriter_ImportLevel_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file you opened is not a valid Umihara Kawase level..
+        /// </summary>
+        internal static string RomWriter_ImportLevel_InvalidLevel {
+            get {
+                return ResourceManager.GetString("RomWriter_ImportLevel_InvalidLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The argument for TilesetTile.Bank is out of range.
+        /// </summary>
+        internal static string TilemapTile_Bank_OutOfRangeException {
+            get {
+                return ResourceManager.GetString("TilemapTile_Bank_OutOfRangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The argument for TilesetTile.Palette is out of range.
+        /// </summary>
+        internal static string TilemapTile_Palette_OutOfRangeException {
+            get {
+                return ResourceManager.GetString("TilemapTile_Palette_OutOfRangeException", resourceCulture);
             }
         }
         

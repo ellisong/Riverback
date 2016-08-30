@@ -4,95 +4,96 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Riverback.Properties;
 
 namespace Riverback
 {
     class RomWriter
     {
-        private const string XML_FILENAME = "romwriterdata.xml";
-        private const byte CLEAR_BYTE = 0xFF;
-        private const int ROM_ORIGINAL_SIZE = 0x100000;
-        private const int WRITE_LEVEL_ADDRESS = 0x100000;
-        private const int WRITE_LEVEL_SEARCH_SIZE = 0x200;
-        private const byte LEVEL_HEADER_SIZE = 37;
-        private const int EXPAND_ROM_SIZE = 0x200000;
-        private const int UMIKAWLEVEL_LENGTH = 11;
-        private const int IMPORTLEVEL_LENGTH = 12600;
-        private const int LEVELDATA_SIZE = Level.LEVEL_TILE_AMOUNT * 3 + Level.LEVEL_TILE_INDEX_SIZE + Level.LEVEL_PALETTE_INDEX_AMOUNT;
+        private const string XmlFilename = "romwriterdata.xml";
+        private const byte ClearByte = 0xFF;
+        private const int RomOriginalSize = 0x100000;
+        private const int WriteLevelAddress = 0x100000;
+        private const int WriteLevelSearchSize = 0x200;
+        private const byte LevelHeaderSize = 37;
+        private const int ExpandRomSize = 0x200000;
+        private const int LevelChecksum = 11;
+        private const int ImportLevelLength = 12600;
+        private const int LevelDataSize = Level.LevelTileAmount * 3 + Level.LevelTileIndexSize + Level.LevelPaletteIndexAmount;
 
-        private XElement root;
-        private byte[] romdata;
+        private readonly XElement _root;
+        private readonly byte[] _romdata;
 
         public RomWriter(byte[] romdata)
         {
             if (romdata == null) {
                 throw new ArgumentNullException("The romdata argument is required for the RomWriter() class");
             }
-            this.romdata = romdata;
-            root = XElement.Load(XML_FILENAME);
+            _romdata = romdata;
+            _root = XElement.Load(XmlFilename);
         }
 
-        private bool checkEmptySpace(int pointer, int size)
+        private bool CheckEmptySpace(int pointer, int size)
         {
             for (int x = 0; x < size; x++) {
-                if (romdata[pointer + x] != CLEAR_BYTE) {
+                if (_romdata[pointer + x] != ClearByte) {
                     return false;
                 }
             }
             return true;
         }
 
-        private void fillEmptySpace(int pointer, int size)
+        private void FillEmptySpace(int pointer, int size)
         {
             for (int x = 0; x < size; x++) {
-                romdata[pointer + x] = CLEAR_BYTE;
+                _romdata[pointer + x] = ClearByte;
             }
         }
 
-        public static byte[] expandRom(byte[] romdata)
+        public static byte[] ExpandRom(byte[] romdata)
         {
-            if (romdata.Length <= EXPAND_ROM_SIZE) {
-                byte[] expandedRomData = new byte[EXPAND_ROM_SIZE];
+            if (romdata.Length <= ExpandRomSize) {
+                byte[] expandedRomData = new byte[ExpandRomSize];
                 Array.ConstrainedCopy(romdata, 0, expandedRomData, 0, romdata.Length);
-                for (int x = romdata.Length; x < EXPAND_ROM_SIZE; x++) {
-                    expandedRomData[x] = CLEAR_BYTE;
+                for (int x = romdata.Length; x < ExpandRomSize; x++) {
+                    expandedRomData[x] = ClearByte;
                 }
                 return expandedRomData;
             }
             return romdata;
         }
 
-        private void writeLevelHeaderPointer(LevelHeader levelHeader, ushort pointer)
+        //private void WriteLevelHeaderPointer(LevelHeader levelHeader, ushort pointer)
+        //{
+        //    byte[] data = DataFormatter.ConvertRomPointerToUInt16Pointer(pointer);
+        //    Array.ConstrainedCopy(data, 
+        //                          0, 
+        //                          _romdata, 
+        //                          levelHeader.HeaderPointerAddress,
+        //                          2);
+        //}
+
+        private void WriteLevelHeader(LevelHeader levelHeader)
         {
-            byte[] data = DataFormatter.convertRomPointerToUInt16Pointer(pointer);
-            Array.ConstrainedCopy(data, 
-                                  0, 
-                                  romdata, 
-                                  levelHeader.headerPointerAddress,
-                                  2);
+            byte[] data = levelHeader.Serialize();
+            Array.ConstrainedCopy(data, 0, _romdata, levelHeader.HeaderAddress, LevelHeaderSize);
         }
 
-        private void writeLevelHeader(LevelHeader levelHeader)
-        {
-            byte[] data = levelHeader.serialize();
-            Array.ConstrainedCopy(data, 0, romdata, levelHeader.headerAddress, LEVEL_HEADER_SIZE);
-        }
-
-        public byte[] exportLevel(LevelHeader levelHeader, Level level)
+        public byte[] ExportLevel(LevelHeader levelHeader, Level level)
         {
             List<byte> data = new List<byte>();
             string str = "UMIKAWLEVEL";
             data.AddRange(Encoding.ASCII.GetBytes(str));
-            data.AddRange(levelHeader.serialize());
-            data.AddRange(level.serialize(false));
+            data.AddRange(levelHeader.Serialize());
+            data.AddRange(level.Serialize(false));
             return data.ToArray();
         }
 
-        public bool importLevel(byte[] data, Level level, LevelHeader levelHeader)
+        public bool ImportLevel(byte[] data, Level level, LevelHeader levelHeader)
         {
-            if (data.Length != IMPORTLEVEL_LENGTH) {
-                MessageBox.Show("The file you opened is not a valid Umihara Kawase level.",
-                                "Error",
+            if (data.Length != ImportLevelLength) {
+                MessageBox.Show(Resources.RomWriter_ImportLevel_InvalidLevel,
+                                Resources.RomWriter_ImportLevel_Error,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
                 return false;
@@ -100,62 +101,65 @@ namespace Riverback
             int offset = 0;
 
             byte[] str = Encoding.ASCII.GetBytes("UMIKAWLEVEL");
-            byte[] checksum = new byte[UMIKAWLEVEL_LENGTH];
-            Array.ConstrainedCopy(data, offset, checksum, 0, UMIKAWLEVEL_LENGTH);
+            byte[] checksum = new byte[LevelChecksum];
+            Array.ConstrainedCopy(data, offset, checksum, 0, LevelChecksum);
             if (str.SequenceEqual(checksum) == false) {
-                MessageBox.Show("The file you opened is not a valid Umihara Kawase level.",
-                                "Error",
+                MessageBox.Show(Resources.RomWriter_ImportLevel_InvalidLevel,
+                                Resources.RomWriter_ImportLevel_Error,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
                 return false;
             }
 
-            offset += UMIKAWLEVEL_LENGTH;
-            byte[] header = new byte[LEVEL_HEADER_SIZE];
-            Array.ConstrainedCopy(data, offset, header, 0, LEVEL_HEADER_SIZE);
-            levelHeader.deserialize(header, 0);
+            offset += LevelChecksum;
+            byte[] header = new byte[LevelHeaderSize];
+            Array.ConstrainedCopy(data, offset, header, 0, LevelHeaderSize);
+            levelHeader.Deserialize(header, 0);
 
-            offset += LEVEL_HEADER_SIZE;
+            offset += LevelHeaderSize;
 
-            byte[] levelData = new byte[LEVELDATA_SIZE];
-            Array.ConstrainedCopy(data, offset, levelData, 0, LEVELDATA_SIZE);
-            level.update(levelData);
+            byte[] levelData = new byte[LevelDataSize];
+            Array.ConstrainedCopy(data, offset, levelData, 0, LevelDataSize);
+            level.Update(levelData);
 
             return true;
         }
 
-        public void writeLevel(Level level, LevelHeader levelHeader)
+        public void WriteLevel(Level level, LevelHeader levelHeader)
         {
-            byte[] data = level.serialize();
+            byte[] data = level.Serialize();
 
             level.LevelHeader = levelHeader;
             int originalLevelPointer = 0;
             int originalLevelSize = 0;
-            XElement xmlLevel = root.Element("level");
-            IEnumerable<XElement> offsets =
-                from el in xmlLevel.Elements("offset")
-                where Convert.ToInt32((string)el.Attribute("start"), 16) == level.LevelHeader.levelPointer
-                select el;
-            foreach (XElement el in offsets) {
-                originalLevelPointer = Convert.ToInt32((string)el.Attribute("start"), 16);
-                originalLevelSize = Convert.ToInt32((string)el.Attribute("end"), 16) - originalLevelPointer + 1;
+            XElement xmlLevel = _root.Element("level");
+            if (xmlLevel != null)
+            {
+                IEnumerable<XElement> offsets =
+                    from el in xmlLevel.Elements("offset")
+                    where Convert.ToInt32((string)el.Attribute("start"), 16) == level.LevelHeader.LevelPointer
+                    select el;
+                foreach (XElement el in offsets) {
+                    originalLevelPointer = Convert.ToInt32((string)el.Attribute("start"), 16);
+                    originalLevelSize = Convert.ToInt32((string)el.Attribute("end"), 16) - originalLevelPointer + 1;
+                }
             }
 
             if (data.Length <= originalLevelSize) {
-                writeLevelHeader(level.LevelHeader);
-                Array.ConstrainedCopy(data, 0, romdata, originalLevelPointer, data.Length);
+                WriteLevelHeader(level.LevelHeader);
+                Array.ConstrainedCopy(data, 0, _romdata, originalLevelPointer, data.Length);
             } else {
-                if (romdata.Length > ROM_ORIGINAL_SIZE) {
-                    int levelPointer = WRITE_LEVEL_ADDRESS;
-                    while (levelPointer < EXPAND_ROM_SIZE) {
-                        if (checkEmptySpace(levelPointer, data.Length)) {
-                            fillEmptySpace(level.LevelHeader.levelPointer, level.CompressedDataSize);
-                            level.LevelHeader.levelPointer = levelPointer;
-                            writeLevelHeader(level.LevelHeader);
-                            Array.ConstrainedCopy(data, 0, romdata, levelPointer, data.Length);
+                if (_romdata.Length > RomOriginalSize) {
+                    int levelPointer = WriteLevelAddress;
+                    while (levelPointer < ExpandRomSize) {
+                        if (CheckEmptySpace(levelPointer, data.Length)) {
+                            FillEmptySpace(level.LevelHeader.LevelPointer, level.CompressedDataSize);
+                            level.LevelHeader.LevelPointer = levelPointer;
+                            WriteLevelHeader(level.LevelHeader);
+                            Array.ConstrainedCopy(data, 0, _romdata, levelPointer, data.Length);
                             break;
                         }
-                        levelPointer += WRITE_LEVEL_SEARCH_SIZE;
+                        levelPointer += WriteLevelSearchSize;
                     }
                 }
             }

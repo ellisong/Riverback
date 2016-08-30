@@ -1,29 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Riverback
 {
     public static class DataFormatter
     {
-        public static byte bitsIntoByte(List<bool> bitList)
+        public static byte BitsIntoByte(List<bool> bitList)
         {
             byte result = 0;
-            int count = bitList.Count();
+            int count = bitList.Count;
             if (count > 8) {
                 count = 8;
             }
             for (int x = 0; x < count; x++) {
-                if (bitList[x] == true) {
+                if (bitList[x]) {
                     result += (byte)(0x80 >> x);
                 }
             }
             return result;
         }
 
-        public static byte bitsIntoByte(bool[] bitList)
+        public static byte BitsIntoByte(bool[] bitList)
         {
             byte result = 0;
             int count = bitList.Length;
@@ -31,34 +28,31 @@ namespace Riverback
                 count = 8;
             }
             for (int x = 0; x < count; x++) {
-                if (bitList[x] == true) {
+                if (bitList[x]) {
                     result += (byte)(0x80 >> x);
                 }
             }
             return result;
         }
 
-        public static bool[] byteIntoBits(byte value)
+        public static bool[] ByteIntoBits(byte value)
         {
             bool[] bitList = new bool[8];
             int andbyte = 0x80;
             for (int x = 0; x < 8; x++) {
                 byte bit = (byte)(value & andbyte);
-                bool boolBit = false;
-                if (bit > 0) {
-                    boolBit = true;
-                }
+                bool boolBit = bit > 0;
                 andbyte >>= 1;
                 bitList[x] = boolBit;
             }
             return bitList;
         }
 
-        public static List<bool> byteListIntoBitList(List<byte> byteList, bool leftToRight = true)
+        public static List<bool> ByteListIntoBitList(List<byte> byteList, bool leftToRight = true)
         {
             List<bool> bitList = new List<bool>();
             foreach (byte value in byteList) {
-                bool[] bits = byteIntoBits(value);
+                bool[] bits = ByteIntoBits(value);
                 if (leftToRight == false) {
                     Array.Reverse(bits);
                 }
@@ -67,14 +61,14 @@ namespace Riverback
             return bitList;
         }
 
-        public static ushort switchReadBytesIntoint16(byte[] data, int offset)
+        public static ushort SwitchReadBytesIntoint16(byte[] data, int offset)
         {
             ushort value = (ushort)(data[offset + 1] * 0x100);
             value += data[offset];
             return value;
         }
 
-        public static int convertSnesPointerToRomPointer(byte bank, ushort pointer)
+        public static int ConvertSnesPointerToRomPointer(byte bank, ushort pointer)
         {
             if (bank < 0x80) {
                 throw new ArgumentOutOfRangeException("bank must be greater or equal to 0x80");
@@ -82,17 +76,17 @@ namespace Riverback
             if (pointer < 0x8000) {
                 throw new ArgumentOutOfRangeException("pointer must be greater or equal to 0x8000");
             }
-            return ((int)bank - 0x80) * 0x8000 + ((int)pointer - 0x8000);
+            return (bank - 0x80) * 0x8000 + (pointer - 0x8000);
         }
 
-        public static int readSnesPointerToRomPointer(byte[] data, int offset)
+        public static int ReadSnesPointerToRomPointer(byte[] data, int offset)
         {
             byte bank = data[offset + 2];
-            ushort pointer = switchReadBytesIntoint16(data, offset);
-            return convertSnesPointerToRomPointer(bank, pointer);
+            ushort pointer = SwitchReadBytesIntoint16(data, offset);
+            return ConvertSnesPointerToRomPointer(bank, pointer);
         }
 
-        public static byte[] convertRomPointerToSnesPointer(int pointer)
+        public static byte[] ConvertRomPointerToSnesPointer(int pointer)
         {
             byte[] snesPointer = new byte[3];
             snesPointer[2] = (byte)(pointer / 0x8000 + 0x80);
@@ -104,7 +98,7 @@ namespace Riverback
             return snesPointer;
         }
 
-        public static byte[] convertRomPointerToUInt16Pointer(ushort pointer)
+        public static byte[] ConvertRomPointerToUInt16Pointer(ushort pointer)
         {
             byte[] uint16Pointer = new byte[2];
             uint16Pointer[1] = (byte)((pointer & 0x00FF00) >> 8);

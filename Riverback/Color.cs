@@ -1,51 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Riverback
+﻿namespace Riverback
 {
     public class Color
     {
-        private byte red;
+        private byte _red;
         public byte Red
         {
-            get { return red; }
+            get { return _red; }
             set
             {
-                if ((type == false) && (value > 31)) {
-                    red = 31;
+                if ((_type == false) && (value > 31)) {
+                    _red = 31;
                 } else {
-                    red = value;
+                    _red = value;
                 }
             }
         }
 
-        private byte green;
+        private byte _green;
         public byte Green
         {
-            get { return green; }
+            get { return _green; }
             set
             {
-                if ((type == false) && (value > 31)) {
-                    green = 31;
+                if ((_type == false) && (value > 31)) {
+                    _green = 31;
                 } else {
-                    green = value;
+                    _green = value;
                 }
             }
         }
 
-        private byte blue;
+        private byte _blue;
         public byte Blue
         {
-            get { return blue; }
+            get { return _blue; }
             set
             {
-                if ((type == false) && (value > 31)) {
-                    blue = 31;
+                if ((_type == false) && (value > 31)) {
+                    _blue = 31;
                 } else {
-                    blue = value;
+                    _blue = value;
                 }
             }
         }
@@ -53,41 +47,41 @@ namespace Riverback
         public byte Alpha { get; set; }
 
         // False = 15bit, True = 24bit
-        private bool type;
+        private bool _type;
         public bool Type
         {
-            get { return type; }
+            get { return _type; }
             set
             {
-                if (type != value) {
-                    this.type = value;
-                    switchType();
+                if (_type != value) {
+                    _type = value;
+                    SwitchType();
                 }
             }
         }
 
         public Color(byte red = 0, byte green = 0, byte blue = 0, byte alpha = 255, bool type = false)
         {
-            this.type = type;
-            this.Red = red;
-            this.Green = green;
-            this.Blue = blue;
-            this.Alpha = alpha;
+            _type = type;
+            Red = red;
+            Green = green;
+            Blue = blue;
+            Alpha = alpha;
         }
 
         // Copy constructor
         public Color(Color col)
         {
-            this.type = col.type;
-            this.red = col.red;
-            this.green = col.green;
-            this.blue = col.blue;
-            this.Alpha = col.Alpha;
+            _type = col._type;
+            _red = col._red;
+            _green = col._green;
+            _blue = col._blue;
+            Alpha = col.Alpha;
         }
 
-        public void switchType()
+        public void SwitchType()
         {
-            if (type == true) {
+            if (_type) {
                 ColorConvert15BitTo24Bit();
             } else {
                 ColorConvert24BitTo15Bit();
@@ -99,15 +93,15 @@ namespace Riverback
             red = (byte)(red / 8);
             green = (byte)(green / 8);
             blue = (byte)(blue / 8);
-            return new Color(red, green, blue, 255, false);
+            return new Color(red, green, blue);
         }
 
         private void ColorConvert24BitTo15Bit()
         {
-            Color col = ColorConvert24BitTo15Bit(red, green, blue);
-            Red = col.red;
-            Green = col.green;
-            Blue = col.blue;
+            Color col = ColorConvert24BitTo15Bit(_red, _green, _blue);
+            Red = col._red;
+            Green = col._green;
+            Blue = col._blue;
         }
 
         private static Color ColorConvert15BitTo24Bit(byte red, byte green, byte blue)
@@ -123,29 +117,29 @@ namespace Riverback
 
         private void ColorConvert15BitTo24Bit()
         {
-            Color col = ColorConvert15BitTo24Bit(red, green, blue);
-            Red = col.red;
-            Green = col.green;
-            Blue = col.blue;
+            Color col = ColorConvert15BitTo24Bit(_red, _green, _blue);
+            Red = col._red;
+            Green = col._green;
+            Blue = col._blue;
         }
 
-        public int get24BitColor()
+        public int Get24BitColor()
         {
-            if (type == true) {
+            if (_type) {
                 return Red * 0x10000 + Green * 0x100 + Blue;
             } else {
                 Color col = ColorConvert15BitTo24Bit(Red, Green, Blue);
-                return col.red * 0x10000 + col.green * 0x100 + col.blue;
+                return col._red * 0x10000 + col._green * 0x100 + col._blue;
             }
         }
 
-        public int get15BitColor()
+        public int Get15BitColor()
         {
-            if (type == false) {
+            if (_type == false) {
                 return Blue * 1024 + Green * 32 + Red;
             } else {
                 Color col = ColorConvert24BitTo15Bit(Red, Green, Blue);
-                return col.blue * 1024 + col.green * 32 + col.red;
+                return col._blue * 1024 + col._green * 32 + col._red;
             }
         }
     }
