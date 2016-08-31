@@ -10,15 +10,16 @@ namespace Riverback
 {
     class RomWriter
     {
+        private const string Checksum = "UMIKAWLEVEL";
         private const string XmlFilename = "romwriterdata.xml";
         private const byte ClearByte = 0xFF;
         private const int RomOriginalSize = 0x100000;
         private const int WriteLevelAddress = 0x100000;
-        private const int WriteLevelSearchSize = 0x200;
+        private const int WriteLevelSearchSize = 0x100;
         private const byte LevelHeaderSize = 37;
         private const int ExpandRomSize = 0x200000;
-        private const int LevelChecksum = 11;
-        private const int ImportLevelLength = 12600;
+        private const int ChecksumSize = 11;
+        private const int ImportLevelLength = LevelDataSize + LevelHeaderSize + ChecksumSize;
         private const int LevelDataSize = Level.LevelTileAmount * 3 + Level.LevelTileIndexSize + Level.LevelPaletteIndexAmount;
 
         private readonly XElement _root;
@@ -82,8 +83,7 @@ namespace Riverback
         public byte[] ExportLevel(LevelHeader levelHeader, Level level)
         {
             List<byte> data = new List<byte>();
-            string str = "UMIKAWLEVEL";
-            data.AddRange(Encoding.ASCII.GetBytes(str));
+            data.AddRange(Encoding.ASCII.GetBytes(Checksum));
             data.AddRange(levelHeader.Serialize());
             data.AddRange(level.Serialize(false));
             return data.ToArray();
@@ -100,9 +100,9 @@ namespace Riverback
             }
             int offset = 0;
 
-            byte[] str = Encoding.ASCII.GetBytes("UMIKAWLEVEL");
-            byte[] checksum = new byte[LevelChecksum];
-            Array.ConstrainedCopy(data, offset, checksum, 0, LevelChecksum);
+            byte[] str = Encoding.ASCII.GetBytes(Checksum);
+            byte[] checksum = new byte[ChecksumSize];
+            Array.ConstrainedCopy(data, offset, checksum, 0, ChecksumSize);
             if (str.SequenceEqual(checksum) == false) {
                 MessageBox.Show(Resources.RomWriter_ImportLevel_InvalidLevel,
                                 Resources.RomWriter_ImportLevel_Error,
@@ -111,7 +111,7 @@ namespace Riverback
                 return false;
             }
 
-            offset += LevelChecksum;
+            offset += ChecksumSize;
             byte[] header = new byte[LevelHeaderSize];
             Array.ConstrainedCopy(data, offset, header, 0, LevelHeaderSize);
             levelHeader.Deserialize(header, 0);
@@ -146,6 +146,7 @@ namespace Riverback
             }
 
             if (data.Length <= originalLevelSize) {
+                FillEmptySpace(originalLevelPointer, originalLevelSize);
                 WriteLevelHeader(level.LevelHeader);
                 Array.ConstrainedCopy(data, 0, _romdata, originalLevelPointer, data.Length);
             } else {
