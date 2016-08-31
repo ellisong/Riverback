@@ -512,6 +512,7 @@
             // 
             // tabPage_Level
             // 
+            this.tabPage_Level.AutoScroll = true;
             this.tabPage_Level.Controls.Add(this.pictureBox_level);
             this.tabPage_Level.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Level.Name = "tabPage_Level";
@@ -528,7 +529,7 @@
             this.pictureBox_level.InitialImage = null;
             this.pictureBox_level.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_level.Name = "pictureBox_level";
-            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
+            this.pictureBox_level.Size = new System.Drawing.Size(1024, 1024);
             this.pictureBox_level.TabIndex = 1;
             this.pictureBox_level.TabStop = false;
             this.pictureBox_level.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseDown);

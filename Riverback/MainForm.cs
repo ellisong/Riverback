@@ -12,13 +12,14 @@ namespace Riverback
 {
     public partial class MainForm : Form
     {
-        private const int LevelTileamountWidth = 64;
+        private const int LevelTileAmountWidth = 64;
         private const int LevelTilesetTileAmountWidth = 16;
         private const int LevelTilesetTileAmountHeight = 128;
         private const int LevelPhysmapTileAmountWidth = 16;
         private const int LevelTileindexTileAmountWidth = 16;
         private const int LevelTileindexTileAmountHeight = 128;
         private const int PhystileTileAmount = 256;
+        private const float TilemapLevelScale = 2.0f;
         private const float TileSelectorScale = 4.0f;
         private const float TilemapScale = 2.0f;
         private const int ImageDpi = 72;
@@ -52,7 +53,6 @@ namespace Riverback
         private Bitmap _bitmapTilemapTile;
         private Bitmap _bitmapTileIndex;
         private Bitmap _bitmapPhysTileset;
-        private Bitmap _bitmapPhysTileset2;
         private Bitmap _bitmapPhysTile;
         private Bitmap _bitmapLevel;
 
@@ -62,15 +62,15 @@ namespace Riverback
         {
             InitializeComponent();
             _levelEditor = new LevelEditor();
-            _coordConverterLevel = new CoordinateConverter(LevelTileamountWidth, 
-                                                          LevelTileamountWidth, 
-                                                          TileDrawer.TileWidth);
+            _coordConverterLevel = new CoordinateConverter(LevelTileAmountWidth, 
+                                                          LevelTileAmountWidth, 
+                                                          (int)TilemapLevelScale * TileDrawer.TileWidth);
             _coordConverterTileset = new CoordinateConverter(LevelTilesetTileAmountWidth, 
                                                             LevelTilesetTileAmountHeight, 
                                                             (int)TilemapScale * TileDrawer.TileWidth);
             _coordConverterPhysmap = new CoordinateConverter(LevelPhysmapTileAmountWidth, 
-                                                            LevelPhysmapTileAmountWidth, 
-                                                            TileDrawer.TileWidth);
+                                                            LevelPhysmapTileAmountWidth,
+                                                            (int)TilemapLevelScale * TileDrawer.TileWidth);
             _coordConverterTileIndex = new CoordinateConverter(LevelTileindexTileAmountWidth, 
                                                               LevelTileindexTileAmountHeight, 
                                                               (int)TilemapScale * TileDrawer.TileWidth);
@@ -100,11 +100,9 @@ namespace Riverback
             _bitmapTileIndex = new Bitmap(pictureBox_indexTiles.Width, pictureBox_indexTiles.Height);
             _bitmapTileIndex.SetResolution(ImageDpi, ImageDpi);
             pictureBox_indexTiles.Image = _bitmapTileIndex;
-            _bitmapPhysTileset = Resources.physmap;
+            _bitmapPhysTileset = Resources.physmap2;
             _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
-            _bitmapPhysTileset2 = Resources.physmap2;
-            _bitmapPhysTileset2.SetResolution(ImageDpi, ImageDpi);
-            pictureBox_phystiles.Image = _bitmapPhysTileset2;
+            pictureBox_phystiles.Image = _bitmapPhysTileset;
             pictureBox_phystiles.Invalidate();
             _bitmapPhysTile = new Bitmap(pictureBox_phystile.Width, pictureBox_phystile.Height);
             _bitmapPhysTile.SetResolution(ImageDpi, ImageDpi);
@@ -555,7 +553,7 @@ namespace Riverback
                     if (_tilemapTileSelector.Selected) {
                         DeselectTiles();
                     }
-                    _tilemapTileSelector.SelectStart(new Point(e.X, e.Y), TileDrawer.TileWidth);
+                    _tilemapTileSelector.SelectStart(new Point(e.X, e.Y), (int)TilemapLevelScale * TileDrawer.TileWidth);
                 } else if (e.Button == MouseButtons.Right) {
                     Point mouseCoords = new Point(e.X, e.Y);
                     DrawAndSetTiles(mouseCoords);
@@ -593,7 +591,7 @@ namespace Riverback
             if (_isLevelLoaded) {
                 if (e.Button == MouseButtons.Left) {
                     Point mouseCoords = new Point(e.X, e.Y);
-                    _tilemapTileSelector.SelectEnd(mouseCoords, TileDrawer.TileWidth);
+                    _tilemapTileSelector.SelectEnd(mouseCoords, (int)TilemapLevelScale * TileDrawer.TileWidth);
                     HighlightSelectedTilesInLevelEditor(true);
                 }
             }
@@ -632,7 +630,7 @@ namespace Riverback
         {
             List<TileSelection<TilemapTile>> tileList;
             if (_tilemapTileSelector.Selected) {
-                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Tilemap, LevelTileamountWidth);
+                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Tilemap, LevelTileAmountWidth);
             } else {
                 tileList = new List<TileSelection<TilemapTile>>();
                 TilemapTile item = new TilemapTile(_currentTilesetTileIndex, 
@@ -649,7 +647,7 @@ namespace Riverback
         {
             List<TileSelection<byte>> tileList;
             if (_tilemapTileSelector.Selected) {
-                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Physmap, LevelTileamountWidth);
+                tileList = _tilemapTileSelector.GetTilesFromSelection(_levelEditor.Level.Physmap, LevelTileAmountWidth);
             } else {
                 tileList = new List<TileSelection<byte>>();
                 byte item = _currentPhysmapTile;
@@ -693,7 +691,7 @@ namespace Riverback
             foreach (var item in tileList) {
                 placementCoords.X = tileCoords.X + item.TileCoords.X;
                 placementCoords.Y = tileCoords.Y + item.TileCoords.Y;
-                if ((placementCoords.X < LevelTileamountWidth) && (placementCoords.Y < LevelTileamountWidth)) {
+                if ((placementCoords.X < LevelTileAmountWidth) && (placementCoords.Y < LevelTileAmountWidth)) {
                     int tileNum = _coordConverterLevel.GetTileNumberFromTileCoords(placementCoords);
                     if ((item.Tile.Bank > 0) || (item.Tile.Tile > 0)) {
                         _levelEditor.SetTileInTilemap(tileNum, item.Tile);
@@ -715,7 +713,7 @@ namespace Riverback
             foreach (var item in tileList) {
                 placementCoords.X = tileCoords.X + item.TileCoords.X;
                 placementCoords.Y = tileCoords.Y + item.TileCoords.Y;
-                if ((placementCoords.X < LevelTileamountWidth) && (placementCoords.Y < LevelTileamountWidth)) {
+                if ((placementCoords.X < LevelTileAmountWidth) && (placementCoords.Y < LevelTileAmountWidth)) {
                     int tileNum = _coordConverterLevel.GetTileNumberFromTileCoords(placementCoords);
                     if (item.Tile > 0) {
                         _levelEditor.SetTileInPhysmap(tileNum, item.Tile);
@@ -773,14 +771,14 @@ namespace Riverback
                     tempCoord.X = tileCoords.X + item.TileCoords.X;
                     tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
                     Point alignedCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    int index = tempCoord.Y * LevelTileAmountWidth + tempCoord.X;
                     if (index < Level.LevelTileAmount) {
                         TilemapTile t = _levelEditor.Level.Tilemap[index];
                         int tileValue = _levelEditor.Level.TileIndex.GetBankIndexTile(t.Bank * 256 + t.Tile);
                         if (tileValue > 0) {
                             GraphicBank bank = _levelEditor.Banks[_levelEditor.LevelHeader.GraphicsBankIndex * 2 + (tileValue / 1024)];
                             byte bankPaletteNumber = (byte)(_levelEditor.Level.PaletteIndex[t.Palette] - 1);
-                            TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y);
+                            TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y, TilemapLevelScale);
                             if (tileValue >= 1024) {
                                 tileValue -= 1024;
                             }
@@ -790,7 +788,8 @@ namespace Riverback
                                                         alignedCoords.X,
                                                         alignedCoords.Y,
                                                         t.VFlip,
-                                                        t.HFlip);
+                                                        t.HFlip,
+                                                        TilemapLevelScale);
                         }
                     }
                 }
@@ -807,14 +806,14 @@ namespace Riverback
                     tempCoord.X = tileCoords.X + item.TileCoords.X;
                     tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
                     Point destCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    int index = tempCoord.Y * LevelTileAmountWidth + tempCoord.X;
                     if (index < Level.LevelTileAmount) {
                         byte tileNum = _levelEditor.Level.Physmap[index];
                         if (tileNum > 0) {
                             Point srcCoords = _coordConverterPhysmap.GetMouseCoordsFromTileNumber(tileNum);
                             if (checkBox_field_show.Checked == false)
-                                TileDrawer.ClearTileOnCanvas(g, _fillBrush, destCoords.X, destCoords.Y);
-                            TileDrawer.DrawTileFromImageOnCanvas(_bitmapPhysTileset, g, srcCoords, destCoords);
+                                TileDrawer.ClearTileOnCanvas(g, _fillBrush, destCoords.X, destCoords.Y, TilemapLevelScale);
+                            TileDrawer.DrawTileFromImageOnCanvas(_bitmapPhysTileset, g, srcCoords, destCoords, TilemapLevelScale, TilemapLevelScale);
                         }
                     }
                 }
@@ -831,9 +830,9 @@ namespace Riverback
                     tempCoord.X = tileCoords.X + item.TileCoords.X;
                     tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
                     Point destCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
-                    int index = tempCoord.Y * LevelTileamountWidth + tempCoord.X;
+                    int index = tempCoord.Y * LevelTileAmountWidth + tempCoord.X;
                     if (index < Level.LevelTileAmount) {
-                        TileDrawer.DrawGridCellOnCanvas(g, destCoords.X, destCoords.Y);
+                        TileDrawer.DrawGridCellOnCanvas(g, destCoords.X, destCoords.Y, TilemapLevelScale);
                     }
                 }
             }
@@ -858,8 +857,8 @@ namespace Riverback
             }
             if ((invalidateBottomRightPoint.X >= 0) && (invalidateBottomRightPoint.Y >= 0)) {
                 Point topLeft = _coordConverterLevel.GetMouseCoordsFromTileCoords(tileCoords);
-                int width = invalidateBottomRightPoint.X - topLeft.X + TileDrawer.TileWidth;
-                int height = invalidateBottomRightPoint.Y - topLeft.Y + TileDrawer.TileWidth;
+                int width = invalidateBottomRightPoint.X - topLeft.X + (int)TilemapLevelScale * TileDrawer.TileWidth;
+                int height = invalidateBottomRightPoint.Y - topLeft.Y + (int)TilemapLevelScale * TileDrawer.TileWidth;
                 pictureBox_level.Invalidate(new Rectangle(topLeft.X, topLeft.Y, width, height));
             }
         }
@@ -888,7 +887,7 @@ namespace Riverback
                     tempCoord.X = tileCoords.X + item.TileCoords.X;
                     tempCoord.Y = tileCoords.Y + item.TileCoords.Y;
                     Point alignedCoords = _coordConverterLevel.GetMouseCoordsFromTileCoords(tempCoord);
-                    TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y);
+                    TileDrawer.ClearTileOnCanvas(g, _fillBrush, alignedCoords.X, alignedCoords.Y, TilemapLevelScale);
                 }
             }
         }
@@ -1113,13 +1112,13 @@ namespace Riverback
         {
             if (_isLevelLoaded) {
                 if (checkBox_bytes_show.Checked) {
-                    _bitmapPhysTileset = Resources.physmap_bytes;
+                    _bitmapPhysTileset = Resources.physmap_bytes2;
                     _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
                     Bitmap bmp = Resources.physmap_bytes2;
                     bmp.SetResolution(ImageDpi, ImageDpi);
                     pictureBox_phystiles.Image = bmp;
                 } else {
-                    _bitmapPhysTileset = Resources.physmap;
+                    _bitmapPhysTileset = Resources.physmap2;
                     _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
                     Bitmap bmp = Resources.physmap2;
                     bmp.SetResolution(ImageDpi, ImageDpi);
@@ -1185,6 +1184,7 @@ namespace Riverback
                                                          g,
                                                          alignedMouseCoords,
                                                          new Point(0, 0),
+                                                         TilemapLevelScale,
                                                          TileSelectorScale);
                     pictureBox_phystile.Invalidate();
                 }
@@ -1195,15 +1195,18 @@ namespace Riverback
         {
             if (_isLevelLoaded) {
                 using (Graphics g = Graphics.FromImage(_bitmapLevel)) {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.PixelOffsetMode = PixelOffsetMode.Half;
                     g.Clear(_fillColor);
-                    TileDrawer.DrawLevelOnCanvas(g, 
+                    TileDrawer.DrawLevelOnCanvas(g,
                                                  _bitmapPhysTileset, 
                                                  _levelEditor, 
-                                                 LevelTileamountWidth, 
+                                                 LevelTileAmountWidth, 
                                                  checkBox_field_show.Checked, 
-                                                 checkBox_physmap_show.Checked);
+                                                 checkBox_physmap_show.Checked,
+                                                 TilemapLevelScale);
                     if (checkBox_grid_show.Checked) {
-                        g.DrawImage(Resources.gridtile8_512x512, 0, 0);
+                        g.DrawImage(Resources.gridtile16_1024x1024, 0, 0);
                     }
                     if (_tilemapTileSelector.Selected) {
                         HighlightSelectedTilesInLevelEditor();

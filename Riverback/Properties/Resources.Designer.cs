@@ -73,6 +73,16 @@ namespace Riverback.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gridtile16_1024x1024 {
+            get {
+                object obj = ResourceManager.GetObject("gridtile16_1024x1024", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gridtile16_256x2048 {
             get {
                 object obj = ResourceManager.GetObject("gridtile16_256x2048", resourceCulture);
@@ -101,16 +111,6 @@ namespace Riverback.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap gridtile8_512x512 {
-            get {
-                object obj = ResourceManager.GetObject("gridtile8_512x512", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string MainForm_MainMenu_FileOpen_Click_Error {
@@ -125,26 +125,6 @@ namespace Riverback.Properties {
         internal static string MainForm_MainMenu_FileOpen_Click_InvalidRom {
             get {
                 return ResourceManager.GetString("MainForm_MainMenu_FileOpen_Click_InvalidRom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap physmap {
-            get {
-                object obj = ResourceManager.GetObject("physmap", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap physmap_bytes {
-            get {
-                object obj = ResourceManager.GetObject("physmap_bytes", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

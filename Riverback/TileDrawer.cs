@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Riverback
 {
@@ -28,6 +29,8 @@ namespace Riverback
         {
             RectangleF sourceRect = new RectangleF(0, 0, TileWidth, TileWidth);
             RectangleF destinationRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphics.PixelOffsetMode = PixelOffsetMode.Half;
             graphics.DrawImage(tileImg, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
@@ -35,13 +38,16 @@ namespace Riverback
                                                      Graphics graphics, 
                                                      Point srcPoint, 
                                                      Point destPoint, 
-                                                     float scale = 1.0f)
+                                                     float srcScale = 1.0f,
+                                                     float destScale = 1.0f)
         {
-            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TileWidth, TileWidth);
+            RectangleF srcRect = new RectangleF(srcPoint.X, srcPoint.Y, TileWidth * srcScale, TileWidth * srcScale);
             RectangleF destRect = new RectangleF(destPoint.X, 
                                                  destPoint.Y, 
-                                                 TileWidth * scale, 
-                                                 TileWidth * scale);
+                                                 TileWidth * destScale, 
+                                                 TileWidth * destScale);
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphics.PixelOffsetMode = PixelOffsetMode.Half;
             graphics.DrawImage(phystiles, destRect, srcRect, GraphicsUnit.Pixel);
         }
 
@@ -55,6 +61,8 @@ namespace Riverback
                 Bitmap tileImg = bank.GetTileImage(bankTileNumber, paletteNumber, TileWidth);
                 float x = TileWidth * (bankTileNumber % tileAmountWidth) * scale;
                 float y = TileWidth * (bankTileNumber / tileAmountWidth) * scale;
+                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                graphics.PixelOffsetMode = PixelOffsetMode.Half;
                 DrawTileOnCanvas(tileImg, graphics, x, y, scale);
             }
         }
@@ -62,6 +70,8 @@ namespace Riverback
         public static void ClearTileOnCanvas(Graphics graphics, Brush fillBrush, float x, float y, float scale = 1.0f)
         {
             RectangleF clearRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphics.PixelOffsetMode = PixelOffsetMode.Half;
             graphics.FillRectangle(fillBrush, clearRect);
         }
 
@@ -70,6 +80,8 @@ namespace Riverback
             RectangleF sourceRect = new RectangleF(0, 0, TileWidth * scale, TileWidth * scale);
             RectangleF destinationRect = new RectangleF(x, y, TileWidth * scale, TileWidth * scale);
             Image img = scale == 2.0f ? Properties.Resources.gridtile16 : Properties.Resources.gridtile8;
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphics.PixelOffsetMode = PixelOffsetMode.Half;
             graphics.DrawImage(img, destinationRect, sourceRect, GraphicsUnit.Pixel);
         }
 
@@ -78,7 +90,8 @@ namespace Riverback
                                              LevelEditor levelEditor,
                                              int tileAmountWidth, 
                                              bool displayTilemapTiles = true, 
-                                             bool displayPhysmapTiles = false)
+                                             bool displayPhysmapTiles = false,
+                                             float scale = 1.0f)
         {
             for (int y = 0; y < tileAmountWidth; y++) {
                 for (int x = 0; x < tileAmountWidth; x++) {
@@ -86,18 +99,18 @@ namespace Riverback
                     byte phys = levelEditor.Level.Physmap[y * tileAmountWidth + x];
                     int tileValue = levelEditor.Level.TileIndex.GetBankIndexTile(tile.Bank * 256 + tile.Tile);
                     if ((tileValue > 0) && (displayTilemapTiles)) {
-                        GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.GraphicsBankIndex * 2 + (tileValue / 1024)];
+                        GraphicBank bank = levelEditor.Banks[levelEditor.LevelHeader.GraphicsBankIndex * 2 + tileValue / 1024];
                         if (tileValue >= 1024) {
                             tileValue -= 1024;
                         }
                         Bitmap tileImg = bank.GetTileImage(tileValue, (byte)(levelEditor.Level.PaletteIndex[tile.Palette] - 1), TileWidth);
-                        DrawTileOnCanvas(tileImg, graphics, x * TileWidth, y * TileWidth, tile.VFlip, tile.HFlip);
+                        DrawTileOnCanvas(tileImg, graphics, x * TileWidth * scale, y * TileWidth * scale, tile.VFlip, tile.HFlip, scale);
                     }
-                    if ((phys != 0) && (displayPhysmapTiles)) {
-                        Point srcCoords = new Point(phys % 16 * TileWidth,
-                                                    phys / 16 * TileWidth);
-                        Point destCoords = new Point(x * TileWidth, y * TileWidth);
-                        DrawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords);
+                    if ((phys != 0) && displayPhysmapTiles) {
+                        Point srcCoords = new Point((int)(phys % 16 * TileWidth * scale),
+                                                    (int)(phys / 16 * TileWidth * scale));
+                        Point destCoords = new Point((int)(x * TileWidth * scale), (int)(y * TileWidth * scale));
+                        DrawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords, 2, 2);
                     }
                 }
             }
