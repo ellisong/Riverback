@@ -6,11 +6,13 @@ namespace Riverback
     {
         private const int LevelHeaderPointerAddress = 0xF218;
         //private const byte LevelHeaderPointerAmount = 64;
-        //private const int LevelHeaderAddress = 0xF298;
+        private const int LevelHeaderAddress = 0xF298;
         //private const byte LevelHeaderAmount = 48;
+        public const byte LevelHeaderSize = 37;
 
-        public byte HeaderNumber;
+        public byte HeaderPointerNumber;
         public int HeaderPointerAddress;
+        public int HeaderNumber => (HeaderAddress - LevelHeaderAddress) / LevelHeaderSize;
         public int HeaderAddress;
         public int LevelPointer;
         public byte GraphicsBankIndex;
@@ -26,9 +28,9 @@ namespace Riverback
         public int LevelTimer;
         public byte[] DoorExits;
 
-        public LevelHeader(byte headerNumber = 0)
+        public LevelHeader(byte headerPointerNumber = 0)
         {
-            HeaderNumber = headerNumber;
+            HeaderPointerNumber = headerPointerNumber;
             EnemyType = new byte[6];
             DoorExits = new byte[4];
             SpawnRates = new byte[8];
@@ -37,7 +39,7 @@ namespace Riverback
 
         public LevelHeader(LevelHeader levelHeader)
         {
-            HeaderNumber = levelHeader.HeaderNumber;
+            HeaderPointerNumber = levelHeader.HeaderPointerNumber;
             HeaderPointerAddress = levelHeader.HeaderPointerAddress;
             HeaderAddress = levelHeader.HeaderAddress;
             LevelPointer = levelHeader.LevelPointer;
@@ -57,7 +59,7 @@ namespace Riverback
 
         public void Update(byte[] romdata)
         {
-            HeaderPointerAddress = LevelHeaderPointerAddress + HeaderNumber * 2;
+            HeaderPointerAddress = LevelHeaderPointerAddress + HeaderPointerNumber * 2;
             HeaderAddress = DataFormatter.SwitchReadBytesIntoint16(romdata, HeaderPointerAddress);
             Deserialize(romdata, HeaderAddress);
         }

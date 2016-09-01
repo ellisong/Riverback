@@ -73,8 +73,8 @@
             this.checkBox_wavywater = new System.Windows.Forms.CheckBox();
             this.textBox_levelpointer = new System.Windows.Forms.TextBox();
             this.textBox_headeraddress = new System.Windows.Forms.TextBox();
-            this.textBox_headerpointer = new System.Windows.Forms.TextBox();
-            this.textBox_headernumber = new System.Windows.Forms.TextBox();
+            this.textBox_headerpointeraddress = new System.Windows.Forms.TextBox();
+            this.textBox_headerpointernumber = new System.Windows.Forms.TextBox();
             this.button_applyheader = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.numericUpDown_paletteindices6 = new System.Windows.Forms.NumericUpDown();
@@ -151,6 +151,8 @@
             this.clearLevelPhysmapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.textBox_headernumber = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -538,6 +540,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label26);
+            this.tabPage1.Controls.Add(this.textBox_headernumber);
             this.tabPage1.Controls.Add(this.label25);
             this.tabPage1.Controls.Add(this.label24);
             this.tabPage1.Controls.Add(this.label23);
@@ -549,8 +553,8 @@
             this.tabPage1.Controls.Add(this.checkBox_wavywater);
             this.tabPage1.Controls.Add(this.textBox_levelpointer);
             this.tabPage1.Controls.Add(this.textBox_headeraddress);
-            this.tabPage1.Controls.Add(this.textBox_headerpointer);
-            this.tabPage1.Controls.Add(this.textBox_headernumber);
+            this.tabPage1.Controls.Add(this.textBox_headerpointeraddress);
+            this.tabPage1.Controls.Add(this.textBox_headerpointernumber);
             this.tabPage1.Controls.Add(this.button_applyheader);
             this.tabPage1.Controls.Add(this.label19);
             this.tabPage1.Controls.Add(this.numericUpDown_paletteindices6);
@@ -700,7 +704,7 @@
             // 
             // textBox_levelpointer
             // 
-            this.textBox_levelpointer.Location = new System.Drawing.Point(327, 5);
+            this.textBox_levelpointer.Location = new System.Drawing.Point(449, 6);
             this.textBox_levelpointer.Name = "textBox_levelpointer";
             this.textBox_levelpointer.ReadOnly = true;
             this.textBox_levelpointer.Size = new System.Drawing.Size(63, 20);
@@ -708,27 +712,27 @@
             // 
             // textBox_headeraddress
             // 
-            this.textBox_headeraddress.Location = new System.Drawing.Point(327, 34);
+            this.textBox_headeraddress.Location = new System.Drawing.Point(286, 34);
             this.textBox_headeraddress.Name = "textBox_headeraddress";
             this.textBox_headeraddress.ReadOnly = true;
             this.textBox_headeraddress.Size = new System.Drawing.Size(63, 20);
             this.textBox_headeraddress.TabIndex = 64;
             // 
-            // textBox_headerpointer
+            // textBox_headerpointeraddress
             // 
-            this.textBox_headerpointer.Location = new System.Drawing.Point(134, 34);
-            this.textBox_headerpointer.Name = "textBox_headerpointer";
-            this.textBox_headerpointer.ReadOnly = true;
-            this.textBox_headerpointer.Size = new System.Drawing.Size(63, 20);
-            this.textBox_headerpointer.TabIndex = 63;
+            this.textBox_headerpointeraddress.Location = new System.Drawing.Point(134, 34);
+            this.textBox_headerpointeraddress.Name = "textBox_headerpointeraddress";
+            this.textBox_headerpointeraddress.ReadOnly = true;
+            this.textBox_headerpointeraddress.Size = new System.Drawing.Size(63, 20);
+            this.textBox_headerpointeraddress.TabIndex = 63;
             // 
-            // textBox_headernumber
+            // textBox_headerpointernumber
             // 
-            this.textBox_headernumber.Location = new System.Drawing.Point(134, 5);
-            this.textBox_headernumber.Name = "textBox_headernumber";
-            this.textBox_headernumber.ReadOnly = true;
-            this.textBox_headernumber.Size = new System.Drawing.Size(63, 20);
-            this.textBox_headernumber.TabIndex = 62;
+            this.textBox_headerpointernumber.Location = new System.Drawing.Point(134, 5);
+            this.textBox_headerpointernumber.Name = "textBox_headerpointernumber";
+            this.textBox_headerpointernumber.ReadOnly = true;
+            this.textBox_headerpointernumber.Size = new System.Drawing.Size(63, 20);
+            this.textBox_headerpointernumber.TabIndex = 62;
             // 
             // button_applyheader
             // 
@@ -1364,7 +1368,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(235, 13);
+            this.label8.Location = new System.Drawing.Point(374, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(72, 13);
             this.label8.TabIndex = 6;
@@ -1375,27 +1379,27 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(235, 41);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(86, 13);
+            this.label7.Size = new System.Drawing.Size(48, 13);
             this.label7.TabIndex = 4;
-            this.label7.Text = "Header Address:";
+            this.label7.Text = "Address:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(7, 41);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(121, 13);
+            this.label6.Size = new System.Drawing.Size(84, 13);
             this.label6.TabIndex = 2;
-            this.label6.Text = "Header Pointer Number:";
+            this.label6.Text = "Pointer Address:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(7, 13);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 13);
+            this.label5.Size = new System.Drawing.Size(83, 13);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Header Number:";
+            this.label5.Text = "Pointer Number:";
             // 
             // panel2
             // 
@@ -1647,6 +1651,23 @@
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
+            // textBox_headernumber
+            // 
+            this.textBox_headernumber.Location = new System.Drawing.Point(286, 5);
+            this.textBox_headernumber.Name = "textBox_headernumber";
+            this.textBox_headernumber.ReadOnly = true;
+            this.textBox_headernumber.Size = new System.Drawing.Size(63, 20);
+            this.textBox_headernumber.TabIndex = 76;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(235, 12);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(47, 13);
+            this.label26.TabIndex = 77;
+            this.label26.Text = "Number:";
+            // 
             // MainForm
             // 
             this.AutoSize = true;
@@ -1838,8 +1859,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_paletteindices1;
         private System.Windows.Forms.TextBox textBox_levelpointer;
         private System.Windows.Forms.TextBox textBox_headeraddress;
-        private System.Windows.Forms.TextBox textBox_headerpointer;
-        private System.Windows.Forms.TextBox textBox_headernumber;
+        private System.Windows.Forms.TextBox textBox_headerpointeraddress;
+        private System.Windows.Forms.TextBox textBox_headerpointernumber;
         private System.Windows.Forms.CheckBox checkBox_wavywater;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label25;
@@ -1853,5 +1874,7 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLevelTilemapTilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearLevelPhysmapTilesToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox_headernumber;
+        private System.Windows.Forms.Label label26;
     }
 }

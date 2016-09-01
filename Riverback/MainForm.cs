@@ -47,7 +47,6 @@ namespace Riverback
         private int _lastIndexTileSelected;
         private byte _bankPaletteNum;
         private readonly bool[] _selectedTileIndices;
-        private LevelHeader _selectedLevelHeader;
 
         private Bitmap _bitmapTileset;
         private Bitmap _bitmapTilemapTile;
@@ -76,7 +75,6 @@ namespace Riverback
                                                               (int)TilemapScale * TileDrawer.TileWidth);
             _tilemapTileSelector = new TileSelector(_coordConverterLevel);
             _selectedTileIndices = new bool[2048];
-            _selectedLevelHeader = new LevelHeader();
             _lastLevelTileSelected = -1;
             _lastIndexTileSelected = -1;
             _currentTilesetTileIndex = 0;
@@ -269,6 +267,7 @@ namespace Riverback
                         writer.WriteLevel(_levelEditor.Level, _levelEditor.LevelHeader);
                         File.WriteAllBytes(fileName, _romdata);
                         _isLevelLoaded = true;
+                        UpdateLevelHeaderControls();
                     }
                 }
             }
@@ -459,7 +458,6 @@ namespace Riverback
         {
             if (_isLevelLoaded) {
                 UpdateLevelHeaderValues();
-                _levelEditor.UpdateLevelHeader(_selectedLevelHeader);
                 UpdateImages(true, true, true, true, true, true);
             }
         }
@@ -618,7 +616,6 @@ namespace Riverback
             _isLevelLoaded = true;
             _indexTilesRemaining = MaxBankTileAmount - _levelEditor.Level.TileIndex.GetBankTileIndexSize();
             updateTextBox_IndexTiles();
-            _selectedLevelHeader = new LevelHeader(_levelEditor.LevelHeader);
             _bankPaletteNum = (byte)(_levelEditor.Level.PaletteIndex[(int)numericUpDown_tilePalette.Value] - 1);
             UpdateLevelHeaderControls();
             _currentTilesetTileIndex = 0;
@@ -970,46 +967,42 @@ namespace Riverback
         private void UpdateLevelHeaderValues()
         {
             if (_isLevelLoaded) {
-                //selectedLevelHeader.headerNumber = (byte)numericUpDown_headernumber.Value;
-                //selectedLevelHeader.headerPointerAddress = (int)numericUpDown_headerpointer.Value;
-                //selectedLevelHeader.headerAddress = (int)numericUpDown_headeraddress.Value;
-                //selectedLevelHeader.levelPointer = (int)numericUpDown_levelpointer.Value;
-                _selectedLevelHeader.GraphicsBankIndex = (byte)numericUpDown_graphicsbankindex.Value;
-                _selectedLevelHeader.FieldNumber = (byte)numericUpDown_fieldnumber.Value;
-                _selectedLevelHeader.MusicSelect = (byte)numericUpDown_musicselect.Value;
-                _selectedLevelHeader.EnemyType[0] = (byte)numericUpDown_enemytype1.Value;
-                _selectedLevelHeader.EnemyType[1] = (byte)numericUpDown_enemytype2.Value;
-                _selectedLevelHeader.EnemyType[2] = (byte)numericUpDown_enemytype3.Value;
-                _selectedLevelHeader.EnemyType[3] = (byte)numericUpDown_enemytype4.Value;
-                _selectedLevelHeader.EnemyType[4] = (byte)numericUpDown_enemytype5.Value;
-                _selectedLevelHeader.EnemyType[5] = (byte)numericUpDown_enemytype6.Value;
-                _selectedLevelHeader.SpawnRates[0] = (byte)numericUpDown_spawnrate1.Value;
-                _selectedLevelHeader.SpawnRates[1] = (byte)numericUpDown_spawnrate2.Value;
-                _selectedLevelHeader.SpawnRates[2] = (byte)numericUpDown_spawnrate3.Value;
-                _selectedLevelHeader.SpawnRates[3] = (byte)numericUpDown_spawnrate4.Value;
-                _selectedLevelHeader.SpawnRates[4] = (byte)numericUpDown_spawnrate5.Value;
-                _selectedLevelHeader.SpawnRates[5] = (byte)numericUpDown_spawnrate6.Value;
-                _selectedLevelHeader.SpawnRates[6] = (byte)numericUpDown_spawnrate7.Value;
-                _selectedLevelHeader.SpawnRates[7] = (byte)numericUpDown_spawnrate8.Value;
-                _selectedLevelHeader.ObjectType[0] = (byte)numericUpDown_objecttype1.Value;
-                _selectedLevelHeader.ObjectType[1] = (byte)numericUpDown_objecttype2.Value;
-                _selectedLevelHeader.ObjectType[2] = (byte)numericUpDown_objecttype3.Value;
-                _selectedLevelHeader.ObjectType[3] = (byte)numericUpDown_objecttype4.Value;
-                _selectedLevelHeader.ObjectType[4] = (byte)numericUpDown_objecttype5.Value;
-                _selectedLevelHeader.ObjectType[5] = (byte)numericUpDown_objecttype6.Value;
-                _selectedLevelHeader.ObjectType[6] = (byte)numericUpDown_objecttype7.Value;
-                _selectedLevelHeader.WaterHeight = (byte)numericUpDown_waterheight.Value;
+                _levelEditor.LevelHeader.GraphicsBankIndex = (byte)numericUpDown_graphicsbankindex.Value;
+                _levelEditor.LevelHeader.FieldNumber = (byte)numericUpDown_fieldnumber.Value;
+                _levelEditor.LevelHeader.MusicSelect = (byte)numericUpDown_musicselect.Value;
+                _levelEditor.LevelHeader.EnemyType[0] = (byte)numericUpDown_enemytype1.Value;
+                _levelEditor.LevelHeader.EnemyType[1] = (byte)numericUpDown_enemytype2.Value;
+                _levelEditor.LevelHeader.EnemyType[2] = (byte)numericUpDown_enemytype3.Value;
+                _levelEditor.LevelHeader.EnemyType[3] = (byte)numericUpDown_enemytype4.Value;
+                _levelEditor.LevelHeader.EnemyType[4] = (byte)numericUpDown_enemytype5.Value;
+                _levelEditor.LevelHeader.EnemyType[5] = (byte)numericUpDown_enemytype6.Value;
+                _levelEditor.LevelHeader.SpawnRates[0] = (byte)numericUpDown_spawnrate1.Value;
+                _levelEditor.LevelHeader.SpawnRates[1] = (byte)numericUpDown_spawnrate2.Value;
+                _levelEditor.LevelHeader.SpawnRates[2] = (byte)numericUpDown_spawnrate3.Value;
+                _levelEditor.LevelHeader.SpawnRates[3] = (byte)numericUpDown_spawnrate4.Value;
+                _levelEditor.LevelHeader.SpawnRates[4] = (byte)numericUpDown_spawnrate5.Value;
+                _levelEditor.LevelHeader.SpawnRates[5] = (byte)numericUpDown_spawnrate6.Value;
+                _levelEditor.LevelHeader.SpawnRates[6] = (byte)numericUpDown_spawnrate7.Value;
+                _levelEditor.LevelHeader.SpawnRates[7] = (byte)numericUpDown_spawnrate8.Value;
+                _levelEditor.LevelHeader.ObjectType[0] = (byte)numericUpDown_objecttype1.Value;
+                _levelEditor.LevelHeader.ObjectType[1] = (byte)numericUpDown_objecttype2.Value;
+                _levelEditor.LevelHeader.ObjectType[2] = (byte)numericUpDown_objecttype3.Value;
+                _levelEditor.LevelHeader.ObjectType[3] = (byte)numericUpDown_objecttype4.Value;
+                _levelEditor.LevelHeader.ObjectType[4] = (byte)numericUpDown_objecttype5.Value;
+                _levelEditor.LevelHeader.ObjectType[5] = (byte)numericUpDown_objecttype6.Value;
+                _levelEditor.LevelHeader.ObjectType[6] = (byte)numericUpDown_objecttype7.Value;
+                _levelEditor.LevelHeader.WaterHeight = (byte)numericUpDown_waterheight.Value;
 
-                _selectedLevelHeader.WaterType = 2;
+                _levelEditor.LevelHeader.WaterType = 2;
                 if (checkBox_wavywater.Checked) {
-                    _selectedLevelHeader.WaterType = 3;
+                    _levelEditor.LevelHeader.WaterType = 3;
                 }
                 
-                _selectedLevelHeader.LevelTimer = (int)numericUpDown_leveltimer.Value;
-                _selectedLevelHeader.DoorExits[0] = (byte)numericUpDown_doorexit1.Value;
-                _selectedLevelHeader.DoorExits[1] = (byte)numericUpDown_doorexit2.Value;
-                _selectedLevelHeader.DoorExits[2] = (byte)numericUpDown_doorexit3.Value;
-                _selectedLevelHeader.DoorExits[3] = (byte)numericUpDown_doorexit4.Value;
+                _levelEditor.LevelHeader.LevelTimer = (int)numericUpDown_leveltimer.Value;
+                _levelEditor.LevelHeader.DoorExits[0] = (byte)numericUpDown_doorexit1.Value;
+                _levelEditor.LevelHeader.DoorExits[1] = (byte)numericUpDown_doorexit2.Value;
+                _levelEditor.LevelHeader.DoorExits[2] = (byte)numericUpDown_doorexit3.Value;
+                _levelEditor.LevelHeader.DoorExits[3] = (byte)numericUpDown_doorexit4.Value;
                 _levelEditor.Level.PaletteIndex[2] = (byte)numericUpDown_paletteindices1.Value;
                 _levelEditor.Level.PaletteIndex[3] = (byte)numericUpDown_paletteindices2.Value;
                 _levelEditor.Level.PaletteIndex[4] = (byte)numericUpDown_paletteindices3.Value;
@@ -1022,45 +1015,47 @@ namespace Riverback
         private void UpdateLevelHeaderControls()
         {
             if (_isLevelLoaded) {
-                textBox_headernumber.Text = $"{_selectedLevelHeader.HeaderNumber}";
+                textBox_headerpointernumber.Text = $"{_levelEditor.LevelHeader.HeaderPointerNumber:X}";
+                textBox_headerpointernumber.Invalidate();
+                textBox_headerpointeraddress.Text = $"{_levelEditor.LevelHeader.HeaderPointerAddress:X}";
+                textBox_headerpointeraddress.Invalidate();
+                textBox_headernumber.Text = $"{_levelEditor.LevelHeader.HeaderNumber:X}";
                 textBox_headernumber.Invalidate();
-                textBox_headerpointer.Text = $"{_selectedLevelHeader.HeaderPointerAddress:X}";
-                textBox_headerpointer.Invalidate();
-                textBox_headeraddress.Text = $"{_selectedLevelHeader.HeaderAddress:X}";
+                textBox_headeraddress.Text = $"{_levelEditor.LevelHeader.HeaderAddress:X}";
                 textBox_headeraddress.Invalidate();
-                textBox_levelpointer.Text = $"{_selectedLevelHeader.LevelPointer:X}";
+                textBox_levelpointer.Text = $"{_levelEditor.LevelHeader.LevelPointer:X}";
                 textBox_levelpointer.Invalidate();
-                numericUpDown_graphicsbankindex.Value = _selectedLevelHeader.GraphicsBankIndex;
-                numericUpDown_fieldnumber.Value = _selectedLevelHeader.FieldNumber;
-                numericUpDown_musicselect.Value = _selectedLevelHeader.MusicSelect;
-                numericUpDown_enemytype1.Value = _selectedLevelHeader.EnemyType[0];
-                numericUpDown_enemytype2.Value = _selectedLevelHeader.EnemyType[1];
-                numericUpDown_enemytype3.Value = _selectedLevelHeader.EnemyType[2];
-                numericUpDown_enemytype4.Value = _selectedLevelHeader.EnemyType[3];
-                numericUpDown_enemytype5.Value = _selectedLevelHeader.EnemyType[4];
-                numericUpDown_enemytype6.Value = _selectedLevelHeader.EnemyType[5];
-                numericUpDown_spawnrate1.Value = _selectedLevelHeader.SpawnRates[0];
-                numericUpDown_spawnrate2.Value = _selectedLevelHeader.SpawnRates[1];
-                numericUpDown_spawnrate3.Value = _selectedLevelHeader.SpawnRates[2];
-                numericUpDown_spawnrate4.Value = _selectedLevelHeader.SpawnRates[3];
-                numericUpDown_spawnrate5.Value = _selectedLevelHeader.SpawnRates[4];
-                numericUpDown_spawnrate6.Value = _selectedLevelHeader.SpawnRates[5];
-                numericUpDown_spawnrate7.Value = _selectedLevelHeader.SpawnRates[6];
-                numericUpDown_spawnrate8.Value = _selectedLevelHeader.SpawnRates[7];
-                numericUpDown_objecttype1.Value = _selectedLevelHeader.ObjectType[0];
-                numericUpDown_objecttype2.Value = _selectedLevelHeader.ObjectType[1];
-                numericUpDown_objecttype3.Value = _selectedLevelHeader.ObjectType[2];
-                numericUpDown_objecttype4.Value = _selectedLevelHeader.ObjectType[3];
-                numericUpDown_objecttype5.Value = _selectedLevelHeader.ObjectType[4];
-                numericUpDown_objecttype6.Value = _selectedLevelHeader.ObjectType[5];
-                numericUpDown_objecttype7.Value = _selectedLevelHeader.ObjectType[6];
-                numericUpDown_waterheight.Value = _selectedLevelHeader.WaterHeight;
-                checkBox_wavywater.Checked = _selectedLevelHeader.WaterType == 3;
-                numericUpDown_leveltimer.Value = _selectedLevelHeader.LevelTimer;
-                numericUpDown_doorexit1.Value = _selectedLevelHeader.DoorExits[0];
-                numericUpDown_doorexit2.Value = _selectedLevelHeader.DoorExits[1];
-                numericUpDown_doorexit3.Value = _selectedLevelHeader.DoorExits[2];
-                numericUpDown_doorexit4.Value = _selectedLevelHeader.DoorExits[3];
+                numericUpDown_graphicsbankindex.Value = _levelEditor.LevelHeader.GraphicsBankIndex;
+                numericUpDown_fieldnumber.Value = _levelEditor.LevelHeader.FieldNumber;
+                numericUpDown_musicselect.Value = _levelEditor.LevelHeader.MusicSelect;
+                numericUpDown_enemytype1.Value = _levelEditor.LevelHeader.EnemyType[0];
+                numericUpDown_enemytype2.Value = _levelEditor.LevelHeader.EnemyType[1];
+                numericUpDown_enemytype3.Value = _levelEditor.LevelHeader.EnemyType[2];
+                numericUpDown_enemytype4.Value = _levelEditor.LevelHeader.EnemyType[3];
+                numericUpDown_enemytype5.Value = _levelEditor.LevelHeader.EnemyType[4];
+                numericUpDown_enemytype6.Value = _levelEditor.LevelHeader.EnemyType[5];
+                numericUpDown_spawnrate1.Value = _levelEditor.LevelHeader.SpawnRates[0];
+                numericUpDown_spawnrate2.Value = _levelEditor.LevelHeader.SpawnRates[1];
+                numericUpDown_spawnrate3.Value = _levelEditor.LevelHeader.SpawnRates[2];
+                numericUpDown_spawnrate4.Value = _levelEditor.LevelHeader.SpawnRates[3];
+                numericUpDown_spawnrate5.Value = _levelEditor.LevelHeader.SpawnRates[4];
+                numericUpDown_spawnrate6.Value = _levelEditor.LevelHeader.SpawnRates[5];
+                numericUpDown_spawnrate7.Value = _levelEditor.LevelHeader.SpawnRates[6];
+                numericUpDown_spawnrate8.Value = _levelEditor.LevelHeader.SpawnRates[7];
+                numericUpDown_objecttype1.Value = _levelEditor.LevelHeader.ObjectType[0];
+                numericUpDown_objecttype2.Value = _levelEditor.LevelHeader.ObjectType[1];
+                numericUpDown_objecttype3.Value = _levelEditor.LevelHeader.ObjectType[2];
+                numericUpDown_objecttype4.Value = _levelEditor.LevelHeader.ObjectType[3];
+                numericUpDown_objecttype5.Value = _levelEditor.LevelHeader.ObjectType[4];
+                numericUpDown_objecttype6.Value = _levelEditor.LevelHeader.ObjectType[5];
+                numericUpDown_objecttype7.Value = _levelEditor.LevelHeader.ObjectType[6];
+                numericUpDown_waterheight.Value = _levelEditor.LevelHeader.WaterHeight;
+                checkBox_wavywater.Checked = _levelEditor.LevelHeader.WaterType == 3;
+                numericUpDown_leveltimer.Value = _levelEditor.LevelHeader.LevelTimer;
+                numericUpDown_doorexit1.Value = _levelEditor.LevelHeader.DoorExits[0];
+                numericUpDown_doorexit2.Value = _levelEditor.LevelHeader.DoorExits[1];
+                numericUpDown_doorexit3.Value = _levelEditor.LevelHeader.DoorExits[2];
+                numericUpDown_doorexit4.Value = _levelEditor.LevelHeader.DoorExits[3];
                 numericUpDown_paletteindices1.Value = _levelEditor.Level.PaletteIndex[2];
                 numericUpDown_paletteindices2.Value = _levelEditor.Level.PaletteIndex[3];
                 numericUpDown_paletteindices3.Value = _levelEditor.Level.PaletteIndex[4];

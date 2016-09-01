@@ -16,10 +16,9 @@ namespace Riverback
         private const int RomOriginalSize = 0x100000;
         private const int WriteLevelAddress = 0x100000;
         private const int WriteLevelSearchSize = 0x100;
-        private const byte LevelHeaderSize = 37;
         private const int ExpandRomSize = 0x200000;
         private const int ChecksumSize = 11;
-        private const int ImportLevelLength = LevelDataSize + LevelHeaderSize + ChecksumSize;
+        private const int ImportLevelLength = LevelDataSize + LevelHeader.LevelHeaderSize + ChecksumSize;
         private const int LevelDataSize = Level.LevelTileAmount * 3 + Level.LevelTileIndexSize + Level.LevelPaletteIndexAmount;
 
         private readonly XElement _root;
@@ -77,7 +76,7 @@ namespace Riverback
         private void WriteLevelHeader(LevelHeader levelHeader)
         {
             byte[] data = levelHeader.Serialize();
-            Array.ConstrainedCopy(data, 0, _romdata, levelHeader.HeaderAddress, LevelHeaderSize);
+            Array.ConstrainedCopy(data, 0, _romdata, levelHeader.HeaderAddress, LevelHeader.LevelHeaderSize);
         }
 
         public byte[] ExportLevel(LevelHeader levelHeader, Level level)
@@ -112,11 +111,11 @@ namespace Riverback
             }
 
             offset += ChecksumSize;
-            byte[] header = new byte[LevelHeaderSize];
-            Array.ConstrainedCopy(data, offset, header, 0, LevelHeaderSize);
+            byte[] header = new byte[LevelHeader.LevelHeaderSize];
+            Array.ConstrainedCopy(data, offset, header, 0, LevelHeader.LevelHeaderSize);
             levelHeader.Deserialize(header, 0);
 
-            offset += LevelHeaderSize;
+            offset += LevelHeader.LevelHeaderSize;
 
             byte[] levelData = new byte[LevelDataSize];
             Array.ConstrainedCopy(data, offset, levelData, 0, LevelDataSize);
@@ -135,33 +134,38 @@ namespace Riverback
             XElement xmlLevel = _root.Element("level");
             if (xmlLevel != null)
             {
-                IEnumerable<XElement> offsets =
-                    from el in xmlLevel.Elements("offset")
-                    where Convert.ToInt32((string)el.Attribute("start"), 16) == level.LevelHeader.LevelPointer
-                    select el;
+                var offsets = from el in xmlLevel.Elements("offset")
+                              select el;
                 foreach (XElement el in offsets) {
-                    originalLevelPointer = Convert.ToInt32((string)el.Attribute("start"), 16);
-                    originalLevelSize = Convert.ToInt32((string)el.Attribute("end"), 16) - originalLevelPointer + 1;
+                    if (Convert.ToInt32((string)el.Attribute("number"), 16) == level.LevelHeader.HeaderNumber) {
+                        originalLevelPointer = Convert.ToInt32((string)el.Attribute("start"), 16);
+                        originalLevelSize = Convert.ToInt32((string)el.Attribute("end"), 16) - originalLevelPointer + 1;
+                        break;
+                    }
                 }
             }
-
+            
             if (data.Length <= originalLevelSize) {
                 FillEmptySpace(originalLevelPointer, originalLevelSize);
+                if (level.LevelHeader.LevelPointer >= WriteLevelAddress) {
+                    FillEmptySpace(level.LevelHeader.LevelPointer, level.CompressedDataSize);
+                }
+                level.LevelHeader.LevelPointer = originalLevelPointer;
                 WriteLevelHeader(level.LevelHeader);
                 Array.ConstrainedCopy(data, 0, _romdata, originalLevelPointer, data.Length);
-            } else {
-                if (_romdata.Length > RomOriginalSize) {
-                    int levelPointer = WriteLevelAddress;
-                    while (levelPointer < ExpandRomSize) {
-                        if (CheckEmptySpace(levelPointer, data.Length)) {
+            } else if (_romdata.Length > RomOriginalSize) {
+                int levelPointer = WriteLevelAddress;
+                while (levelPointer < ExpandRomSize) {
+                    if (CheckEmptySpace(levelPointer, data.Length)) {
+                        if (level.LevelHeader.LevelPointer >= WriteLevelAddress) {
                             FillEmptySpace(level.LevelHeader.LevelPointer, level.CompressedDataSize);
-                            level.LevelHeader.LevelPointer = levelPointer;
-                            WriteLevelHeader(level.LevelHeader);
-                            Array.ConstrainedCopy(data, 0, _romdata, levelPointer, data.Length);
-                            break;
                         }
-                        levelPointer += WriteLevelSearchSize;
+                        level.LevelHeader.LevelPointer = levelPointer;
+                        WriteLevelHeader(level.LevelHeader);
+                        Array.ConstrainedCopy(data, 0, _romdata, levelPointer, data.Length);
+                        break;
                     }
+                    levelPointer += WriteLevelSearchSize;
                 }
             }
         }
