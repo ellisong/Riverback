@@ -19,7 +19,7 @@ namespace Riverback
         private const int LevelTileindexTileAmountWidth = 16;
         private const int LevelTileindexTileAmountHeight = 128;
         private const int PhystileTileAmount = 256;
-        private const float TilemapLevelScale = 2.0f;
+        private const float TilemapLevelScale = 1.0f;
         private const float TileSelectorScale = 4.0f;
         private const float TilemapScale = 2.0f;
         private const int ImageDpi = 72;
@@ -98,16 +98,22 @@ namespace Riverback
             _bitmapTileIndex = new Bitmap(pictureBox_indexTiles.Width, pictureBox_indexTiles.Height);
             _bitmapTileIndex.SetResolution(ImageDpi, ImageDpi);
             pictureBox_indexTiles.Image = _bitmapTileIndex;
-            _bitmapPhysTileset = Resources.physmap2;
-            _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
-            pictureBox_phystiles.Image = _bitmapPhysTileset;
-            pictureBox_phystiles.Invalidate();
             _bitmapPhysTile = new Bitmap(pictureBox_phystile.Width, pictureBox_phystile.Height);
             _bitmapPhysTile.SetResolution(ImageDpi, ImageDpi);
             pictureBox_phystile.Image = _bitmapPhysTile;
             _bitmapLevel = new Bitmap(pictureBox_level.Width, pictureBox_level.Height);
             _bitmapLevel.SetResolution(ImageDpi, ImageDpi);
             pictureBox_level.Image = _bitmapLevel;
+
+            Resources.physmap.SetResolution(ImageDpi, ImageDpi);
+            Resources.physmap2.SetResolution(ImageDpi, ImageDpi);
+            if (TilemapLevelScale == 2.0f) {
+                _bitmapPhysTileset = Resources.physmap2;
+            } else {
+                _bitmapPhysTileset = Resources.physmap;
+            }
+            pictureBox_phystiles.Image = Resources.physmap2;
+            pictureBox_phystiles.Invalidate();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -1107,13 +1113,21 @@ namespace Riverback
         {
             if (_isLevelLoaded) {
                 if (checkBox_bytes_show.Checked) {
-                    _bitmapPhysTileset = Resources.physmap_bytes2;
+                    if (TilemapLevelScale == 2.0f) {
+                        _bitmapPhysTileset = Resources.physmap_bytes2;
+                    } else {
+                        _bitmapPhysTileset = Resources.physmap_bytes;
+                    }
                     _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
                     Bitmap bmp = Resources.physmap_bytes2;
                     bmp.SetResolution(ImageDpi, ImageDpi);
                     pictureBox_phystiles.Image = bmp;
                 } else {
-                    _bitmapPhysTileset = Resources.physmap2;
+                    if (TilemapLevelScale == 2.0f) {
+                        _bitmapPhysTileset = Resources.physmap2;
+                    } else {
+                        _bitmapPhysTileset = Resources.physmap;
+                    }
                     _bitmapPhysTileset.SetResolution(ImageDpi, ImageDpi);
                     Bitmap bmp = Resources.physmap2;
                     bmp.SetResolution(ImageDpi, ImageDpi);
@@ -1201,7 +1215,11 @@ namespace Riverback
                                                  checkBox_physmap_show.Checked,
                                                  TilemapLevelScale);
                     if (checkBox_grid_show.Checked) {
-                        g.DrawImage(Resources.gridtile16_1024x1024, 0, 0);
+                        if (TilemapLevelScale == 2.0f) {
+                            g.DrawImage(Resources.gridtile16_1024x1024, 0, 0);
+                        } else {
+                            g.DrawImage(Resources.gridtile8_512x512, 0, 0);
+                        }
                     }
                     if (_tilemapTileSelector.Selected) {
                         HighlightSelectedTilesInLevelEditor();

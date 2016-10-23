@@ -62,6 +62,8 @@
             this.tabPage_Level = new System.Windows.Forms.TabPage();
             this.pictureBox_level = new System.Windows.Forms.PictureBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox_headernumber = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
@@ -151,8 +153,6 @@
             this.clearLevelPhysmapTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.textBox_headernumber = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
             this.mainPanel.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
@@ -531,7 +531,7 @@
             this.pictureBox_level.InitialImage = null;
             this.pictureBox_level.Location = new System.Drawing.Point(3, 3);
             this.pictureBox_level.Name = "pictureBox_level";
-            this.pictureBox_level.Size = new System.Drawing.Size(1024, 1024);
+            this.pictureBox_level.Size = new System.Drawing.Size(512, 512);
             this.pictureBox_level.TabIndex = 1;
             this.pictureBox_level.TabStop = false;
             this.pictureBox_level.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_level_MouseDown);
@@ -612,6 +612,23 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Level Header Editor";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(235, 12);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(47, 13);
+            this.label26.TabIndex = 77;
+            this.label26.Text = "Number:";
+            // 
+            // textBox_headernumber
+            // 
+            this.textBox_headernumber.Location = new System.Drawing.Point(286, 5);
+            this.textBox_headernumber.Name = "textBox_headernumber";
+            this.textBox_headernumber.ReadOnly = true;
+            this.textBox_headernumber.Size = new System.Drawing.Size(63, 20);
+            this.textBox_headernumber.TabIndex = 76;
             // 
             // label25
             // 
@@ -1650,23 +1667,6 @@
             // 
             this.saveFileDialog.Filter = "SNES Rom File (*.smc)|*.smc|All files (*.*)|*.*";
             this.saveFileDialog.RestoreDirectory = true;
-            // 
-            // textBox_headernumber
-            // 
-            this.textBox_headernumber.Location = new System.Drawing.Point(286, 5);
-            this.textBox_headernumber.Name = "textBox_headernumber";
-            this.textBox_headernumber.ReadOnly = true;
-            this.textBox_headernumber.Size = new System.Drawing.Size(63, 20);
-            this.textBox_headernumber.TabIndex = 76;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(235, 12);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(47, 13);
-            this.label26.TabIndex = 77;
-            this.label26.Text = "Number:";
             // 
             // MainForm
             // 

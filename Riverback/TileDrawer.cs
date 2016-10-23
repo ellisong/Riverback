@@ -110,7 +110,7 @@ namespace Riverback
                         Point srcCoords = new Point((int)(phys % 16 * TileWidth * scale),
                                                     (int)(phys / 16 * TileWidth * scale));
                         Point destCoords = new Point((int)(x * TileWidth * scale), (int)(y * TileWidth * scale));
-                        DrawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords, 2, 2);
+                        DrawTileFromImageOnCanvas(imagePhysTileset, graphics, srcCoords, destCoords, scale, scale);
                     }
                 }
             }
